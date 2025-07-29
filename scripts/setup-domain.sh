@@ -3,7 +3,7 @@
 # Netlify DNS Setup Script for shiai.games domain
 # This script automates the domain configuration using Netlify CLI
 
-set -e
+# Remove set -e to handle errors gracefully
 
 # Colors for output
 RED='\033[0;31m'
@@ -28,30 +28,32 @@ fi
 echo -e "${YELLOW}🔐 Checking Netlify authentication...${NC}"
 netlify status || netlify login
 
-# Create DNS zone for the domain
+# Create DNS zone for the domain (skip errors if already exists)
 echo -e "${YELLOW}📋 Creating DNS zone for ${DOMAIN}...${NC}"
-netlify api createDnsZone --data '{"name": "'${DOMAIN}'"}' || echo "DNS zone may already exist"
+netlify api createDnsZone --data '{"name": "'${DOMAIN}'"}' 2>/dev/null || echo "DNS zone may already exist"
 
-# Add DNS records
+# Add DNS records (skip errors if already exist)
 echo -e "${YELLOW}📝 Adding DNS records...${NC}"
 
-# A record for subdomain pointing to Netlify
+# CNAME record for subdomain pointing to Netlify
+echo "Creating CNAME record for ${SUBDOMAIN}..."
 netlify api createDnsRecord --data '{
   "zone_id": "'${DOMAIN}'",
-  "type": "CNAME",
+  "type": "CNAME", 
   "name": "ltk-sbb",
   "value": "'${NETLIFY_SITE_NAME}'.netlify.app",
   "ttl": 300
-}' || echo "Record may already exist"
+}' 2>/dev/null || echo "CNAME record may already exist"
 
-# Root domain A record
+# A record for root domain (optional)
+echo "Creating A record for root domain..."
 netlify api createDnsRecord --data '{
   "zone_id": "'${DOMAIN}'",
   "type": "A",
   "name": "",
-  "value": "75.2.60.5",
+  "value": "75.2.60.5", 
   "ttl": 300
-}' || echo "Record may already exist"
+}' 2>/dev/null || echo "A record may already exist"
 
 echo -e "${GREEN}✅ DNS setup complete!${NC}"
 echo -e "${YELLOW}📋 Next steps:${NC}"
