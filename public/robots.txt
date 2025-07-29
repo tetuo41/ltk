@@ -1,0 +1,48 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://ltk-sbb.shiai.games/sitemap.xml
+
+# Allow search engines to crawl all content
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# Disallow crawling of API endpoints if any
+Disallow: /api/
+
+# Cache and temporary files
+Disallow: /_astro/
+Disallow: /favicon.ico
+Disallow: /.well-known/
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Crawl delay (optional, in seconds)
+Crawl-delay: 1
+
+# Host directive
+Host: https://ltk-sbb.shiai.games

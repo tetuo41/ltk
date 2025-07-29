@@ -41,7 +41,6 @@ function getRankIndicator(rank: number): string {
 function getDivisionBadge(division: Division): string {
   return division === 'CORE' ? '⚔️' : '🌟';
 }
-
 // Function to calculate combined team points with bonus system
 function calculateCombinedTeamPoints(): Record<string, {
   totalPoints: number;
@@ -95,7 +94,7 @@ function calculateCombinedTeamPoints(): Record<string, {
         const winner = match.result.winner;
         const loser = match.team1 === winner ? match.team2 : match.team1;
         
-        matchesByDate[matchDay.date].push({
+        matchesByDate[matchDay.date]?.push({
           winner,
           loser,
           division: match.division as Division
@@ -103,11 +102,11 @@ function calculateCombinedTeamPoints(): Record<string, {
 
         // Count wins and losses
         if (match.division === 'CORE') {
-          teamStats[winner].coreWins += 1;
-          teamStats[loser].coreLosses += 1;
+          if (teamStats[winner]) teamStats[winner].coreWins += 1;
+          if (teamStats[loser]) teamStats[loser].coreLosses += 1;
         } else {
-          teamStats[winner].nextWins += 1;
-          teamStats[loser].nextLosses += 1;
+          if (teamStats[winner]) teamStats[winner].nextWins += 1;
+          if (teamStats[loser]) teamStats[loser].nextLosses += 1;
         }
       }
     });
@@ -116,6 +115,7 @@ function calculateCombinedTeamPoints(): Record<string, {
   // Calculate points: 1 point per win + bonus for same-day double wins
   Object.keys(teamStats).forEach(team => {
     const stats = teamStats[team];
+    if (!stats) return;
     
     // Base points: 1 point per win
     stats.totalPoints = stats.coreWins + stats.nextWins;
@@ -123,6 +123,8 @@ function calculateCombinedTeamPoints(): Record<string, {
     // Check for same-day double wins (bonus points)
     Object.keys(matchesByDate).forEach(date => {
       const dayMatches = matchesByDate[date];
+      if (!dayMatches) return;
+      
       const coreWin = dayMatches.find(m => m.winner === team && m.division === 'CORE');
       const nextWin = dayMatches.find(m => m.winner === team && m.division === 'NEXT');
       
@@ -158,16 +160,29 @@ interface CombinedEntry {
 const teamStats = calculateCombinedTeamPoints();
 const combinedStandings: CombinedEntry[] = Object.keys(teamStats).map(team => {
   const stats = teamStats[team];
+  if (!stats) {
+    return {
+      rank: 0,
+      team,
+      totalPoints: 0,
+      coreWins: 0,
+      nextWins: 0,
+      totalWins: 0,
+      totalLosses: 0,
+      winRate: 0,
+      bonusPoints: 0
+    };
+  }
   return {
     rank: 0, // Will be assigned after sorting
     team,
-    totalPoints: stats.totalPoints,
-    coreWins: stats.coreWins,
-    nextWins: stats.nextWins,
-    totalWins: stats.coreWins + stats.nextWins,
-    totalLosses: stats.coreLosses + stats.nextLosses,
-    winRate: stats.winRate,
-    bonusPoints: stats.bonusPoints
+    totalPoints: stats.totalPoints ?? 0,
+    coreWins: stats.coreWins ?? 0,
+    nextWins: stats.nextWins ?? 0,
+    totalWins: (stats.coreWins ?? 0) + (stats.nextWins ?? 0),
+    totalLosses: (stats.coreLosses ?? 0) + (stats.nextLosses ?? 0),
+    winRate: stats.winRate ?? 0,
+    bonusPoints: stats.bonusPoints ?? 0
   };
 });
 
