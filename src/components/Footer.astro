@@ -33,97 +33,107 @@ function getSocialIcon(platform: string): string {
 }
 ---
 
-<footer class="footer">
-  <div class="footer-container">
-    <!-- Tournament Info Section -->
-    <section class="footer-section tournament-info">
-      <h3 class="section-title">Tournament Information</h3>
-      <div class="info-grid">
-        <div class="info-item">
-          <span class="info-label">大会名</span>
-          <span class="info-value">League The k4sen</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">シーズン</span>
-          <span class="info-value">精霊の花祭り 幽明の境</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">主催</span>
-          <span class="info-value">k4sen (ZETA DIVISION)</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">協力</span>
-          <span class="info-value">Riot Games</span>
-        </div>
+<footer class="bg-primary border-t-2 border-gold mt-16">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 pb-8">
+      <!-- Tournament Info Section -->
+      <section class="flex flex-col gap-4">
+        <h3 class="text-lg font-semibold text-silver mb-0 pb-2 border-b-2 border-gold relative after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-silver">Tournament Information</h3>
+        <div class="grid gap-3">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">大会名</span>
+            <span class="text-sm text-silver font-medium">League The k4sen</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">シーズン</span>
+            <span class="text-sm text-silver font-medium">精霊の花祭り 幽明の境</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">主催</span>
+            <span class="text-sm text-silver font-medium">k4sen (ZETA DIVISION)</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">協力</span>
+            <span class="text-sm text-silver font-medium">Riot Games</span>
+          </div>
       </div>
     </section>
 
-    <!-- Social Links Section -->
-    <section class="footer-section social-section">
-      <h3 class="section-title">公式チャンネル</h3>
-      <div class="social-links">
-        {socialLinks.map((link) => (
-          <a 
-            href={link.url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="social-link"
-            aria-label={`${link.label}で視聴する`}
-            data-platform={link.platform}
-          >
-            <span class="social-icon" aria-hidden="true">
-              {getSocialIcon(link.platform)}
-            </span>
-            <span class="social-label">{link.label}</span>
-            <span class="external-icon" aria-hidden="true">↗</span>
-          </a>
-        ))}
+      <!-- Social Links Section -->
+      <section class="flex flex-col gap-4">
+        <h3 class="text-lg font-semibold text-silver mb-0 pb-2 border-b-2 border-gold relative after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-silver">公式チャンネル</h3>
+        <div class="flex flex-col gap-2">
+          {socialLinks.map((link) => (
+            <a 
+              href={link.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class={`flex items-center gap-3 p-3 rounded-lg bg-gold/10 border border-gold/20 text-gold no-underline transition-all duration-150 relative overflow-hidden hover:bg-gold/20 hover:border-gold hover:translate-x-1 hover:text-silver group ${
+                link.platform === 'twitch' ? 'hover:border-purple-500 hover:bg-purple-500/10' :
+                link.platform === 'youtube' ? 'hover:border-red-500 hover:bg-red-500/10' :
+                link.platform === 'twitter' ? 'hover:border-blue-400 hover:bg-blue-400/10' : ''
+              }`}
+              aria-label={`${link.label}で視聴する`}
+              data-platform={link.platform}
+            >
+              <span class="text-lg w-6 flex justify-center" aria-hidden="true">
+                {getSocialIcon(link.platform)}
+              </span>
+              <span class="font-medium flex-1">{link.label}</span>
+              <span class="text-sm opacity-70 transition-all duration-150 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
+            </a>
+          ))}
       </div>
     </section>
 
-    <!-- Quick Stats Section -->
-    <section class="footer-section stats-section">
-      <h3 class="section-title">大会概要</h3>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-number">4</span>
-          <span class="stat-label">チーム</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">48</span>
-          <span class="stat-label">配信者</span>
+      </section>
+
+      <!-- Quick Stats Section -->
+      <section class="flex flex-col gap-4">
+        <h3 class="text-lg font-semibold text-silver mb-0 pb-2 border-b-2 border-gold relative after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-silver">大会概要</h3>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center p-4 bg-gold/10 rounded-lg border border-gold/20 transition-all duration-150 hover:bg-gold/20 hover:-translate-y-0.5">
+            <span class="block text-3xl font-bold text-gold leading-none mb-1">4</span>
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">チーム</span>
+          </div>
+          <div class="text-center p-4 bg-gold/10 rounded-lg border border-gold/20 transition-all duration-150 hover:bg-gold/20 hover:-translate-y-0.5">
+            <span class="block text-3xl font-bold text-gold leading-none mb-1">48</span>
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">配信者</span>
+          </div>
+          <div class="text-center p-4 bg-gold/10 rounded-lg border border-gold/20 transition-all duration-150 hover:bg-gold/20 hover:-translate-y-0.5">
+            <span class="block text-3xl font-bold text-gold leading-none mb-1">2</span>
+            <span class="text-xs text-gold/70 uppercase tracking-wide font-medium">部門</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">2</span>
-          <span class="stat-label">部門</span>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 
-  <!-- Copyright Section -->
-  <div class="footer-bottom">
-    <div class="footer-container">
-      <div class="copyright-content">
-        <p class="copyright-text">
-          &copy; {currentYear} League The k4sen. 
-          Hosted by <strong>k4sen</strong> (ZETA DIVISION). 
-          Supported by <strong>Riot Games</strong>.
-        </p>
-        
-        <div class="legal-links">
-          <span class="legal-note">
-            League of Legends &copy; Riot Games, Inc.
-          </span>
-        </div>
+    <!-- Copyright Section -->
+    <div class="bg-primary/80 border-t border-gold/30">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="py-6 text-center flex flex-col gap-3">
+          <p class="text-sm text-gold/70 m-0">
+            &copy; {currentYear} League The k4sen. 
+            Hosted by <strong class="text-gold font-semibold">k4sen</strong> (ZETA DIVISION). 
+            Supported by <strong class="text-gold font-semibold">Riot Games</strong>.
+          </p>
+          
+          <div class="flex justify-center gap-4">
+            <span class="text-xs text-gold/70">
+              League of Legends &copy; Riot Games, Inc.
+            </span>
+          </div>
 
-        <div class="site-info">
-          <span class="site-note">
-            このサイトは非公式のファンサイトです。
-          </span>
-          <span class="build-info">
-            Built with <span class="tech-highlight">Astro</span> + <span class="tech-highlight">TypeScript</span>
-          </span>
+          <div class="flex justify-center gap-4 flex-wrap">
+            <span class="text-xs text-gold/70">
+              このサイトは非公式のファンサイトです。
+            </span>
+            <span class="text-xs text-gold/70">
+              Built with <span class="text-gold font-medium">Astro</span> + <span class="text-gold font-medium">TypeScript</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -131,313 +141,44 @@ function getSocialIcon(platform: string): string {
 </footer>
 
 <style>
-  .footer {
-    background: var(--color-surface-dark);
-    border-top: 2px solid var(--color-primary);
-    margin-top: var(--space-16);
-  }
-
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-5);
-  }
-
-  .footer-container:first-child {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-8);
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-8);
-  }
-
-  .footer-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .section-title {
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-    color: var(--color-text-light);
-    margin: 0;
-    padding-bottom: var(--space-2);
-    border-bottom: 2px solid var(--color-primary);
-    position: relative;
-  }
-
-  .section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: var(--color-secondary);
-  }
-
-  /* Tournament Info Section */
-  .info-grid {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .info-item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .info-label {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-  }
-
-  .info-value {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-light);
-    font-weight: 500;
-  }
-
-  /* Social Links Section */
-  .social-links {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .social-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3);
-    border-radius: var(--radius-lg);
-    background: rgba(70, 55, 20, 0.3);
-    border: 1px solid rgba(200, 155, 60, 0.2);
-    color: var(--color-text);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .social-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(200, 155, 60, 0.1), transparent);
-    transition: left var(--transition-normal);
-  }
-
-  .social-link:hover {
-    background: rgba(70, 55, 20, 0.5);
-    border-color: var(--color-primary);
-    transform: translateX(4px);
-    color: var(--color-text-light);
-  }
-
-  .social-link:hover::before {
-    left: 100%;
-  }
-
-  .social-icon {
-    font-size: var(--font-size-lg);
-    width: 24px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .social-label {
-    font-weight: 500;
-    flex: 1;
-  }
-
-  .external-icon {
-    font-size: var(--font-size-sm);
-    opacity: 0.7;
-    transition: all var(--transition-fast);
-  }
-
-  .social-link:hover .external-icon {
-    opacity: 1;
-    transform: translate(2px, -2px);
-  }
-
-  /* Platform-specific styling */
-  .social-link[data-platform="twitch"]:hover {
-    border-color: #9146ff;
-    background: rgba(145, 70, 255, 0.1);
-  }
-
-  .social-link[data-platform="youtube"]:hover {
-    border-color: #ff0000;
-    background: rgba(255, 0, 0, 0.1);
-  }
-
-  .social-link[data-platform="twitter"]:hover {
-    border-color: #1da1f2;
-    background: rgba(29, 161, 242, 0.1);
-  }
-
-  /* Stats Section */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-  }
-
-  .stat-item {
-    text-align: center;
-    padding: var(--space-4);
-    background: rgba(70, 55, 20, 0.3);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(200, 155, 60, 0.2);
-    transition: all var(--transition-fast);
-  }
-
-  .stat-item:hover {
-    background: rgba(70, 55, 20, 0.5);
-    transform: translateY(-2px);
-  }
-
-  .stat-number {
-    display: block;
-    font-size: var(--font-size-3xl);
-    font-weight: 700;
-    color: var(--color-primary);
-    line-height: 1;
-    margin-bottom: var(--space-1);
-  }
-
-  .stat-label {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-  }
-
-  /* Footer Bottom */
-  .footer-bottom {
-    background: var(--color-background);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .copyright-content {
-    padding: var(--space-6) 0;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .copyright-text {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
-    margin: 0;
-  }
-
-  .copyright-text strong {
-    color: var(--color-primary);
-    font-weight: 600;
-  }
-
-  .legal-links {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4);
-  }
-
-  .legal-note {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-  }
-
-  .site-info {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-  }
-
-  .site-note {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-  }
-
-  .build-info {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-  }
-
-  .tech-highlight {
-    color: var(--color-primary);
-    font-weight: 500;
-  }
-
-  /* Responsive design */
+  /* Custom responsive adjustments */
   @media (max-width: 768px) {
-    .footer-container:first-child {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-      padding-top: var(--space-8);
-      padding-bottom: var(--space-6);
+    .stats-section .grid {
+      @apply grid-cols-3 gap-2;
     }
-
-    .stats-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-2);
+    
+    .stats-section .stat-item {
+      @apply p-2;
     }
-
-    .stat-item {
-      padding: var(--space-2);
+    
+    .stats-section .stat-number {
+      @apply text-2xl;
     }
-
-    .stat-number {
-      font-size: var(--font-size-2xl);
-    }
-
+    
     .copyright-content {
-      padding: var(--space-4) 0;
-      gap: var(--space-2);
+      @apply py-4 gap-2;
     }
-
+    
     .site-info {
-      flex-direction: column;
-      gap: var(--space-1);
+      @apply flex-col gap-1;
     }
   }
 
   @media (max-width: 480px) {
-    .footer-container {
-      padding: 0 var(--space-3);
-    }
-
     .social-links {
-      gap: var(--space-1);
+      @apply gap-1;
     }
-
+    
     .social-link {
-      padding: var(--space-2);
-      gap: var(--space-2);
+      @apply p-2 gap-2;
     }
-
-    .stats-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-2);
+    
+    .stats-section .grid {
+      @apply grid-cols-1 gap-2;
     }
-
-    .legal-links,
-    .site-info {
-      flex-direction: column;
-      gap: var(--space-1);
+    
+    .copyright-section .flex {
+      @apply flex-col gap-1;
     }
   }
 </style>

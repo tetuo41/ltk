@@ -66,12 +66,18 @@ check_requirements() {
         exit 1
     fi
     
-    # Check npm
-    if command -v npm &> /dev/null; then
+    # Check pnpm (preferred) or npm
+    if command -v pnpm &> /dev/null; then
+        PNPM_VERSION=$(pnpm --version)
+        log_success "pnpm found: $PNPM_VERSION"
+        PACKAGE_MANAGER="pnpm"
+    elif command -v npm &> /dev/null; then
         NPM_VERSION=$(npm --version)
         log_success "npm found: $NPM_VERSION"
+        log_info "Consider installing pnpm for better performance: npm install -g pnpm"
+        PACKAGE_MANAGER="npm"
     else
-        log_error "npm not found. Please ensure npm is installed with Node.js"
+        log_error "Neither pnpm nor npm found. Please install Node.js and pnpm/npm"
         exit 1
     fi
     
@@ -103,10 +109,18 @@ check_requirements() {
 install_dependencies() {
     log_info "Installing project dependencies..."
     
-    if [ -f "package-lock.json" ]; then
-        npm ci
+    if [ "$PACKAGE_MANAGER" = "pnpm" ]; then
+        if [ -f "pnpm-lock.yaml" ]; then
+            pnpm install --frozen-lockfile
+        else
+            pnpm install
+        fi
     else
-        npm install
+        if [ -f "package-lock.json" ]; then
+            npm ci
+        else
+            npm install
+        fi
     fi
     
     log_success "Dependencies installed successfully"
@@ -137,7 +151,7 @@ EOF
 # Run type checking
 check_types() {
     log_info "Running TypeScript type checking..."
-    npm run check
+    $PACKAGE_MANAGER run check
     log_success "Type checking passed"
 }
 
@@ -146,7 +160,7 @@ test_dev_server() {
     log_info "Testing development server startup..."
     
     # Start dev server in background
-    npm run dev &
+    $PACKAGE_MANAGER run dev &
     DEV_PID=$!
     
     # Wait for server to start
@@ -192,9 +206,9 @@ show_setup_info() {
     echo "🚀 Quick Start Commands:"
     echo ""
     echo "  Development server:"
-    echo "    npm run dev              # Start development server"
-    echo "    npm run build            # Build for production"
-    echo "    npm run preview          # Preview production build"
+    echo "    $PACKAGE_MANAGER dev              # Start development server"
+    echo "    $PACKAGE_MANAGER build            # Build for production"
+    echo "    $PACKAGE_MANAGER preview          # Preview production build"
     echo ""
     
     if [ "$HAS_CONTAINER" = true ]; then
@@ -207,7 +221,7 @@ show_setup_info() {
     fi
     
     echo "  Useful commands:"
-    echo "    npm run check            # TypeScript type checking"
+    echo "    $PACKAGE_MANAGER check            # TypeScript type checking"
     echo "    curl http://localhost:4321   # Test development server"
     echo ""
     echo "📖 Documentation:"

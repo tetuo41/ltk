@@ -9,20 +9,24 @@ const navItems: NavItem[] = [
 ];
 ---
 
-<header class="header">
-  <nav class="nav">
-    <div class="nav-container">
-      <div class="logo">
-        <h1>League The k4sen</h1>
-        <span class="season">精霊の花祭り 幽明の境</span>
+<header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b-2 border-gold transition-all duration-300">
+  <nav>
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-5 py-4">
+      <div class="flex flex-col">
+        <h1 class="text-silver text-2xl font-bold mb-1">League The k4sen</h1>
+        <span class="text-gold text-sm font-normal">精霊の花祭り 幽明の境</span>
       </div>
       
-      <ul class="nav-menu" role="list">
+      <ul class="hidden md:flex list-none gap-8 m-0 p-0" role="list">
         {navItems.map((item) => (
-          <li class="nav-item">
+          <li class="relative">
             <a 
               href={item.href} 
-              class={`nav-link ${item.active ? 'active' : ''}`}
+              class={`block px-4 py-2 rounded-md font-medium transition-all duration-150 relative ${
+                item.active 
+                  ? 'text-silver bg-gold/20 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-5 after:h-0.5 after:bg-gold' 
+                  : 'text-gold/80 hover:text-silver hover:bg-gold/10 hover:-translate-y-0.5'
+              }`}
               data-nav-link
             >
               {item.label}
@@ -31,10 +35,10 @@ const navItems: NavItem[] = [
         ))}
       </ul>
       
-      <button class="mobile-menu-toggle" aria-label="メニューを開く" data-mobile-toggle>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+      <button class="md:hidden flex flex-col bg-transparent border-none cursor-pointer p-2 gap-1" aria-label="メニューを開く" data-mobile-toggle>
+        <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>
       </button>
     </div>
   </nav>
@@ -179,103 +183,7 @@ const navItems: NavItem[] = [
 </script>
 
 <style>
-  .header {
-    background: rgba(12, 22, 44, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--color-primary);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    transition: all var(--transition-normal);
-  }
-
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-4) var(--space-5);
-  }
-
-  .logo h1 {
-    color: var(--color-text-light);
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
-    margin-bottom: var(--space-1);
-  }
-
-  .season {
-    color: var(--color-primary);
-    font-size: var(--font-size-sm);
-    font-weight: 400;
-  }
-
-  .nav-menu {
-    display: flex;
-    list-style: none;
-    gap: var(--space-8);
-    margin: 0;
-    padding: 0;
-  }
-
-  .nav-item {
-    position: relative;
-  }
-
-  .nav-link {
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: 500;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    position: relative;
-    display: block;
-  }
-
-  .nav-link:hover {
-    color: var(--color-text-light);
-    background: rgba(200, 155, 60, 0.1);
-    transform: translateY(-1px);
-  }
-
-  .nav-link.active {
-    color: var(--color-text-light);
-    background: rgba(200, 155, 60, 0.2);
-  }
-
-  .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 2px;
-    background: var(--color-primary);
-  }
-
-  .mobile-menu-toggle {
-    display: none;
-    flex-direction: column;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: var(--space-2);
-    gap: 4px;
-  }
-
-  .hamburger-line {
-    width: 24px;
-    height: 2px;
-    background: var(--color-text);
-    transition: all var(--transition-fast);
-    transform-origin: center;
-  }
-
+  /* Mobile menu styles */
   .mobile-menu-toggle.open .hamburger-line:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
   }
@@ -288,66 +196,28 @@ const navItems: NavItem[] = [
     transform: rotate(-45deg) translate(6px, -6px);
   }
 
-  /* Mobile styles */
+  /* Mobile menu overlay */
   @media (max-width: 768px) {
-    .nav-container {
-      padding: var(--space-3) var(--space-4);
-    }
-
-    .logo h1 {
-      font-size: var(--font-size-xl);
-    }
-
-    .mobile-menu-toggle {
-      display: flex;
-    }
-
     .nav-menu {
-      position: fixed;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--color-surface-dark);
-      backdrop-filter: blur(10px);
-      flex-direction: column;
-      gap: 0;
-      padding: var(--space-6) var(--space-4);
-      border-top: 1px solid var(--color-border);
-      transform: translateY(-100%);
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--transition-normal);
+      @apply fixed top-full left-0 right-0 bg-primary/95 backdrop-blur-sm flex-col gap-0 px-4 py-6 border-t border-gold/30 -translate-y-full opacity-0 invisible transition-all duration-300;
     }
 
     .nav-menu.mobile-open {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
+      @apply translate-y-0 opacity-100 visible;
     }
 
-    .nav-link {
-      padding: var(--space-4);
-      border-bottom: 1px solid rgba(70, 55, 20, 0.3);
-      text-align: center;
-      font-size: var(--font-size-lg);
+    .nav-menu li a {
+      @apply px-4 py-4 border-b border-gold/30 text-center text-lg;
     }
 
-    .nav-link:last-child {
-      border-bottom: none;
+    .nav-menu li:last-child a {
+      @apply border-b-0;
     }
   }
 
   @media (max-width: 480px) {
-    .logo h1 {
-      font-size: var(--font-size-lg);
-    }
-
-    .season {
-      font-size: var(--font-size-xs);
-    }
-
-    .nav-container {
-      padding: var(--space-2) var(--space-3);
+    .nav-menu {
+      @apply px-3 py-4;
     }
   }
 </style>
