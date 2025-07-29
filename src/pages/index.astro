@@ -245,46 +245,48 @@ const pageKeywords = [
                   
                   <div class="flex flex-col gap-2">
                     {matchDay.matches.map((match) => (
-                      <div class={`bg-surface border-l-4 rounded p-3 flex justify-between items-center ${
+                      <div class={`bg-surface border-l-4 rounded p-3 ${
                         match.status === 'completed' ? 'border-l-success' : 'border-l-warning'
                       }`}>
-                        <div>
-                          <span class="text-xs text-accent font-semibold bg-accent/10 px-2 py-1 rounded mb-2 inline-block">{match.division}</span>
-                          
-                          <div class="flex items-center gap-2 text-sm">
-                            <span class="text-dark font-medium">{
-                              teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team1
-                              ))?.name || match.team1
-                            }</span>
-                            <span class="text-dark-light text-xs">vs</span>
-                            <span class="text-dark font-medium">{
-                              teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team2
-                              ))?.name || match.team2
-                            }</span>
+                        <div class="flex justify-between items-center mb-3">
+                          <div>
+                            <span class="text-xs text-accent font-semibold bg-accent/10 px-2 py-1 rounded mb-2 inline-block">{match.division}</span>
+                            
+                            <div class="flex items-center gap-2 text-sm">
+                              <span class="text-dark font-medium">{
+                                teams.find(t => Object.keys(teamsData.teams).find(
+                                  key => teamsData.teams[key].name === t.name && key === match.team1
+                                ))?.name || match.team1
+                              }</span>
+                              <span class="text-dark-light text-xs">vs</span>
+                              <span class="text-dark font-medium">{
+                                teams.find(t => Object.keys(teamsData.teams).find(
+                                  key => teamsData.teams[key].name === t.name && key === match.team2
+                                ))?.name || match.team2
+                              }</span>
+                            </div>
                           </div>
+                          
+                          {match.result && (
+                            <div class="text-right flex flex-col gap-1">
+                              <span class="text-xs text-success font-semibold">
+                                勝者: {
+                                  teams.find(t => Object.keys(teamsData.teams).find(
+                                    key => teamsData.teams[key].name === t.name && key === match.result!.winner
+                                  ))?.name || match.result.winner
+                                }
+                              </span>
+                              <span class="text-xs text-dark-light">{match.result.score}</span>
+                            </div>
+                          )}
+                          
+                          {match.status === 'scheduled' && (
+                            <div class="text-xs text-warning font-medium">予定</div>
+                          )}
                         </div>
                         
-                        {match.result && (
-                          <div class="text-right flex flex-col gap-1">
-                            <span class="text-xs text-success font-semibold">
-                              勝者: {
-                                teams.find(t => Object.keys(teamsData.teams).find(
-                                  key => teamsData.teams[key].name === t.name && key === match.result!.winner
-                                ))?.name || match.result.winner
-                              }
-                            </span>
-                            <span class="text-xs text-dark-light">{match.result.score}</span>
-                          </div>
-                        )}
-                        
-                        {match.status === 'scheduled' && (
-                          <div class="text-xs text-warning font-medium">予定</div>
-                        )}
-                        
                         {match.result?.draft && (
-                          <div class="col-span-full">
+                          <div class="w-full max-w-full overflow-hidden">
                             <BanPickDisplay 
                               draft={match.result.draft}
                               team1Name={teams.find(t => Object.keys(teamsData.teams).find(
@@ -407,6 +409,15 @@ const pageKeywords = [
 
     .match-item {
       @apply flex-col items-start gap-2;
+    }
+    
+    /* Fix ban-pick container overflow on very small screens */
+    .schedule-grid .bg-surface {
+      @apply max-w-full overflow-hidden;
+    }
+    
+    .schedule-grid .bg-surface > div {
+      @apply max-w-full;
     }
   }
 </style>
