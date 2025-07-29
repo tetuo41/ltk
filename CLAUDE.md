@@ -11,10 +11,17 @@ This is an Astro-based static website for the LTK (League The k4sen) 2025 tourna
 ### Essential Commands
 - `pnpm dev` - Start development server on http://localhost:4321 with hot reload (host 0.0.0.0)
 - `pnpm start` - Alternative development server command (same as dev)
-- `pnpm build` - Build static site for production (includes type checking via `astro check && astro build`)
+- `pnpm build` - Build static site for production (standard build without type checking)
+- `pnpm build:check` - Build with type checking via `astro check && astro build`
 - `pnpm preview` - Preview production build locally (host 0.0.0.0)
 - `pnpm check` - Run TypeScript type checking only via `astro check`
 - `pnpm lint` - Run ESLint for Astro, TypeScript, and TSX files in src directory
+
+### Testing Commands
+- `pnpm playwright test` - Run all Playwright tests for visual regression and layout validation
+- `pnpm playwright test --grep "responsive"` - Run only responsive behavior tests
+- `pnpm playwright test --ui` - Run tests in interactive UI mode
+- `pnpm exec playwright show-report` - View detailed HTML test report after test execution
 
 ### Container Development (Podman/Docker)
 - `./scripts/dev.sh start-dev` - Build and start development container (port 4321)
@@ -35,7 +42,7 @@ This is an Astro-based static website for the LTK (League The k4sen) 2025 tourna
 ### Data-Driven Tournament Website
 The site uses a static data-driven approach where tournament information is stored in JSON files and rendered through typed interfaces:
 
-- **Data Sources**: `src/data/teams.json` and `src/data/matches.json` contain all tournament data
+- **Data Sources**: `src/data/ltk-sbb-teams.json` and `src/data/ltk-sbb-matches.json` contain all tournament data
 - **Type Safety**: Complete TypeScript type definitions in `src/types/` ensure data consistency
 - **Component Architecture**: Astro components handle presentation with minimal client-side JavaScript
 
@@ -45,11 +52,12 @@ src/
 ├── components/          # Reusable Astro components
 │   ├── StandingsTable.astro    # Tournament standings display
 │   ├── TeamCard.astro          # Individual team information
+│   ├── BanPickDisplay.astro    # League of Legends draft information (bans/picks)
 │   ├── Header.astro            # Site navigation
 │   └── Footer.astro            # Site footer
 ├── data/               # Static tournament data (JSON)
-│   ├── teams.json      # Team rosters, coaches, player info
-│   └── matches.json    # Match schedule, results, standings
+│   ├── ltk-sbb-teams.json    # Team rosters, coaches, player info
+│   └── ltk-sbb-matches.json  # Match schedule, results, standings
 ├── types/              # TypeScript type definitions
 │   ├── teams.ts        # Team, player, coach interfaces
 │   ├── matches.ts      # Match, tournament schedule types
@@ -67,6 +75,7 @@ The project uses a comprehensive type system that models the tournament structur
 - **Team Types**: `Team`, `Player`, `Coach` with role definitions (`PlayerRole`, `CoachRole`)
 - **Tournament Structure**: Two divisions (CORE/NEXT) with different rank requirements
 - **Match System**: Typed match states (`MatchStatus`), results, and playoff structures
+- **League of Legends Integration**: `ChampionDraft` interface for ban/pick data with team-specific bans and picks
 - **Component Props**: Strongly typed props for all Astro components
 
 ### Data Flow Pattern
@@ -79,10 +88,17 @@ The project uses a comprehensive type system that models the tournament structur
 
 ### Configuration and Build Setup
 - **Framework**: Astro v4.15.9 with static output mode
-- **Styling**: Tailwind CSS with @tailwindcss/typography
+- **Styling**: Tailwind CSS with @tailwindcss/typography, soft color palette design system
 - **Server**: Development server runs on host 0.0.0.0:4321 for container compatibility
 - **Build Assets**: Assets are organized in `/assets` directory during build
-- **Node Adapter**: Configured with standalone mode for container deployment
+- **Testing**: Playwright v1.54.1 for visual regression and responsive design validation
+
+### League of Legends Integration
+The site includes comprehensive LoL tournament features:
+- **Ban/Pick Display**: `BanPickDisplay.astro` component shows champion drafts with team-specific bans and picks
+- **Champion Data**: Match results can include `draft` objects with ban and pick information  
+- **Responsive Design**: Ban/pick containers are optimized for mobile viewports with overflow protection
+- **Visual Design**: Champion tags include pick order indicators and team-specific styling
 
 ### Path Aliases
 The project uses TypeScript path mapping for clean imports:
@@ -93,11 +109,19 @@ The project uses TypeScript path mapping for clean imports:
 
 ### Tournament Data Updates
 To update tournament information:
-1. Edit `src/data/teams.json` for roster changes
-2. Edit `src/data/matches.json` for schedule/results
+1. Edit `src/data/ltk-sbb-teams.json` for roster changes
+2. Edit `src/data/ltk-sbb-matches.json` for schedule/results and ban/pick data
 3. Update type definitions in `src/types/` if schema changes
 4. Run `pnpm check` to validate types
-5. Rebuild with `pnpm build`
+5. Run `pnpm playwright test` to ensure responsive design compliance
+6. Rebuild with `pnpm build`
+
+### Adding Ban/Pick Data to Matches
+To add League of Legends draft information to match results:
+1. Add a `draft` property to the match `result` object in `src/data/ltk-sbb-matches.json`
+2. Include `bans.team1` and `bans.team2` arrays with champion names
+3. Include `picks.team1` and `picks.team2` arrays with champion names in pick order
+4. The `BanPickDisplay` component will automatically render the draft information
 
 ### Component Development
 - Use Astro's component syntax with TypeScript
@@ -119,6 +143,13 @@ Always run `pnpm check` before committing changes. The build process includes au
 
 ### Linting
 Run `pnpm lint` to check code quality. ESLint is configured for Astro and TypeScript files.
+
+### Visual Regression Testing
+The project uses Playwright for comprehensive visual testing:
+- **Layout Validation**: Tests ensure components don't overflow containers, especially on mobile viewports
+- **Responsive Behavior**: Automated testing across mobile (375px), tablet (768px), and desktop (1920px) viewports
+- **Screenshot Comparison**: Visual regression detection with automated screenshot capture
+- **Configuration**: Tests run against preview server (`pnpm preview`) on http://localhost:4321
 
 ### Testing Development Server
 Use `curl http://localhost:4321` to verify the development server is responding correctly.

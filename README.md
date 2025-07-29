@@ -13,11 +13,13 @@ League The k4sen (LTK) 2025 tournament website built with **Astro** and **TypeSc
 
 ## 🚀 Tech Stack
 
-- **Framework**: [Astro](https://astro.build/) - Static Site Generator
-- **Language**: [TypeScript](https://www.typescriptlang.org/) - Type Safety
-- **Styling**: CSS with CSS Custom Properties
+- **Framework**: [Astro](https://astro.build/) v4.15.9 - Static Site Generator
+- **Language**: [TypeScript](https://www.typescriptlang.org/) v5.6.2 - Type Safety
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) v3.4.17 - Utility-first CSS
+- **Testing**: [Playwright](https://playwright.dev/) v1.54.1 - Visual regression testing
+- **Package Manager**: [pnpm](https://pnpm.io/) - Fast, disk space efficient
 - **Container**: Podman/Docker compatible
-- **Deployment**: Static hosting (Netlify, Vercel, GitHub Pages)
+- **Deployment**: [Netlify](https://netlify.com/) (Production), Static hosting compatible
 
 ## 📁 Project Structure
 
@@ -28,6 +30,7 @@ ltk-astro/
 │   │   ├── Header.astro     # Navigation header
 │   │   ├── TeamCard.astro   # Team information display
 │   │   ├── StandingsTable.astro # Tournament standings
+│   │   ├── BanPickDisplay.astro # LoL ban/pick information
 │   │   └── Footer.astro     # Site footer
 │   ├── layouts/
 │   │   └── Layout.astro     # Base page layout
@@ -39,8 +42,14 @@ ltk-astro/
 │   │   ├── common.ts        # Shared utility types
 │   │   └── index.ts         # Type exports
 │   └── data/                # Static tournament data
-│       ├── teams.json       # Team rosters and info
-│       └── matches.json     # Match results and schedule
+│       ├── ltk-sbb-teams.json    # Team rosters and info
+│       └── ltk-sbb-matches.json  # Match results, schedule, ban/pick data
+├── tests/                   # Playwright test files
+│   └── ban-pick-layout.spec.ts # Visual regression tests
+├── playwright.config.ts     # Playwright configuration
+├── tailwind.config.mjs      # Tailwind CSS configuration
+├── astro.config.mjs         # Astro configuration
+├── netlify.toml            # Netlify deployment settings
 ├── Dockerfile               # Multi-stage container build
 ├── docker-compose.yml       # Container orchestration
 ├── nginx.conf              # Production web server config
@@ -74,10 +83,17 @@ pnpm dev
 
 ```bash
 pnpm dev          # Start development server with HMR
-pnpm build        # Build for production
+pnpm build        # Build for production (standard build)
+pnpm build:check  # Build with TypeScript type checking
 pnpm preview      # Preview production build locally
-pnpm check        # Run TypeScript type checking
-pnpm lint         # Run ESLint (if configured)
+pnpm check        # Run TypeScript type checking only
+pnpm lint         # Run ESLint for code quality
+
+# Testing Commands
+pnpm playwright test              # Run all Playwright tests
+pnpm playwright test --grep "responsive" # Run responsive tests only
+pnpm playwright test --ui         # Interactive test mode
+pnpm exec playwright show-report  # View test results
 ```
 
 ## 🐳 Container Development with Podman
@@ -182,9 +198,11 @@ podman push registry.example.com/ltk-astro:latest
 
 ### Free Static Hosting
 
-1. **Netlify** (Recommended)
-   - Drag and drop `dist/` folder
-   - Or connect GitHub repository for auto-deploy
+1. **Netlify** (Current Production - Recommended)
+   - **Live Site**: https://ltk-fansite.netlify.app
+   - Build Command: `pnpm build`
+   - Publish Directory: `dist`
+   - Auto-deploy from `main` branch
 
 2. **Vercel**
    - Import project from GitHub
@@ -221,6 +239,30 @@ pnpm check
 pnpm astro check --watch
 ```
 
+### Visual Regression Testing
+
+```bash
+# Run all Playwright tests
+pnpm playwright test
+
+# Run specific test suites
+pnpm playwright test --grep "responsive"    # Responsive design tests
+pnpm playwright test --grep "ban-pick"      # Ban/pick layout tests
+
+# Interactive testing with UI
+pnpm playwright test --ui
+
+# View detailed test reports
+pnpm exec playwright show-report
+```
+
+### Testing Features
+
+- **Layout Validation**: Ensures components don't overflow containers
+- **Responsive Design**: Tests across mobile (375px), tablet (768px), desktop (1920px)
+- **Visual Screenshots**: Automated screenshot capture for manual review
+- **Ban/Pick Testing**: Specific tests for League of Legends draft information display
+
 ### Container Health Checks
 
 ```bash
@@ -236,9 +278,10 @@ curl http://localhost:4321/health
 ### Build Optimization
 
 - **Static Generation**: All pages pre-rendered at build time
-- **CSS Optimization**: Scoped styles with minimal runtime CSS
-- **JavaScript Islands**: Minimal client-side JavaScript
+- **Tailwind CSS**: Utility-first styling with purged CSS in production
+- **JavaScript Islands**: Minimal client-side JavaScript with Astro
 - **Image Optimization**: WebP support and responsive images
+- **TypeScript**: Full type safety with zero-runtime overhead
 
 ### Container Optimization
 
@@ -273,16 +316,41 @@ Edit `astro.config.mjs` for:
 
 ### Tournament Data Updates
 
-1. **Teams**: Edit `src/data/teams.json`
-2. **Matches**: Edit `src/data/matches.json`
+1. **Teams**: Edit `src/data/ltk-sbb-teams.json` for roster changes
+2. **Matches**: Edit `src/data/ltk-sbb-matches.json` for schedule, results, and ban/pick data
 3. **Types**: Update `src/types/*.ts` if schema changes
-4. **Rebuild**: Run `pnpm build` or restart dev server
+4. **Test**: Run `pnpm playwright test` to verify responsive design
+5. **Rebuild**: Run `pnpm build` or restart dev server
+
+### Adding Ban/Pick Data
+
+Add League of Legends draft information to match results:
+
+```json
+{
+  "result": {
+    "winner": "team_name",
+    "score": "1-0",
+    "draft": {
+      "bans": {
+        "team1": ["Yasuo", "Zed", "Katarina"],
+        "team2": ["Jinx", "Thresh", "Lee Sin"]
+      },
+      "picks": {
+        "team1": ["Azir", "Graves", "Nautilus", "Kai'Sa", "Ornn"],
+        "team2": ["Syndra", "Kindred", "Leona", "Aphelios", "Shen"]
+      }
+    }
+  }
+}
+```
 
 ### Data Schema
 
-- Fully typed with TypeScript interfaces
-- JSON Schema validation (optional)
-- Type-safe data imports in components
+- **Fully Typed**: Complete TypeScript interfaces for all data structures
+- **League of Legends Integration**: `ChampionDraft` interface for ban/pick data
+- **Type Safety**: Compile-time validation of all data imports
+- **Auto-completion**: Full IDE support with typed data access
 
 ## 🛡️ Security
 
@@ -329,6 +397,27 @@ rm -rf .astro/
 pnpm check
 ```
 
+**Playwright test failures:**
+```bash
+# View test report
+pnpm exec playwright show-report
+
+# Run tests in debug mode
+pnpm playwright test --debug
+
+# Update test snapshots (if visual changes are expected)
+pnpm playwright test --update-snapshots
+```
+
+**Responsive design issues:**
+```bash
+# Run responsive tests specifically
+pnpm playwright test --grep "responsive"
+
+# Check mobile viewport behavior
+pnpm playwright test --grep "mobile"
+```
+
 **Volume mounting issues (SELinux):**
 ```bash
 # Add :Z flag for SELinux systems
@@ -337,9 +426,12 @@ podman run -v "${PWD}":/app:Z ltk-astro:dev
 
 ## 📞 Support
 
+- **Live Site**: [ltk-fansite.netlify.app](https://ltk-fansite.netlify.app)
 - **Tournament Info**: [k4sen Twitch](https://www.twitch.tv/thek4sen)
-- **Technical Issues**: Check container logs and TypeScript errors
+- **Technical Issues**: Check container logs, TypeScript errors, and Playwright test reports
 - **Astro Documentation**: [docs.astro.build](https://docs.astro.build/)
+- **Tailwind CSS**: [tailwindcss.com](https://tailwindcss.com/)
+- **Playwright Documentation**: [playwright.dev](https://playwright.dev/)
 - **Podman Documentation**: [podman.io](https://podman.io/)
 
 ## 📄 License
@@ -352,4 +444,6 @@ This project is for educational and informational purposes.
 
 ---
 
-Built with ❤️ using Astro, TypeScript, and Podman
+Built with ❤️ using Astro, TypeScript, Tailwind CSS, and Playwright
+
+**Current Status**: ✅ Live on Netlify | 🧪 Visual Testing | 📱 Mobile Optimized
