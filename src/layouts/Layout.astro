@@ -13,6 +13,59 @@ const {
 
 const keywordsString = keywords.join(", ");
 const currentUrl = canonicalUrl || Astro.url.href;
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  "name": "League The k4sen 2025 - 精霊の花祭り 幽明の境",
+  "description": description,
+  "url": currentUrl,
+  "startDate": "2025-06-25T19:00:00+09:00",
+  "endDate": "2025-08-27T23:00:00+09:00",
+  "location": {
+    "@type": "VirtualLocation",
+    "url": "https://ltk-sbb.shiai.games"
+  },
+  "organizer": {
+    "@type": "Person",
+    "name": "k4sen",
+    "url": "https://twitter.com/thek4sen"
+  },
+  "sponsor": {
+    "@type": "Organization",
+    "name": "Riot Games",
+    "url": "https://www.riotgames.com/"
+  },
+  "sport": "League of Legends",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY",
+    "availability": "https://schema.org/InStock"
+  },
+  "image": ogImage,
+  "performer": [
+    {
+      "@type": "SportsTeam",
+      "name": "Precision Diadem"
+    },
+    {
+      "@type": "SportsTeam", 
+      "name": "Domination Crown"
+    },
+    {
+      "@type": "SportsTeam",
+      "name": "Sorcery Tiara"
+    },
+    {
+      "@type": "SportsTeam",
+      "name": "Resolve Regalia"
+    }
+  ]
+};
 ---
 
 <!DOCTYPE html>
@@ -27,8 +80,37 @@ const currentUrl = canonicalUrl || Astro.url.href;
   <meta name="description" content={description}>
   <meta name="keywords" content={keywordsString}>
   <meta name="author" content="LTK Development Team">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href={currentUrl}>
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="language" content="Japanese">
+  <meta name="geo.region" content="JP">
+  <meta name="geo.country" content="Japan">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="revisit-after" content="1 days">
+  <meta name="subject" content="League of Legends Tournament">
+  <meta name="topic" content="Esports, Gaming, Streaming">
+  <meta name="summary" content="k4sen主催のLeague of Legendsストリーマー大会">
+  <meta name="Classification" content="Gaming">
+  <meta name="designer" content="LTK Development Team">
+  <meta name="copyright" content="k4sen, ZETA DIVISION">
+  <meta name="reply-to" content="">
+  <meta name="owner" content="k4sen">
+  <meta name="url" content={currentUrl}>
+  <meta name="identifier-URL" content={currentUrl}>
+  <meta name="directory" content="submission">
+  <meta name="pagename" content={title}>
+  <meta name="category" content="Esports">
+  <meta name="coverage" content="Japan">
+  <meta name="target" content="all">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="format-detection" content="telephone=no">
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">

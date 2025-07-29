@@ -20,6 +20,7 @@
     "typescript": "^5.6.2"
   },
   "devDependencies": {
+    "@astrojs/sitemap": "^3.4.2",
     "@astrojs/tailwind": "^5.1.5",
     "@playwright/test": "^1.54.1",
     "@tailwindcss/typography": "^0.5.16",
@@ -27,7 +28,8 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.9.1",
     "eslint-plugin-astro": "^1.2.4",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "terser": "^5.43.1"
   },
   "description": "League The k4sen (LTK) 2025 - 精霊の花祭り 幽明の境",
   "keywords": [
