@@ -1,13 +1,14 @@
 ---
-import type { StandingsEntry, Division } from '@/types';
+import type { StandingsEntry, Division, MatchesData } from '@/types';
 
 export interface Props {
   coreStandings: StandingsEntry[];
   nextStandings: StandingsEntry[];
+  matchesData: MatchesData;
   title?: string;
 }
 
-const { coreStandings, nextStandings, title = "総合順位" } = Astro.props;
+const { coreStandings, nextStandings, matchesData, title = "総合順位" } = Astro.props;
 
 // Function to get team color by team name
 function getTeamColor(teamName: string): string {
@@ -41,26 +42,140 @@ function getDivisionBadge(division: Division): string {
   return division === 'CORE' ? '⚔️' : '🌟';
 }
 
-// Function to get division color (removed unused function)
+// Function to calculate combined team points with bonus system
+function calculateCombinedTeamPoints(): Record<string, {
+  totalPoints: number;
+  coreWins: number;
+  nextWins: number;
+  coreLosses: number;
+  nextLosses: number;
+  bonusPoints: number;
+  winRate: number;
+}> {
+  const teamStats: Record<string, {
+    totalPoints: number;
+    coreWins: number;
+    nextWins: number;
+    coreLosses: number;
+    nextLosses: number;
+    bonusPoints: number;
+    winRate: number;
+  }> = {};
 
-// Combine standings with division information
-interface CombinedEntry extends StandingsEntry {
-  division: Division;
+  // Initialize all teams
+  const allTeams = new Set([
+    ...coreStandings.map(s => s.team),
+    ...nextStandings.map(s => s.team)
+  ]);
+
+  allTeams.forEach(team => {
+    teamStats[team] = {
+      totalPoints: 0,
+      coreWins: 0,
+      nextWins: 0,
+      coreLosses: 0,
+      nextLosses: 0,
+      bonusPoints: 0,
+      winRate: 0
+    };
+  });
+
+  // Group matches by date to check for same-day double wins
+  const matchesByDate: Record<string, Array<{
+    winner: string;
+    loser: string;
+    division: Division;
+  }>> = {};
+
+  matchesData.schedule.forEach(matchDay => {
+    matchesByDate[matchDay.date] = [];
+    
+    matchDay.matches.forEach(match => {
+      if (match.status === 'completed' && match.result) {
+        const winner = match.result.winner;
+        const loser = match.team1 === winner ? match.team2 : match.team1;
+        
+        matchesByDate[matchDay.date].push({
+          winner,
+          loser,
+          division: match.division as Division
+        });
+
+        // Count wins and losses
+        if (match.division === 'CORE') {
+          teamStats[winner].coreWins += 1;
+          teamStats[loser].coreLosses += 1;
+        } else {
+          teamStats[winner].nextWins += 1;
+          teamStats[loser].nextLosses += 1;
+        }
+      }
+    });
+  });
+
+  // Calculate points: 1 point per win + bonus for same-day double wins
+  Object.keys(teamStats).forEach(team => {
+    const stats = teamStats[team];
+    
+    // Base points: 1 point per win
+    stats.totalPoints = stats.coreWins + stats.nextWins;
+    
+    // Check for same-day double wins (bonus points)
+    Object.keys(matchesByDate).forEach(date => {
+      const dayMatches = matchesByDate[date];
+      const coreWin = dayMatches.find(m => m.winner === team && m.division === 'CORE');
+      const nextWin = dayMatches.find(m => m.winner === team && m.division === 'NEXT');
+      
+      if (coreWin && nextWin) {
+        stats.bonusPoints += 1;
+        stats.totalPoints += 1;
+      }
+    });
+
+    // Calculate win rate
+    const totalMatches = stats.coreWins + stats.nextWins + stats.coreLosses + stats.nextLosses;
+    const totalWins = stats.coreWins + stats.nextWins;
+    stats.winRate = totalMatches > 0 ? totalWins / totalMatches : 0;
+  });
+
+  return teamStats;
 }
 
-// Create combined standings array
-const combinedStandings: CombinedEntry[] = [
-  ...coreStandings.map(entry => ({ ...entry, division: 'CORE' as Division })),
-  ...nextStandings.map(entry => ({ ...entry, division: 'NEXT' as Division }))
-];
+// Combine standings with division information and new point system
+interface CombinedEntry {
+  rank: number;
+  team: string;
+  totalPoints: number;
+  coreWins: number;
+  nextWins: number;
+  totalWins: number;
+  totalLosses: number;
+  winRate: number;
+  bonusPoints: number;
+}
 
-// Sort by points (descending), then by win rate (descending), then by wins (descending)
+// Calculate new combined standings
+const teamStats = calculateCombinedTeamPoints();
+const combinedStandings: CombinedEntry[] = Object.keys(teamStats).map(team => {
+  const stats = teamStats[team];
+  return {
+    rank: 0, // Will be assigned after sorting
+    team,
+    totalPoints: stats.totalPoints,
+    coreWins: stats.coreWins,
+    nextWins: stats.nextWins,
+    totalWins: stats.coreWins + stats.nextWins,
+    totalLosses: stats.coreLosses + stats.nextLosses,
+    winRate: stats.winRate,
+    bonusPoints: stats.bonusPoints
+  };
+});
+
+// Sort by total points (descending), then by win rate (descending), then by total wins (descending)
 combinedStandings.sort((a, b) => {
-  const aPoints = a.points ?? 0;
-  const bPoints = b.points ?? 0;
-  if (bPoints !== aPoints) return bPoints - aPoints;
+  if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
   if (b.winRate !== a.winRate) return b.winRate - a.winRate;
-  return b.wins - a.wins;
+  return b.totalWins - a.totalWins;
 });
 
 // Assign new ranks
@@ -90,11 +205,12 @@ combinedStandings.forEach((entry, index) => {
         <tr>
           <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-20">順位</th>
           <th scope="col" class="bg-gold/30 text-silver px-4 py-4 text-left font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10">チーム</th>
-          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-20" title="部門">部門</th>
-          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="勝利数">勝</th>
+          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="CORE勝利数">C勝</th>
+          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="NEXT勝利数">N勝</th>
           <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="敗北数">敗</th>
           <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-25" title="勝率">勝率</th>
-          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="ポイント">P</th>
+          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="総合ポイント(基本+ボーナス)">P</th>
+          <th scope="col" class="bg-gold/30 text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky top-0 z-10 w-15" title="ボーナスポイント">B</th>
         </tr>
       </thead>
       <tbody>
@@ -123,23 +239,15 @@ combinedStandings.forEach((entry, index) => {
             </td>
 
             <td class="px-3 py-3 text-center align-middle">
-              <span 
-                class={`text-xs px-2 py-1 rounded font-medium ${
-                  entry.division === 'CORE' 
-                    ? 'bg-red-400/20 text-red-400' 
-                    : 'bg-purple-400/20 text-purple-400'
-                }`}
-              >
-                {getDivisionBadge(entry.division)} {entry.division}
-              </span>
+              <span class="font-semibold text-red-400 bg-red-400/10 px-2 py-1 rounded inline-block min-w-6">{entry.coreWins}</span>
             </td>
             
             <td class="px-3 py-3 text-center align-middle">
-              <span class="font-semibold text-green-400 bg-green-400/10 px-2 py-1 rounded inline-block min-w-6">{entry.wins}</span>
+              <span class="font-semibold text-purple-400 bg-purple-400/10 px-2 py-1 rounded inline-block min-w-6">{entry.nextWins}</span>
             </td>
             
             <td class="px-3 py-3 text-center align-middle">
-              <span class="font-semibold text-red-400 bg-red-400/10 px-2 py-1 rounded inline-block min-w-6">{entry.losses}</span>
+              <span class="font-semibold text-gray-400 bg-gray-400/10 px-2 py-1 rounded inline-block min-w-6">{entry.totalLosses}</span>
             </td>
             
             <td class="px-3 py-3 text-center align-middle">
@@ -155,7 +263,15 @@ combinedStandings.forEach((entry, index) => {
             </td>
             
             <td class="px-3 py-3 text-center align-middle">
-              <span class="font-semibold text-gold bg-gold/10 px-2 py-1 rounded inline-block min-w-6">{entry.points}</span>
+              <span class="font-semibold text-gold bg-gold/10 px-2 py-1 rounded inline-block min-w-6">{entry.totalPoints}</span>
+            </td>
+
+            <td class="px-3 py-3 text-center align-middle">
+              <span class={`font-semibold px-2 py-1 rounded inline-block min-w-6 ${
+                entry.bonusPoints > 0 
+                  ? 'text-amber-400 bg-amber-400/10' 
+                  : 'text-gray-500 bg-gray-500/10'
+              }`}>{entry.bonusPoints}</span>
             </td>
           </tr>
         ))}
@@ -164,23 +280,30 @@ combinedStandings.forEach((entry, index) => {
   </div>
 
   <footer class="bg-gold/10 px-6 py-3 border-t border-gold/20">
-    <div class="flex justify-center gap-6">
+    <div class="flex flex-wrap justify-center gap-4 text-xs">
       <div class="flex items-center gap-2">
-        <span class="w-5 h-5 bg-green-400/20 text-green-400 rounded flex items-center justify-center text-xs font-semibold">勝</span>
-        <span class="text-xs text-gold/70">勝利数</span>
+        <span class="w-5 h-5 bg-red-400/20 text-red-400 rounded flex items-center justify-center text-xs font-semibold">C</span>
+        <span class="text-gold/70">CORE勝</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="w-5 h-5 bg-red-400/20 text-red-400 rounded flex items-center justify-center text-xs font-semibold">敗</span>
-        <span class="text-xs text-gold/70">敗北数</span>
+        <span class="w-5 h-5 bg-purple-400/20 text-purple-400 rounded flex items-center justify-center text-xs font-semibold">N</span>
+        <span class="text-gold/70">NEXT勝</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-5 h-5 bg-gray-400/20 text-gray-400 rounded flex items-center justify-center text-xs font-semibold">敗</span>
+        <span class="text-gold/70">敗北数</span>
       </div>
       <div class="flex items-center gap-2">
         <span class="w-5 h-5 bg-gold/20 text-gold rounded flex items-center justify-center text-xs font-semibold">P</span>
-        <span class="text-xs text-gold/70">ポイント</span>
+        <span class="text-gold/70">総合P</span>
       </div>
       <div class="flex items-center gap-2">
-        <span class="w-5 h-5 bg-purple-400/20 text-purple-400 rounded flex items-center justify-center text-xs font-semibold">部</span>
-        <span class="text-xs text-gold/70">部門</span>
+        <span class="w-5 h-5 bg-amber-400/20 text-amber-400 rounded flex items-center justify-center text-xs font-semibold">B</span>
+        <span class="text-gold/70">ボーナス</span>
       </div>
+    </div>
+    <div class="text-center mt-2 text-xs text-gold/60">
+      ※ 同日CORE・NEXT両方勝利で+1ボーナス
     </div>
   </footer>
 </div>
@@ -246,9 +369,9 @@ combinedStandings.forEach((entry, index) => {
       @apply px-3 py-2;
     }
 
-    /* Hide division column on very small screens */
-    thead th:nth-child(3),
-    tbody td:nth-child(3) {
+    /* Hide bonus column on very small screens */
+    thead th:nth-child(8),
+    tbody td:nth-child(8) {
       @apply hidden;
     }
   }
