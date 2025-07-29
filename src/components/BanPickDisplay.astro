@@ -10,24 +10,26 @@ export interface Props {
 const { draft, team1Name, team2Name } = Astro.props;
 ---
 
-<div class="ban-pick-container bg-primary border border-tertiary rounded-lg p-6 mt-4">
-  <h4 class="text-lg font-semibold text-dark mb-4 text-center border-b border-tertiary pb-2">
+<div class="ban-pick-container bg-surface border border-tertiary rounded-lg p-4 mt-3 shadow-sm">
+  <h4 class="text-base font-semibold text-dark mb-3 text-center border-b border-tertiary pb-2">
     ドラフト情報
   </h4>
   
   <!-- Bans Section -->
-  <div class="bans-section mb-6">
-    <h5 class="text-sm font-medium text-silver mb-3 uppercase tracking-wide">BAN</h5>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="bans-section mb-4">
+    <h5 class="text-xs font-medium text-silver mb-2 uppercase tracking-wide flex items-center gap-2">
+      <div class="w-2 h-2 bg-danger rounded-full"></div>
+      BAN
+    </h5>
+    <div class="space-y-3">
       <!-- Team 1 Bans -->
       <div class="team-bans">
         <div class="flex items-center gap-2 mb-2">
-          <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-          <span class="text-sm font-medium text-dark">{team1Name}</span>
+          <span class="text-xs font-medium text-dark-light">{team1Name}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-1">
           {draft.bans.team1.map((champion) => (
-            <span class="bg-red-50 border border-red-200 text-red-700 text-xs px-2 py-1 rounded font-medium">
+            <span class="bg-danger-light bg-opacity-20 border border-danger-light border-opacity-30 text-danger text-xs px-2 py-1 rounded-md font-medium">
               {champion}
             </span>
           ))}
@@ -40,12 +42,11 @@ const { draft, team1Name, team2Name } = Astro.props;
       <!-- Team 2 Bans -->
       <div class="team-bans">
         <div class="flex items-center gap-2 mb-2">
-          <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-          <span class="text-sm font-medium text-dark">{team2Name}</span>
+          <span class="text-xs font-medium text-dark-light">{team2Name}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-1">
           {draft.bans.team2.map((champion) => (
-            <span class="bg-red-50 border border-red-200 text-red-700 text-xs px-2 py-1 rounded font-medium">
+            <span class="bg-danger-light bg-opacity-20 border border-danger-light border-opacity-30 text-danger text-xs px-2 py-1 rounded-md font-medium">
               {champion}
             </span>
           ))}
@@ -59,18 +60,20 @@ const { draft, team1Name, team2Name } = Astro.props;
 
   <!-- Picks Section -->
   <div class="picks-section">
-    <h5 class="text-sm font-medium text-silver mb-3 uppercase tracking-wide">PICK</h5>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <h5 class="text-xs font-medium text-silver mb-2 uppercase tracking-wide flex items-center gap-2">
+      <div class="w-2 h-2 bg-accent rounded-full"></div>
+      PICK
+    </h5>
+    <div class="space-y-3">
       <!-- Team 1 Picks -->
       <div class="team-picks">
         <div class="flex items-center gap-2 mb-2">
-          <div class="w-3 h-3 bg-accent rounded-full"></div>
-          <span class="text-sm font-medium text-dark">{team1Name}</span>
+          <span class="text-xs font-medium text-dark-light">{team1Name}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-1">
           {draft.picks.team1.map((champion, index) => (
-            <span class="bg-accent/10 border border-accent/30 text-dark text-xs px-2 py-1 rounded font-medium relative">
-              <span class="absolute -top-1 -left-1 bg-accent text-dark text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold text-[10px]">
+            <span class="bg-accent-light bg-opacity-20 border border-accent-light border-opacity-30 text-accent text-xs px-2 py-1 rounded-md font-medium relative pl-6">
+              <span class="absolute left-1 top-1/2 -translate-y-1/2 bg-accent text-surface text-xs w-3 h-3 rounded-full flex items-center justify-center font-bold text-[9px]">
                 {index + 1}
               </span>
               {champion}
@@ -85,13 +88,12 @@ const { draft, team1Name, team2Name } = Astro.props;
       <!-- Team 2 Picks -->
       <div class="team-picks">
         <div class="flex items-center gap-2 mb-2">
-          <div class="w-3 h-3 bg-accent rounded-full"></div>
-          <span class="text-sm font-medium text-dark">{team2Name}</span>
+          <span class="text-xs font-medium text-dark-light">{team2Name}</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-1">
           {draft.picks.team2.map((champion, index) => (
-            <span class="bg-accent/10 border border-accent/30 text-dark text-xs px-2 py-1 rounded font-medium relative">
-              <span class="absolute -top-1 -left-1 bg-accent text-dark text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold text-[10px]">
+            <span class="bg-accent-light bg-opacity-20 border border-accent-light border-opacity-30 text-accent text-xs px-2 py-1 rounded-md font-medium relative pl-6">
+              <span class="absolute left-1 top-1/2 -translate-y-1/2 bg-accent text-surface text-xs w-3 h-3 rounded-full flex items-center justify-center font-bold text-[9px]">
                 {index + 1}
               </span>
               {champion}
@@ -112,16 +114,16 @@ const { draft, team1Name, team2Name } = Astro.props;
   }
   
   .ban-pick-container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
   }
   
   @media (max-width: 768px) {
     .ban-pick-container {
-      padding: 1rem;
+      padding: 0.75rem;
     }
     
-    .grid {
-      grid-template-columns: 1fr;
+    .space-y-3 > * + * {
+      margin-top: 0.5rem;
     }
   }
 </style>
