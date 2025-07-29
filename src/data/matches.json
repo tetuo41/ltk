@@ -16,6 +16,7 @@
           "result": {
             "winner": "domination_crown",
             "score": "1-0",
+            "mvp": "Evi",
             "draft": {
               "bans": {
                 "team1": ["Yasuo", "Zed", "Katarina"],
@@ -35,8 +36,9 @@
           "team2": "domination_crown",
           "status": "completed",
           "result": {
-            "winner": "domination_crown",
-            "score": "1-0"
+            "winner": "precision_diadem",
+            "score": "1-0",
+            "mvp": "まふまふ"
           }
         },
         {
@@ -48,6 +50,7 @@
           "result": {
             "winner": "sorcery_tiara",
             "score": "1-0",
+            "mvp": "りりむ",
             "draft": {
               "bans": {
                 "team1": ["Akali", "Lucian", "Braum"],
@@ -68,7 +71,8 @@
           "status": "completed",
           "result": {
             "winner": "sorcery_tiara",
-            "score": "1-0"
+            "score": "1-0",
+            "mvp": "k4sen"
           }
         }
       ]
@@ -84,21 +88,22 @@
           "id": "match_005",
           "division": "CORE",
           "team1": "precision_diadem",
-          "team2": "sorcery_tiara",
+          "team2": "resolve_regalia",
           "status": "completed",
           "result": {
-            "winner": "sorcery_tiara",
-            "score": "1-0"
+            "winner": "resolve_regalia",
+            "score": "1-0",
+            "mvp": "ゆゆうた"
           }
         },
         {
           "id": "match_006",
           "division": "NEXT",
-          "team1": "precision_diadem",
-          "team2": "sorcery_tiara",
+        "team1": "precision_diadem",
+        "team2": "resolve_regalia",
           "status": "completed",
           "result": {
-            "winner": "precision_diadem",
+            "winner": "resolve_regalia",
             "score": "1-0"
           }
         },
@@ -106,18 +111,19 @@
           "id": "match_007",
           "division": "CORE",
           "team1": "domination_crown",
-          "team2": "resolve_regalia",
+          "team2": "sorcery_tiara",
           "status": "completed",
           "result": {
             "winner": "domination_crown",
-            "score": "1-0"
+            "score": "1-0",
+            "mvp": "ZETA Evi"
           }
         },
         {
           "id": "match_008",
           "division": "NEXT",
           "team1": "domination_crown",
-          "team2": "resolve_regalia",
+        "team2": "sorcery_tiara",
           "status": "completed",
           "result": {
             "winner": "domination_crown",
@@ -136,19 +142,19 @@
         {
           "id": "match_009",
           "division": "CORE",
-          "team1": "precision_diadem",
-          "team2": "resolve_regalia",
+        "team1": "sorcery_tiara",
+        "team2": "precision_diadem",
           "status": "completed",
           "result": {
-            "winner": "resolve_regalia",
+            "winner": "sorcery_tiara",
             "score": "1-0"
           }
         },
         {
           "id": "match_010",
           "division": "NEXT",
-          "team1": "precision_diadem",
-          "team2": "resolve_regalia",
+        "team1": "sorcery_tiara",
+        "team2": "precision_diadem",
           "status": "completed",
           "result": {
             "winner": "precision_diadem",
@@ -158,19 +164,19 @@
         {
           "id": "match_011",
           "division": "CORE",
-          "team1": "domination_crown",
-          "team2": "sorcery_tiara",
+        "team1": "resolve_regalia",
+        "team2": "domination_crown",
           "status": "completed",
           "result": {
-            "winner": "sorcery_tiara",
+            "winner": "resolve_regalia",
             "score": "1-0"
           }
         },
         {
           "id": "match_012",
           "division": "NEXT",
-          "team1": "domination_crown",
-          "team2": "sorcery_tiara",
+        "team1": "resolve_regalia",
+        "team2": "domination_crown",
           "status": "completed",
           "result": {
             "winner": "domination_crown",
@@ -215,7 +221,7 @@
           "team2": "resolve_regalia",
           "status": "completed",
           "result": {
-            "winner": "resolve_regalia",
+            "winner": "sorcery_tiara",
             "score": "1-0"
           }
         },

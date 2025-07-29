@@ -4,6 +4,7 @@ import Header from '@/components/Header.astro';
 import TeamCard from '@/components/TeamCard.astro';
 import StandingsTable from '@/components/StandingsTable.astro';
 import BanPickDisplay from '@/components/BanPickDisplay.astro';
+import MVPDisplay from '@/components/MVPDisplay.astro';
 import Footer from '@/components/Footer.astro';
 
 import type { 
@@ -284,6 +285,22 @@ const pageKeywords = [
                             <div class="text-xs text-warning font-medium">予定</div>
                           )}
                         </div>
+                        
+                        {match.result?.mvp && (
+                          <div class="w-full max-w-full overflow-hidden">
+                            <MVPDisplay 
+                              mvpPlayer={match.result.mvp}
+                              team1Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                key => teamsData.teams[key].name === t.name && key === match.team1
+                              ))?.name || match.team1}
+                              team2Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                key => teamsData.teams[key].name === t.name && key === match.team2
+                              ))?.name || match.team2}
+                              team1Id={match.team1}
+                              winnerTeamId={match.result.winner}
+                            />
+                          </div>
+                        )}
                         
                         {match.result?.draft && (
                           <div class="w-full max-w-full overflow-hidden">

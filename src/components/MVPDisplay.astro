@@ -1,0 +1,84 @@
+---
+export interface Props {
+  mvpPlayer: string;
+  team1Name: string;
+  team2Name: string;
+  team1Id: string;
+  winnerTeamId: string;
+}
+
+const { mvpPlayer, team1Name, team2Name, team1Id, winnerTeamId } = Astro.props;
+
+// Determine which team the MVP belongs to
+const mvpTeamName = winnerTeamId === team1Id ? team1Name : team2Name;
+---
+
+<div class="mvp-display bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-3 mt-3 shadow-sm">
+  <div class="flex items-center justify-center gap-2">
+    <!-- Crown Icon -->
+    <svg 
+      class="w-5 h-5 text-amber-500 flex-shrink-0" 
+      fill="currentColor" 
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M5 16L3 6l5.5 2L12 4l3.5 4L21 6l-2 10H5zm2.7-2h8.6l.9-4.4-2.1.8L12 8l-3.1 2.4-2.1-.8L7.7 14z"/>
+    </svg>
+    
+    <!-- MVP Information -->
+    <div class="text-center">
+      <span class="text-xs font-semibold text-amber-700 uppercase tracking-wide block mb-1">
+        MVP
+      </span>
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-bold text-amber-800">
+          {mvpPlayer}
+        </span>
+        <span class="text-xs text-amber-600 font-medium">
+          ({mvpTeamName})
+        </span>
+      </div>
+    </div>
+    
+    <!-- Crown Icon (right side for balance) -->
+    <svg 
+      class="w-5 h-5 text-amber-500 flex-shrink-0" 
+      fill="currentColor" 
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M5 16L3 6l5.5 2L12 4l3.5 4L21 6l-2 10H5zm2.7-2h8.6l.9-4.4-2.1.8L12 8l-3.1 2.4-2.1-.8L7.7 14z"/>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .mvp-display {
+    transition: all 0.2s ease;
+    border-left: 4px solid #f59e0b;
+  }
+  
+  .mvp-display:hover {
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 768px) {
+    .mvp-display {
+      padding: 0.5rem 0.75rem;
+    }
+    
+    .mvp-display svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    
+    .mvp-display .text-sm {
+      font-size: 0.75rem;
+    }
+    
+    .mvp-display .text-xs {
+      font-size: 0.625rem;
+    }
+  }
+</style>
