@@ -3,6 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import TeamCard from '@/components/TeamCard.astro';
 import StandingsTable from '@/components/StandingsTable.astro';
+import BanPickDisplay from '@/components/BanPickDisplay.astro';
 import Footer from '@/components/Footer.astro';
 
 import type { 
@@ -107,50 +108,50 @@ const pageKeywords = [
   
   <main>
     <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">
+    <section id="home" class="mt-20 py-16 bg-primary">
+      <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12 items-center">
+        <div class="text-center md:text-left">
+          <h1 class="text-4xl md:text-6xl font-bold text-dark mb-4 leading-tight font-display">
             League The k4sen
           </h1>
-          <p class="hero-subtitle">
+          <p class="text-xl text-silver mb-2 font-medium">
             League of Legends Streamer's Championship
           </p>
-          <p class="hero-season">
+          <p class="text-lg text-dark mb-3 font-normal">
             {tournamentInfo.season}
           </p>
-          <p class="hero-support">
+          <p class="text-base text-silver font-normal">
             Supported by {tournamentInfo.supported_by}
           </p>
         </div>
         
-        <div class="tournament-overview">
-          <div class="overview-stats">
-            <div class="stat-card">
-              <span class="stat-number">{tournamentInfo.format.teams}</span>
-              <span class="stat-label">チーム</span>
+        <div class="flex flex-col gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
+              <span class="block text-4xl font-bold text-dark leading-none mb-2">{tournamentInfo.format.teams}</span>
+              <span class="text-sm text-silver uppercase tracking-wide font-medium">チーム</span>
             </div>
-            <div class="stat-card">
-              <span class="stat-number">{tournamentInfo.format.total_players}</span>
-              <span class="stat-label">ストリーマー</span>
+            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
+              <span class="block text-4xl font-bold text-dark leading-none mb-2">{tournamentInfo.format.total_players}</span>
+              <span class="text-sm text-silver uppercase tracking-wide font-medium">ストリーマー</span>
             </div>
-            <div class="stat-card">
-              <span class="stat-number">2</span>
-              <span class="stat-label">部門</span>
+            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
+              <span class="block text-4xl font-bold text-dark leading-none mb-2">2</span>
+              <span class="text-sm text-silver uppercase tracking-wide font-medium">部門</span>
             </div>
           </div>
           
-          <div class="tournament-dates">
-            <div class="date-info">
-              <span class="date-label">レギュラーステージ</span>
-              <span class="date-range">
+          <div class="bg-secondary border border-tertiary rounded-lg p-6 flex flex-col gap-4">
+            <div class="flex flex-col gap-1">
+              <span class="text-sm text-accent font-semibold uppercase tracking-wide">レギュラーステージ</span>
+              <span class="text-base text-dark font-medium">
                 {new Date(tournamentInfo.regular_season.start).toLocaleDateString('ja-JP')} - 
                 {new Date(tournamentInfo.regular_season.end).toLocaleDateString('ja-JP')}
               </span>
             </div>
-            <div class="date-info">
-              <span class="date-label">プレイオフ</span>
-              <span class="date-range">
+            <div class="flex flex-col gap-1">
+              <span class="text-sm text-accent font-semibold uppercase tracking-wide">プレイオフ</span>
+              <span class="text-base text-dark font-medium">
                 {new Date(tournamentInfo.playoffs.start).toLocaleDateString('ja-JP')} - 
                 {new Date(tournamentInfo.playoffs.end).toLocaleDateString('ja-JP')}
               </span>
@@ -160,17 +161,41 @@ const pageKeywords = [
       </div>
     </section>
 
+    <!-- Standings Section -->
+    <section id="standings" class="py-16 bg-secondary">
+      <div class="max-w-6xl mx-auto px-5">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">現在の順位</h2>
+          <p class="text-lg text-silver max-w-2xl mx-auto">
+            COREとNEXT部門別の現在の順位表
+          </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <StandingsTable 
+            standings={coreStandings} 
+            division="CORE"
+          />
+          
+          <StandingsTable 
+            standings={nextStandings} 
+            division="NEXT"
+          />
+        </div>
+      </div>
+    </section>
+
     <!-- Teams Section -->
-    <section id="teams" class="teams-section">
-      <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">参加チーム</h2>
-          <p class="section-description">
+    <section id="teams" class="py-16">
+      <div class="max-w-6xl mx-auto px-5">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">参加チーム</h2>
+          <p class="text-lg text-silver max-w-2xl mx-auto">
             4チーム、総勢{tournamentInfo.format.total_players}名のストリーマーが熱戦を繰り広げます
           </p>
         </header>
         
-        <div class="teams-grid">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {teams.map((team) => {
             const teamKey = Object.keys(teamsData.teams).find(
               key => teamsData.teams[key].name === team.name
@@ -191,47 +216,49 @@ const pageKeywords = [
     </section>
 
     <!-- Schedule Section -->
-    <section id="schedule" class="schedule-section">
-      <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">試合日程</h2>
-          <p class="section-description">
+    <section id="schedule" class="py-16 bg-secondary">
+      <div class="max-w-6xl mx-auto px-5">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">試合日程</h2>
+          <p class="text-lg text-silver max-w-2xl mx-auto">
             レギュラーステージとプレイオフの日程
           </p>
         </header>
 
-        <div class="schedule-container">
+        <div class="flex flex-col gap-12">
           <!-- Regular Season Schedule -->
-          <div class="schedule-phase">
-            <h3 class="phase-title">レギュラーステージ</h3>
-            <div class="schedule-grid">
+          <div class="bg-primary border border-tertiary rounded-lg p-8">
+            <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">レギュラーステージ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {matchesData.schedule.map((matchDay) => (
-                <div class="match-day-card">
-                  <header class="match-day-header">
-                    <h4 class="match-date">
+                <div class="bg-secondary border border-tertiary rounded-lg p-4 transition-all duration-300 hover:border-accent hover:shadow-sm">
+                  <header class="text-center mb-4 pb-3 border-b border-tertiary">
+                    <h4 class="text-lg text-dark mb-1">
                       {new Date(matchDay.date).toLocaleDateString('ja-JP', { 
                         month: 'long', 
                         day: 'numeric' 
                       })}（{matchDay.day}）
                     </h4>
-                    <span class="match-time">{matchDay.time}〜</span>
-                    <span class="match-description">{matchDay.description}</span>
+                    <span class="block text-sm text-accent font-medium mb-1">{matchDay.time}〜</span>
+                    <span class="text-sm text-silver">{matchDay.description}</span>
                   </header>
                   
-                  <div class="matches-list">
+                  <div class="flex flex-col gap-2">
                     {matchDay.matches.map((match) => (
-                      <div class={`match-item ${match.status}`}>
-                        <div class="match-info">
-                          <span class="match-division">{match.division}</span>
+                      <div class={`bg-primary border-l-4 rounded p-3 flex justify-between items-center ${
+                        match.status === 'completed' ? 'border-l-accent' : 'border-l-silver'
+                      }`}>
+                        <div>
+                          <span class="text-xs text-dark font-semibold bg-accent/10 px-2 py-1 rounded mb-2 inline-block">{match.division}</span>
                           
-                          <div class="match-teams">
-                            <span class="team">{
+                          <div class="flex items-center gap-2 text-sm">
+                            <span class="text-dark font-medium">{
                               teams.find(t => Object.keys(teamsData.teams).find(
                                 key => teamsData.teams[key].name === t.name && key === match.team1
                               ))?.name || match.team1
                             }</span>
-                            <span class="vs">vs</span>
-                            <span class="team">{
+                            <span class="text-silver text-xs">vs</span>
+                            <span class="text-dark font-medium">{
                               teams.find(t => Object.keys(teamsData.teams).find(
                                 key => teamsData.teams[key].name === t.name && key === match.team2
                               ))?.name || match.team2
@@ -240,20 +267,34 @@ const pageKeywords = [
                         </div>
                         
                         {match.result && (
-                          <div class="match-result">
-                            <span class="winner">
+                          <div class="text-right flex flex-col gap-1">
+                            <span class="text-xs text-accent font-semibold">
                               勝者: {
                                 teams.find(t => Object.keys(teamsData.teams).find(
                                   key => teamsData.teams[key].name === t.name && key === match.result!.winner
                                 ))?.name || match.result.winner
                               }
                             </span>
-                            <span class="score">{match.result.score}</span>
+                            <span class="text-xs text-silver">{match.result.score}</span>
                           </div>
                         )}
                         
                         {match.status === 'scheduled' && (
-                          <div class="match-status">予定</div>
+                          <div class="text-xs text-silver font-medium">予定</div>
+                        )}
+                        
+                        {match.result?.draft && (
+                          <div class="col-span-full">
+                            <BanPickDisplay 
+                              draft={match.result.draft}
+                              team1Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                key => teamsData.teams[key].name === t.name && key === match.team1
+                              ))?.name || match.team1}
+                              team2Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                key => teamsData.teams[key].name === t.name && key === match.team2
+                              ))?.name || match.team2}
+                            />
+                          </div>
                         )}
                       </div>
                     ))}
@@ -264,33 +305,33 @@ const pageKeywords = [
           </div>
 
           <!-- Playoffs Schedule -->
-          <div class="schedule-phase playoffs">
-            <h3 class="phase-title">プレイオフ</h3>
-            <div class="playoffs-info">
-              <p class="playoffs-format">形式: {matchesData.playoffs.format}</p>
-              <p class="playoffs-location">開催: {matchesData.playoffs.location}</p>
+          <div class="bg-primary border border-tertiary rounded-lg p-8">
+            <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">プレイオフ</h3>
+            <div class="text-center mb-6 flex justify-center gap-6">
+              <p class="text-sm text-accent m-0">形式: {matchesData.playoffs.format}</p>
+              <p class="text-sm text-accent m-0">開催: {matchesData.playoffs.location}</p>
             </div>
-            <div class="playoffs-grid">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {matchesData.playoffs.schedule.map((playoffDay) => (
-                <div class="playoff-day-card">
-                  <header class="playoff-day-header">
-                    <h4 class="playoff-date">
+                <div class="bg-secondary border border-tertiary rounded-lg p-4">
+                  <header class="text-center mb-4 pb-2 border-b border-tertiary">
+                    <h4 class="text-base text-dark mb-1">
                       {new Date(playoffDay.date).toLocaleDateString('ja-JP', { 
                         month: 'long', 
                         day: 'numeric' 
                       })}（{playoffDay.day}）
                     </h4>
-                    <span class="playoff-description">{playoffDay.description}</span>
+                    <span class="text-sm text-silver">{playoffDay.description}</span>
                   </header>
                   
-                  <div class="playoff-matches">
+                  <div class="flex flex-col gap-3">
                     {playoffDay.matches.map((match) => (
-                      <div class="playoff-match">
-                        <span class="playoff-round">{match.round}</span>
-                        <div class="playoff-teams">
-                          <span class="team">{match.team1}</span>
-                          <span class="vs">vs</span>
-                          <span class="team">{match.team2}</span>
+                      <div class="bg-primary border border-tertiary rounded p-3 text-center">
+                        <span class="block text-xs text-accent font-semibold mb-2">{match.round}</span>
+                        <div class="text-sm text-dark">
+                          <span>{match.team1}</span>
+                          <span class="mx-2 text-silver">vs</span>
+                          <span>{match.team2}</span>
                         </div>
                       </div>
                     ))}
@@ -302,522 +343,70 @@ const pageKeywords = [
         </div>
       </div>
     </section>
-
-    <!-- Standings Section -->
-    <section id="standings" class="standings-section">
-      <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">現在の順位</h2>
-          <p class="section-description">
-            COREとNEXT部門別の現在の順位表
-          </p>
-        </header>
-
-        <div class="standings-container">
-          <StandingsTable 
-            standings={coreStandings} 
-            division="CORE"
-          />
-          
-          <StandingsTable 
-            standings={nextStandings} 
-            division="NEXT"
-          />
-        </div>
-      </div>
-    </section>
   </main>
 
   <Footer />
 </Layout>
 
 <style>
-  /* Hero Section */
-  .hero {
-    margin-top: 100px;
-    padding: var(--space-16) 0;
-    background: 
-      linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-      radial-gradient(circle at 30% 70%, rgba(200, 155, 60, 0.1) 0%, transparent 50%),
-      linear-gradient(135deg, var(--color-background) 0%, var(--color-surface) 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23c89b3c" stroke-width="0.3" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
-  }
-
-  .hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-5);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-12);
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-text {
-    text-align: left;
-  }
-
-  .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    color: var(--color-text-light);
-    margin-bottom: var(--space-4);
-    line-height: 1.1;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-
-  .hero-subtitle {
-    font-size: var(--font-size-xl);
-    color: var(--color-primary);
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-  }
-
-  .hero-season {
-    font-size: var(--font-size-lg);
-    color: var(--color-text);
-    margin-bottom: var(--space-3);
-    font-weight: 400;
-  }
-
-  .hero-support {
-    font-size: var(--font-size-base);
-    color: var(--color-text-secondary);
-    font-weight: 400;
-  }
-
-  .tournament-overview {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .overview-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-  }
-
-  .stat-card {
-    background: rgba(12, 22, 44, 0.8);
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    text-align: center;
-    transition: all var(--transition-normal);
-  }
-
-  .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .stat-number {
-    display: block;
-    font-size: var(--font-size-4xl);
-    font-weight: 700;
-    color: var(--color-primary);
-    line-height: 1;
-    margin-bottom: var(--space-2);
-  }
-
-  .stat-label {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-  }
-
-  .tournament-dates {
-    background: rgba(12, 22, 44, 0.6);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .date-info {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .date-label {
-    font-size: var(--font-size-sm);
-    color: var(--color-primary);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .date-range {
-    font-size: var(--font-size-base);
-    color: var(--color-text-light);
-    font-weight: 500;
-  }
-
-  /* Section Styles */
-  .teams-section,
-  .schedule-section,
-  .standings-section {
-    padding: var(--space-16) 0;
-  }
-
-  .teams-section {
-    background: rgba(12, 22, 44, 0.3);
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
-  }
-
-  .section-title {
-    font-size: var(--font-size-3xl);
-    color: var(--color-text-light);
-    margin-bottom: var(--space-4);
-    position: relative;
-  }
-
-  .section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: var(--color-primary);
-  }
-
-  .section-description {
-    font-size: var(--font-size-lg);
-    color: var(--color-text);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .teams-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-8);
-  }
-
-  /* Schedule Styles */
-  .schedule-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-12);
-  }
-
-  .schedule-phase {
-    background: rgba(12, 22, 44, 0.6);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    border: 1px solid var(--color-border);
-  }
-
-  .phase-title {
-    font-size: var(--font-size-2xl);
-    color: var(--color-text-light);
-    margin-bottom: var(--space-6);
-    text-align: center;
-    padding-bottom: var(--space-3);
-    border-bottom: 2px solid var(--color-primary);
-  }
-
-  .schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-6);
-  }
-
-  .match-day-card {
-    background: rgba(70, 55, 20, 0.4);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    transition: all var(--transition-normal);
-  }
-
-  .match-day-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-
-  .match-day-header {
-    text-align: center;
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .match-date {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-light);
-    margin-bottom: var(--space-1);
-  }
-
-  .match-time {
-    display: block;
-    font-size: var(--font-size-sm);
-    color: var(--color-primary);
-    font-weight: 500;
-    margin-bottom: var(--space-1);
-  }
-
-  .match-description {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-  }
-
-  .matches-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .match-item {
-    background: rgba(12, 22, 44, 0.6);
-    border-left: 4px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .match-item.completed {
-    border-left-color: var(--color-success);
-  }
-
-  .match-item.scheduled {
-    border-left-color: var(--color-warning);
-  }
-
-  .match-division {
-    font-size: var(--font-size-xs);
-    color: var(--color-primary);
-    font-weight: 600;
-    background: rgba(200, 155, 60, 0.1);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--space-2);
-  }
-
-  .match-teams {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--font-size-sm);
-  }
-
-  .team {
-    color: var(--color-text-light);
-    font-weight: 500;
-  }
-
-  .vs {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-xs);
-  }
-
-  .match-result {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .winner {
-    font-size: var(--font-size-xs);
-    color: var(--color-success);
-    font-weight: 600;
-  }
-
-  .score {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-  }
-
-  .match-status {
-    font-size: var(--font-size-xs);
-    color: var(--color-warning);
-    font-weight: 500;
-  }
-
-  /* Playoffs Styles */
-  .playoffs {
-    background: rgba(200, 155, 60, 0.05);
-    border-color: var(--color-primary);
-  }
-
-  .playoffs-info {
-    text-align: center;
-    margin-bottom: var(--space-6);
-    display: flex;
-    justify-content: center;
-    gap: var(--space-6);
-  }
-
-  .playoffs-format,
-  .playoffs-location {
-    font-size: var(--font-size-sm);
-    color: var(--color-text);
-    margin: 0;
-  }
-
-  .playoffs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-4);
-  }
-
-  .playoff-day-card {
-    background: rgba(12, 22, 44, 0.8);
-    border: 1px solid var(--color-primary);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-  }
-
-  .playoff-day-header {
-    text-align: center;
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-primary);
-  }
-
-  .playoff-date {
-    font-size: var(--font-size-base);
-    color: var(--color-text-light);
-    margin-bottom: var(--space-1);
-  }
-
-  .playoff-description {
-    font-size: var(--font-size-sm);
-    color: var(--color-primary);
-  }
-
-  .playoff-matches {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .playoff-match {
-    background: rgba(70, 55, 20, 0.4);
-    border-radius: var(--radius-md);
-    padding: var(--space-3);
-    text-align: center;
-  }
-
-  .playoff-round {
-    display: block;
-    font-size: var(--font-size-xs);
-    color: var(--color-primary);
-    font-weight: 600;
-    margin-bottom: var(--space-2);
-  }
-
-  .playoff-teams {
-    font-size: var(--font-size-sm);
-    color: var(--color-text);
-  }
-
-  /* Standings Styles */
-  .standings-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: var(--space-8);
-  }
-
   /* Responsive Design */
   @media (max-width: 768px) {
     .hero-content {
-      grid-template-columns: 1fr;
-      gap: var(--space-8);
-      text-align: center;
+      @apply grid-cols-1 gap-8 text-center;
     }
 
     .hero-text {
-      text-align: center;
+      @apply text-center;
     }
 
     .overview-stats {
-      grid-template-columns: 1fr;
-      gap: var(--space-3);
+      @apply grid-cols-1 gap-3;
     }
 
     .teams-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
+      @apply grid-cols-1 gap-6;
     }
 
     .schedule-grid {
-      grid-template-columns: 1fr;
+      @apply grid-cols-1;
     }
 
     .standings-container {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
+      @apply grid-cols-1 gap-6;
     }
 
     .playoffs-info {
-      flex-direction: column;
-      gap: var(--space-2);
+      @apply flex-col gap-2;
     }
   }
 
   @media (max-width: 480px) {
     .hero {
-      margin-top: 80px;
-      padding: var(--space-8) 0;
+      @apply mt-20 py-8;
     }
 
     .hero-title {
-      font-size: 2rem;
+      @apply text-2xl;
     }
 
     .stat-card {
-      padding: var(--space-4);
+      @apply p-4;
     }
 
     .stat-number {
-      font-size: var(--font-size-3xl);
+      @apply text-3xl;
     }
 
     .tournament-dates {
-      padding: var(--space-4);
+      @apply p-4;
     }
 
     .match-teams {
-      flex-direction: column;
-      gap: var(--space-1);
-      text-align: center;
+      @apply flex-col gap-1 text-center;
     }
 
     .match-item {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-2);
+      @apply flex-col items-start gap-2;
     }
   }
 </style>
