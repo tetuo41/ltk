@@ -199,10 +199,12 @@ podman push registry.example.com/ltk-astro:latest
 ### Free Static Hosting
 
 1. **Netlify** (Current Production - Recommended)
-   - **Live Site**: https://ltk-fansite.netlify.app
+   - **Live Site**: https://ltk-sbb.shiai.games
+   - **Netlify URL**: https://ltk-fansite.netlify.app
    - Build Command: `pnpm build`
    - Publish Directory: `dist`
    - Auto-deploy from `main` branch
+   - Custom domain with HTTPS
 
 2. **Vercel**
    - Import project from GitHub
