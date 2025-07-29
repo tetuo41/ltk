@@ -52,7 +52,7 @@ ltk-astro/
 ### Prerequisites
 
 - Node.js 18+ 
-- npm or yarn
+- pnpm (recommended) or npm/yarn
 - Podman or Docker (for containerized development)
 
 ### Local Development (Node.js)
@@ -62,10 +62,10 @@ ltk-astro/
 cd ltk-astro
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm dev
 
 # Open browser to http://localhost:4321
 ```
@@ -73,11 +73,11 @@ npm run dev
 ### Available Scripts
 
 ```bash
-npm run dev          # Start development server with HMR
-npm run build        # Build for production
-npm run preview      # Preview production build locally
-npm run check        # Run TypeScript type checking
-npm run lint         # Run ESLint (if configured)
+pnpm dev          # Start development server with HMR
+pnpm build        # Build for production
+pnpm preview      # Preview production build locally
+pnpm check        # Run TypeScript type checking
+pnpm lint         # Run ESLint (if configured)
 ```
 
 ## 🐳 Container Development with Podman
@@ -160,7 +160,7 @@ podman image prune
 
 ```bash
 # Create production build
-npm run build
+pnpm build
 
 # Output will be in ./dist/ directory
 ```
@@ -215,10 +215,10 @@ podman push registry.example.com/ltk-astro:latest
 
 ```bash
 # Run TypeScript type checking
-npm run check
+pnpm check
 
 # Watch mode for development
-npx astro check --watch
+pnpm astro check --watch
 ```
 
 ### Container Health Checks
@@ -276,7 +276,7 @@ Edit `astro.config.mjs` for:
 1. **Teams**: Edit `src/data/teams.json`
 2. **Matches**: Edit `src/data/matches.json`
 3. **Types**: Update `src/types/*.ts` if schema changes
-4. **Rebuild**: Run `npm run build` or restart dev server
+4. **Rebuild**: Run `pnpm build` or restart dev server
 
 ### Data Schema
 
@@ -310,7 +310,7 @@ Edit `astro.config.mjs` for:
 lsof -ti:4321 | xargs kill -9
 
 # Or use different port
-npm run dev -- --port 3000
+pnpm dev --port 3000
 ```
 
 **Container build fails:**
@@ -326,7 +326,7 @@ podman build --no-cache -t ltk-astro:dev .
 ```bash
 # Clear TypeScript cache
 rm -rf .astro/
-npm run check
+pnpm check
 ```
 
 **Volume mounting issues (SELinux):**
