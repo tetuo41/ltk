@@ -15,7 +15,17 @@
           "status": "completed",
           "result": {
             "winner": "domination_crown",
-            "score": "1-0"
+            "score": "1-0",
+            "draft": {
+              "bans": {
+                "team1": ["Yasuo", "Zed", "Katarina"],
+                "team2": ["Jinx", "Thresh", "Lee Sin"]
+              },
+              "picks": {
+                "team1": ["Azir", "Graves", "Nautilus", "Kai'Sa", "Ornn"],
+                "team2": ["Syndra", "Kindred", "Leona", "Aphelios", "Shen"]
+              }
+            }
           }
         },
         {
@@ -37,7 +47,17 @@
           "status": "completed",
           "result": {
             "winner": "sorcery_tiara",
-            "score": "1-0"
+            "score": "1-0",
+            "draft": {
+              "bans": {
+                "team1": ["Akali", "Lucian", "Braum"],
+                "team2": ["Orianna", "Viego", "Alistar"]
+              },
+              "picks": {
+                "team1": ["LeBlanc", "Nidalee", "Rell", "Jhin", "Gnar"],
+                "team2": ["Viktor", "Jarvan IV", "Lulu", "Caitlyn", "Camille"]
+              }
+            }
           }
         },
         {
@@ -350,7 +370,7 @@
         "team": "sorcery_tiara",
         "wins": 3,
         "losses": 1,
-        "win_rate": 0.75,
+        "winRate": 0.75,
         "points": 3
       },
       {
@@ -358,7 +378,7 @@
         "team": "domination_crown",
         "wins": 2,
         "losses": 2,
-        "win_rate": 0.5,
+        "winRate": 0.5,
         "points": 2
       },
       {
@@ -366,7 +386,7 @@
         "team": "resolve_regalia",
         "wins": 2,
         "losses": 2,
-        "win_rate": 0.5,
+        "winRate": 0.5,
         "points": 2
       },
       {
@@ -374,7 +394,7 @@
         "team": "precision_diadem",
         "wins": 1,
         "losses": 3,
-        "win_rate": 0.25,
+        "winRate": 0.25,
         "points": 1
       }
     ],
@@ -384,7 +404,7 @@
         "team": "domination_crown",
         "wins": 3,
         "losses": 1,
-        "win_rate": 0.75,
+        "winRate": 0.75,
         "points": 3
       },
       {
@@ -392,7 +412,7 @@
         "team": "precision_diadem",
         "wins": 2,
         "losses": 2,
-        "win_rate": 0.5,
+        "winRate": 0.5,
         "points": 2
       },
       {
@@ -400,7 +420,7 @@
         "team": "sorcery_tiara",
         "wins": 2,
         "losses": 2,
-        "win_rate": 0.5,
+        "winRate": 0.5,
         "points": 2
       },
       {
@@ -408,7 +428,7 @@
         "team": "resolve_regalia",
         "wins": 1,
         "losses": 3,
-        "win_rate": 0.25,
+        "winRate": 0.25,
         "points": 1
       }
     ]
