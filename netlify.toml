@@ -39,6 +39,13 @@
   [headers.values]
     Cache-Control = "public, max-age=3600"
 
+# Custom domain redirects
+[[redirects]]
+  from = "http://ltk-sbb.shiai.games/*"
+  to = "https://ltk-sbb.shiai.games/:splat"
+  status = 301
+  force = true
+
 # SPA fallback for client-side routing (if needed in future)
 [[redirects]]
   from = "/*"
