@@ -12,7 +12,7 @@
     "check": "astro check",
     "lint": "eslint src --ext .astro,.ts,.tsx",
     "domain:setup": "./scripts/setup-domain.sh",
-    "domain:status": "netlify status && echo '\\n=== Site Info ===' && netlify api getSite --siteId=bfe62655-f611-4062-8296-6a33b4821b3c | grep -E '\\\"custom_domain\\\"|\\\"ssl\\\"|\\\"managed_dns\\\"'"
+    "domain:status": "netlify status && echo '\\n=== Domain Check ===' && dig ltk-sbb.shiai.games +short"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
