@@ -3,6 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import TeamCard from '@/components/TeamCard.astro';
 import StandingsTable from '@/components/StandingsTable.astro';
+import CombinedStandingsTable from '@/components/CombinedStandingsTable.astro';
 import BanPickDisplay from '@/components/BanPickDisplay.astro';
 import MVPDisplay from '@/components/MVPDisplay.astro';
 import Footer from '@/components/Footer.astro';
@@ -168,10 +169,20 @@ const pageKeywords = [
         <header class="text-center mb-12">
           <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">現在の順位</h2>
           <p class="text-lg text-dark-light max-w-2xl mx-auto">
-            COREとNEXT部門別の現在の順位表
+            CORE・NEXT統合順位と部門別順位表
           </p>
         </header>
 
+        <!-- Combined Standings -->
+        <div class="mb-12">
+          <CombinedStandingsTable 
+            coreStandings={coreStandings} 
+            nextStandings={nextStandings}
+            title="総合順位"
+          />
+        </div>
+
+        <!-- Division Standings -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <StandingsTable 
             standings={coreStandings} 
