@@ -108,13 +108,13 @@ const pageKeywords = [
   
   <main>
     <!-- Hero Section -->
-    <section id="home" class="mt-20 py-16 bg-primary">
+    <section id="home" class="mt-20 py-16 bg-gradient-to-br from-primary to-secondary">
       <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12 items-center">
         <div class="text-center md:text-left">
           <h1 class="text-4xl md:text-6xl font-bold text-dark mb-4 leading-tight font-display">
             League The k4sen
           </h1>
-          <p class="text-xl text-silver mb-2 font-medium">
+          <p class="text-xl text-dark-light mb-2 font-medium">
             League of Legends Streamer's Championship
           </p>
           <p class="text-lg text-dark mb-3 font-normal">
@@ -127,21 +127,21 @@ const pageKeywords = [
         
         <div class="flex flex-col gap-8">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
-              <span class="block text-4xl font-bold text-dark leading-none mb-2">{tournamentInfo.format.teams}</span>
-              <span class="text-sm text-silver uppercase tracking-wide font-medium">チーム</span>
+            <div class="bg-surface border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent-light hover:shadow-sm">
+              <span class="block text-4xl font-bold text-accent leading-none mb-2">{tournamentInfo.format.teams}</span>
+              <span class="text-sm text-dark-light uppercase tracking-wide font-medium">チーム</span>
             </div>
-            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
-              <span class="block text-4xl font-bold text-dark leading-none mb-2">{tournamentInfo.format.total_players}</span>
-              <span class="text-sm text-silver uppercase tracking-wide font-medium">ストリーマー</span>
+            <div class="bg-surface border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent-light hover:shadow-sm">
+              <span class="block text-4xl font-bold text-accent leading-none mb-2">{tournamentInfo.format.total_players}</span>
+              <span class="text-sm text-dark-light uppercase tracking-wide font-medium">ストリーマー</span>
             </div>
-            <div class="bg-secondary border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent hover:shadow-sm">
-              <span class="block text-4xl font-bold text-dark leading-none mb-2">2</span>
-              <span class="text-sm text-silver uppercase tracking-wide font-medium">部門</span>
+            <div class="bg-surface border border-tertiary rounded-lg p-6 text-center transition-all duration-300 hover:border-accent-light hover:shadow-sm">
+              <span class="block text-4xl font-bold text-accent leading-none mb-2">2</span>
+              <span class="text-sm text-dark-light uppercase tracking-wide font-medium">部門</span>
             </div>
           </div>
           
-          <div class="bg-secondary border border-tertiary rounded-lg p-6 flex flex-col gap-4">
+          <div class="bg-surface border border-tertiary rounded-lg p-6 flex flex-col gap-4">
             <div class="flex flex-col gap-1">
               <span class="text-sm text-accent font-semibold uppercase tracking-wide">レギュラーステージ</span>
               <span class="text-base text-dark font-medium">
@@ -162,11 +162,11 @@ const pageKeywords = [
     </section>
 
     <!-- Standings Section -->
-    <section id="standings" class="py-16 bg-secondary">
+    <section id="standings" class="py-16 bg-primary">
       <div class="max-w-6xl mx-auto px-5">
         <header class="text-center mb-12">
           <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">現在の順位</h2>
-          <p class="text-lg text-silver max-w-2xl mx-auto">
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
             COREとNEXT部門別の現在の順位表
           </p>
         </header>
@@ -186,11 +186,11 @@ const pageKeywords = [
     </section>
 
     <!-- Teams Section -->
-    <section id="teams" class="py-16">
+    <section id="teams" class="py-16 bg-secondary">
       <div class="max-w-6xl mx-auto px-5">
         <header class="text-center mb-12">
           <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">参加チーム</h2>
-          <p class="text-lg text-silver max-w-2xl mx-auto">
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
             4チーム、総勢{tournamentInfo.format.total_players}名のストリーマーが熱戦を繰り広げます
           </p>
         </header>
@@ -216,22 +216,22 @@ const pageKeywords = [
     </section>
 
     <!-- Schedule Section -->
-    <section id="schedule" class="py-16 bg-secondary">
+    <section id="schedule" class="py-16 bg-primary">
       <div class="max-w-6xl mx-auto px-5">
         <header class="text-center mb-12">
           <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">試合日程</h2>
-          <p class="text-lg text-silver max-w-2xl mx-auto">
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
             レギュラーステージとプレイオフの日程
           </p>
         </header>
 
         <div class="flex flex-col gap-12">
           <!-- Regular Season Schedule -->
-          <div class="bg-primary border border-tertiary rounded-lg p-8">
+          <div class="bg-surface border border-tertiary rounded-lg p-8 shadow-sm">
             <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">レギュラーステージ</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {matchesData.schedule.map((matchDay) => (
-                <div class="bg-secondary border border-tertiary rounded-lg p-4 transition-all duration-300 hover:border-accent hover:shadow-sm">
+                <div class="bg-secondary border border-tertiary rounded-lg p-4 transition-all duration-300 hover:border-accent-light hover:shadow-sm">
                   <header class="text-center mb-4 pb-3 border-b border-tertiary">
                     <h4 class="text-lg text-dark mb-1">
                       {new Date(matchDay.date).toLocaleDateString('ja-JP', { 
@@ -240,16 +240,16 @@ const pageKeywords = [
                       })}（{matchDay.day}）
                     </h4>
                     <span class="block text-sm text-accent font-medium mb-1">{matchDay.time}〜</span>
-                    <span class="text-sm text-silver">{matchDay.description}</span>
+                    <span class="text-sm text-dark-light">{matchDay.description}</span>
                   </header>
                   
                   <div class="flex flex-col gap-2">
                     {matchDay.matches.map((match) => (
-                      <div class={`bg-primary border-l-4 rounded p-3 flex justify-between items-center ${
-                        match.status === 'completed' ? 'border-l-accent' : 'border-l-silver'
+                      <div class={`bg-surface border-l-4 rounded p-3 flex justify-between items-center ${
+                        match.status === 'completed' ? 'border-l-success' : 'border-l-warning'
                       }`}>
                         <div>
-                          <span class="text-xs text-dark font-semibold bg-accent/10 px-2 py-1 rounded mb-2 inline-block">{match.division}</span>
+                          <span class="text-xs text-accent font-semibold bg-accent/10 px-2 py-1 rounded mb-2 inline-block">{match.division}</span>
                           
                           <div class="flex items-center gap-2 text-sm">
                             <span class="text-dark font-medium">{
@@ -257,7 +257,7 @@ const pageKeywords = [
                                 key => teamsData.teams[key].name === t.name && key === match.team1
                               ))?.name || match.team1
                             }</span>
-                            <span class="text-silver text-xs">vs</span>
+                            <span class="text-dark-light text-xs">vs</span>
                             <span class="text-dark font-medium">{
                               teams.find(t => Object.keys(teamsData.teams).find(
                                 key => teamsData.teams[key].name === t.name && key === match.team2
@@ -268,19 +268,19 @@ const pageKeywords = [
                         
                         {match.result && (
                           <div class="text-right flex flex-col gap-1">
-                            <span class="text-xs text-accent font-semibold">
+                            <span class="text-xs text-success font-semibold">
                               勝者: {
                                 teams.find(t => Object.keys(teamsData.teams).find(
                                   key => teamsData.teams[key].name === t.name && key === match.result!.winner
                                 ))?.name || match.result.winner
                               }
                             </span>
-                            <span class="text-xs text-silver">{match.result.score}</span>
+                            <span class="text-xs text-dark-light">{match.result.score}</span>
                           </div>
                         )}
                         
                         {match.status === 'scheduled' && (
-                          <div class="text-xs text-silver font-medium">予定</div>
+                          <div class="text-xs text-warning font-medium">予定</div>
                         )}
                         
                         {match.result?.draft && (
@@ -305,7 +305,7 @@ const pageKeywords = [
           </div>
 
           <!-- Playoffs Schedule -->
-          <div class="bg-primary border border-tertiary rounded-lg p-8">
+          <div class="bg-surface border border-tertiary rounded-lg p-8 shadow-sm">
             <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">プレイオフ</h3>
             <div class="text-center mb-6 flex justify-center gap-6">
               <p class="text-sm text-accent m-0">形式: {matchesData.playoffs.format}</p>
@@ -321,16 +321,16 @@ const pageKeywords = [
                         day: 'numeric' 
                       })}（{playoffDay.day}）
                     </h4>
-                    <span class="text-sm text-silver">{playoffDay.description}</span>
+                    <span class="text-sm text-dark-light">{playoffDay.description}</span>
                   </header>
                   
                   <div class="flex flex-col gap-3">
                     {playoffDay.matches.map((match) => (
-                      <div class="bg-primary border border-tertiary rounded p-3 text-center">
+                      <div class="bg-surface border border-tertiary rounded p-3 text-center">
                         <span class="block text-xs text-accent font-semibold mb-2">{match.round}</span>
                         <div class="text-sm text-dark">
                           <span>{match.team1}</span>
-                          <span class="mx-2 text-silver">vs</span>
+                          <span class="mx-2 text-dark-light">vs</span>
                           <span>{match.team2}</span>
                         </div>
                       </div>

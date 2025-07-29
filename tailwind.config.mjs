@@ -9,15 +9,24 @@ export default {
         domination: '#ff4444', 
         sorcery: '#8a2be2',
         resolve: '#228b22',
-        // ZETA-inspired modern theme colors
-        primary: '#ffffff',        // Clean white background
-        secondary: '#f8f9fa',      // Light gray background
-        tertiary: '#e9ecef',       // Subtle gray for borders
-        dark: '#212529',           // Dark text
-        accent: '#ceff00',         // ZETA neon green/yellow
-        'accent-hover': '#b8e600', // Darker accent for hover states
-        gold: '#ffd700',           // Keep for tournament elements
-        silver: '#6c757d',         // Muted gray text
+        // Soft, gentle color palette
+        primary: '#fafbfc',        // Very light blue-gray background
+        secondary: '#f1f4f8',      // Soft blue-gray secondary
+        tertiary: '#e2e8f0',       // Light border color
+        surface: '#ffffff',        // Pure white for cards
+        dark: '#334155',           // Softer dark text
+        'dark-light': '#64748b',   // Medium gray text
+        accent: '#8b5cf6',         // Soft purple accent
+        'accent-light': '#a78bfa', // Lighter purple
+        'accent-hover': '#7c3aed', // Darker purple for hover
+        success: '#10b981',        // Soft green
+        'success-light': '#86efac',// Light green
+        warning: '#f59e0b',        // Soft amber
+        'warning-light': '#fcd34d',// Light amber
+        danger: '#ef4444',         // Soft red
+        'danger-light': '#fca5a5', // Light red
+        gold: '#f59e0b',           // Softer gold
+        silver: '#94a3b8',         // Softer gray text
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
