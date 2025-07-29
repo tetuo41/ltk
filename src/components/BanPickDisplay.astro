@@ -1,0 +1,127 @@
+---
+import type { ChampionDraft } from '@/types';
+
+export interface Props {
+  draft: ChampionDraft;
+  team1Name: string;
+  team2Name: string;
+}
+
+const { draft, team1Name, team2Name } = Astro.props;
+---
+
+<div class="ban-pick-container bg-primary border border-tertiary rounded-lg p-6 mt-4">
+  <h4 class="text-lg font-semibold text-dark mb-4 text-center border-b border-tertiary pb-2">
+    ドラフト情報
+  </h4>
+  
+  <!-- Bans Section -->
+  <div class="bans-section mb-6">
+    <h5 class="text-sm font-medium text-silver mb-3 uppercase tracking-wide">BAN</h5>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Team 1 Bans -->
+      <div class="team-bans">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+          <span class="text-sm font-medium text-dark">{team1Name}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {draft.bans.team1.map((champion) => (
+            <span class="bg-red-50 border border-red-200 text-red-700 text-xs px-2 py-1 rounded font-medium">
+              {champion}
+            </span>
+          ))}
+          {draft.bans.team1.length === 0 && (
+            <span class="text-xs text-silver italic">バン情報なし</span>
+          )}
+        </div>
+      </div>
+      
+      <!-- Team 2 Bans -->
+      <div class="team-bans">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+          <span class="text-sm font-medium text-dark">{team2Name}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {draft.bans.team2.map((champion) => (
+            <span class="bg-red-50 border border-red-200 text-red-700 text-xs px-2 py-1 rounded font-medium">
+              {champion}
+            </span>
+          ))}
+          {draft.bans.team2.length === 0 && (
+            <span class="text-xs text-silver italic">バン情報なし</span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Picks Section -->
+  <div class="picks-section">
+    <h5 class="text-sm font-medium text-silver mb-3 uppercase tracking-wide">PICK</h5>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Team 1 Picks -->
+      <div class="team-picks">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 bg-accent rounded-full"></div>
+          <span class="text-sm font-medium text-dark">{team1Name}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {draft.picks.team1.map((champion, index) => (
+            <span class="bg-accent/10 border border-accent/30 text-dark text-xs px-2 py-1 rounded font-medium relative">
+              <span class="absolute -top-1 -left-1 bg-accent text-dark text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold text-[10px]">
+                {index + 1}
+              </span>
+              {champion}
+            </span>
+          ))}
+          {draft.picks.team1.length === 0 && (
+            <span class="text-xs text-silver italic">ピック情報なし</span>
+          )}
+        </div>
+      </div>
+      
+      <!-- Team 2 Picks -->
+      <div class="team-picks">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 bg-accent rounded-full"></div>
+          <span class="text-sm font-medium text-dark">{team2Name}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {draft.picks.team2.map((champion, index) => (
+            <span class="bg-accent/10 border border-accent/30 text-dark text-xs px-2 py-1 rounded font-medium relative">
+              <span class="absolute -top-1 -left-1 bg-accent text-dark text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold text-[10px]">
+                {index + 1}
+              </span>
+              {champion}
+            </span>
+          ))}
+          {draft.picks.team2.length === 0 && (
+            <span class="text-xs text-silver italic">ピック情報なし</span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ban-pick-container {
+    transition: all 0.2s ease;
+  }
+  
+  .ban-pick-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  @media (max-width: 768px) {
+    .ban-pick-container {
+      padding: 1rem;
+    }
+    
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
