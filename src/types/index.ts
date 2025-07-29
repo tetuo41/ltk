@@ -22,6 +22,7 @@ export type {
   MatchStatus,
   Division,
   PlayoffRound,
+  ChampionDraft,
   MatchResult,
   Match,
   MatchDay,

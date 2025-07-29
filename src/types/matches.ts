@@ -4,11 +4,24 @@ export type MatchStatus = 'scheduled' | 'completed' | 'live' | 'cancelled';
 export type Division = 'CORE' | 'NEXT';
 export type PlayoffRound = '準決勝' | '3位決定戦' | '決勝';
 
+export interface ChampionDraft {
+  bans: {
+    team1: string[];  // Champion names that team1 banned
+    team2: string[];  // Champion names that team2 banned
+  };
+  picks: {
+    team1: string[];  // Champion names that team1 picked (in pick order)
+    team2: string[];  // Champion names that team2 picked (in pick order)
+  };
+  draft_order?: string[];  // Complete draft sequence for advanced display
+}
+
 export interface MatchResult {
   winner: string;
   score: string;
   duration?: string;
   mvp?: string;
+  draft?: ChampionDraft;  // Ban/pick information
 }
 
 export interface Match {
@@ -64,7 +77,7 @@ export interface StandingsEntry {
   team: string;
   wins: number;
   losses: number;
-  win_rate: number;
+  winRate: number;
   points: number;
 }
 
