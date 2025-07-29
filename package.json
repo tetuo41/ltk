@@ -10,7 +10,9 @@
     "preview": "astro preview --host 0.0.0.0",
     "astro": "astro",
     "check": "astro check",
-    "lint": "eslint src --ext .astro,.ts,.tsx"
+    "lint": "eslint src --ext .astro,.ts,.tsx",
+    "domain:setup": "./scripts/setup-domain.sh",
+    "domain:status": "netlify api listDnsRecords --zone=shiai.games"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",

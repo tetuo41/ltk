@@ -1,0 +1,38 @@
+# Netlify DNS Zone Configuration for shiai.games
+# This file documents the DNS setup for Infrastructure as Code
+
+[dns_zone]
+domain = "shiai.games"
+
+# DNS Records Configuration
+[[dns_records]]
+type = "A"
+name = "ltk-sbb"
+value = "75.2.60.5"  # Netlify Load Balancer IP
+ttl = 300
+
+[[dns_records]]
+type = "CNAME"
+name = "ltk-sbb"
+value = "ltk-fansite.netlify.app"
+ttl = 300
+
+[[dns_records]]
+type = "A"
+name = "@"
+value = "75.2.60.5"
+ttl = 300
+
+# Mail records (if needed)
+[[dns_records]]
+type = "MX"
+name = "@"
+value = "10 mail.shiai.games"
+ttl = 3600
+
+# Additional subdomains can be added here
+# [[dns_records]]
+# type = "CNAME"
+# name = "www"
+# value = "shiai.games"
+# ttl = 300

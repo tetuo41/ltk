@@ -158,7 +158,7 @@ Use `curl http://localhost:4321` to verify the development server is responding 
 
 ### Netlify Deployment (Production)
 
-**Current Production Site**: https://ltk-fansite.netlify.app
+**Current Production Site**: https://ltk-sbb.shiai.games (https://ltk-fansite.netlify.app)
 
 #### Netlify Configuration
 ```
