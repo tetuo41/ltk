@@ -1,0 +1,353 @@
+---
+import type { NavItem } from '@/types';
+
+const navItems: NavItem[] = [
+  { href: '#home', label: 'ホーム', active: true },
+  { href: '#teams', label: 'チーム' },
+  { href: '#schedule', label: 'スケジュール' },
+  { href: '#standings', label: '順位表' }
+];
+---
+
+<header class="header">
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>League The k4sen</h1>
+        <span class="season">精霊の花祭り 幽明の境</span>
+      </div>
+      
+      <ul class="nav-menu" role="list">
+        {navItems.map((item) => (
+          <li class="nav-item">
+            <a 
+              href={item.href} 
+              class={`nav-link ${item.active ? 'active' : ''}`}
+              data-nav-link
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      
+      <button class="mobile-menu-toggle" aria-label="メニューを開く" data-mobile-toggle>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // TypeScript for navigation functionality
+  interface NavLinkElement extends HTMLElement {
+    href: string;
+  }
+
+  class Navigation {
+    private navLinks: NodeListOf<NavLinkElement>;
+    private sections: NodeListOf<HTMLElement>;
+    private mobileToggle: HTMLButtonElement | null;
+    private navMenu: HTMLElement | null;
+    private isMenuOpen = false;
+
+    constructor() {
+      this.navLinks = document.querySelectorAll('[data-nav-link]') as NodeListOf<NavLinkElement>;
+      this.sections = document.querySelectorAll('section') as NodeListOf<HTMLElement>;
+      this.mobileToggle = document.querySelector('[data-mobile-toggle]') as HTMLButtonElement;
+      this.navMenu = document.querySelector('.nav-menu');
+      
+      this.init();
+    }
+
+    private init(): void {
+      this.setupSmoothScroll();
+      this.setupScrollSpy();
+      this.setupMobileMenu();
+    }
+
+    private setupSmoothScroll(): void {
+      this.navLinks.forEach(link => {
+        link.addEventListener('click', (e: Event) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href');
+          
+          if (targetId && targetId.startsWith('#')) {
+            const targetSection = document.querySelector(targetId) as HTMLElement;
+            
+            if (targetSection) {
+              const offsetTop = targetSection.offsetTop - 100;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            }
+
+            // Update active state
+            this.updateActiveLink(link);
+            
+            // Close mobile menu if open
+            this.closeMobileMenu();
+          }
+        });
+      });
+    }
+
+    private setupScrollSpy(): void {
+      const observerOptions: IntersectionObserverInit = {
+        root: null,
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            if (id) {
+              const correspondingNavLink = document.querySelector(`[href="#${id}"]`) as NavLinkElement;
+              if (correspondingNavLink) {
+                this.updateActiveLink(correspondingNavLink);
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      this.sections.forEach(section => observer.observe(section));
+    }
+
+    private setupMobileMenu(): void {
+      if (this.mobileToggle) {
+        this.mobileToggle.addEventListener('click', () => {
+          this.toggleMobileMenu();
+        });
+      }
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e: Event) => {
+        const target = e.target as HTMLElement;
+        if (this.isMenuOpen && !target.closest('.nav-container')) {
+          this.closeMobileMenu();
+        }
+      });
+
+      // Close menu on escape key
+      document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && this.isMenuOpen) {
+          this.closeMobileMenu();
+        }
+      });
+    }
+
+    private updateActiveLink(activeLink: NavLinkElement): void {
+      this.navLinks.forEach(link => link.classList.remove('active'));
+      activeLink.classList.add('active');
+    }
+
+    private toggleMobileMenu(): void {
+      if (this.isMenuOpen) {
+        this.closeMobileMenu();
+      } else {
+        this.openMobileMenu();
+      }
+    }
+
+    private openMobileMenu(): void {
+      this.isMenuOpen = true;
+      this.navMenu?.classList.add('mobile-open');
+      this.mobileToggle?.classList.add('open');
+      this.mobileToggle?.setAttribute('aria-label', 'メニューを閉じる');
+      document.body.style.overflow = 'hidden';
+    }
+
+    private closeMobileMenu(): void {
+      this.isMenuOpen = false;
+      this.navMenu?.classList.remove('mobile-open');
+      this.mobileToggle?.classList.remove('open');
+      this.mobileToggle?.setAttribute('aria-label', 'メニューを開く');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Initialize navigation when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new Navigation();
+  });
+</script>
+
+<style>
+  .header {
+    background: rgba(12, 22, 44, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--color-primary);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all var(--transition-normal);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .logo h1 {
+    color: var(--color-text-light);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+
+  .season {
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    position: relative;
+    display: block;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text-light);
+    background: rgba(200, 155, 60, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .nav-link.active {
+    color: var(--color-text-light);
+    background: rgba(200, 155, 60, 0.2);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--color-primary);
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+    gap: 4px;
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    transition: all var(--transition-fast);
+    transform-origin: center;
+  }
+
+  .mobile-menu-toggle.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .mobile-menu-toggle.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .nav-container {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .logo h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-surface-dark);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-6) var(--space-4);
+      border-top: 1px solid var(--color-border);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+    }
+
+    .nav-menu.mobile-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-link {
+      padding: var(--space-4);
+      border-bottom: 1px solid rgba(70, 55, 20, 0.3);
+      text-align: center;
+      font-size: var(--font-size-lg);
+    }
+
+    .nav-link:last-child {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo h1 {
+      font-size: var(--font-size-lg);
+    }
+
+    .season {
+      font-size: var(--font-size-xs);
+    }
+
+    .nav-container {
+      padding: var(--space-2) var(--space-3);
+    }
+  }
+</style>

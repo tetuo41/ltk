@@ -1,0 +1,336 @@
+{
+  "teams": {
+    "precision_diadem": {
+      "id": "precision",
+      "name": "Precision Diadem",
+      "shortName": "PD",
+      "color": "#0596aa",
+      "logo": "",
+      "core_players": [
+        {
+          "name": "YUKIO",
+          "role": "Top",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "千燈ゆうひ",
+          "role": "Jungle",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "Kamito",
+          "role": "Mid",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "SHAKA",
+          "role": "ADC",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "神楽めあ",
+          "role": "Support",
+          "rank": "エメラルド"
+        }
+      ],
+      "next_players": [
+        {
+          "name": "まざー3",
+          "role": "Top",
+          "rank": "シルバー"
+        },
+        {
+          "name": "天月",
+          "role": "Jungle",
+          "rank": "シルバー"
+        },
+        {
+          "name": "夢野あかり",
+          "role": "Mid",
+          "rank": "シルバー"
+        },
+        {
+          "name": "兎咲ミミ",
+          "role": "ADC",
+          "rank": "シルバー"
+        },
+        {
+          "name": "しろまんた",
+          "role": "Support",
+          "rank": "シルバー"
+        }
+      ],
+      "coaches": [
+        {
+          "name": "Zerost",
+          "role": "Head Coach"
+        },
+        {
+          "name": "Ceros",
+          "role": "Assistant Coach"
+        }
+      ]
+    },
+    "domination_crown": {
+      "id": "domination",
+      "name": "Domination Crown",
+      "shortName": "DC",
+      "color": "#8f2d56",
+      "logo": "",
+      "core_players": [
+        {
+          "name": "歌衣メイカ",
+          "role": "Top",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "葛葉",
+          "role": "Jungle",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "k4sen",
+          "role": "Mid",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "鷹宮リオン",
+          "role": "ADC",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "昏昏アリア",
+          "role": "Support",
+          "rank": "エメラルド"
+        }
+      ],
+      "next_players": [
+        {
+          "name": "ta1yo",
+          "role": "Top",
+          "rank": "シルバー"
+        },
+        {
+          "name": "ゆふな",
+          "role": "Jungle",
+          "rank": "シルバー"
+        },
+        {
+          "name": "空澄セナ",
+          "role": "Mid",
+          "rank": "シルバー"
+        },
+        {
+          "name": "天帝フォルテ",
+          "role": "ADC",
+          "rank": "シルバー"
+        },
+        {
+          "name": "白那しずく",
+          "role": "Support",
+          "rank": "シルバー"
+        }
+      ],
+      "coaches": [
+        {
+          "name": "らいじん",
+          "role": "Head Coach"
+        },
+        {
+          "name": "Eugeo",
+          "role": "Assistant Coach"
+        }
+      ]
+    },
+    "sorcery_tiara": {
+      "id": "sorcery",
+      "name": "Sorcery Tiara",
+      "shortName": "ST",
+      "color": "#9c59b6",
+      "logo": "",
+      "core_players": [
+        {
+          "name": "mittiii",
+          "role": "Top",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "kinako",
+          "role": "Jungle",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "AlphaAzur",
+          "role": "Mid",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "なぎさっち",
+          "role": "ADC",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "うるか",
+          "role": "Support",
+          "rank": "エメラルド"
+        }
+      ],
+      "next_players": [
+        {
+          "name": "胡桃のあ",
+          "role": "Top",
+          "rank": "シルバー"
+        },
+        {
+          "name": "天宮こころ",
+          "role": "Jungle",
+          "rank": "シルバー"
+        },
+        {
+          "name": "鈴木ノリアキ",
+          "role": "Mid",
+          "rank": "シルバー"
+        },
+        {
+          "name": "橘ひなの",
+          "role": "ADC",
+          "rank": "シルバー"
+        },
+        {
+          "name": "トナカイト",
+          "role": "Support",
+          "rank": "シルバー"
+        }
+      ],
+      "coaches": [
+        {
+          "name": "たぬき忍者",
+          "role": "Head Coach"
+        },
+        {
+          "name": "Qoo",
+          "role": "Assistant Coach"
+        }
+      ]
+    },
+    "resolve_regalia": {
+      "id": "resolve",
+      "name": "Resolve Regalia",
+      "shortName": "RR",
+      "color": "#27ae60",
+      "logo": "",
+      "core_players": [
+        {
+          "name": "焼きパン",
+          "role": "Top",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "Killin9Hit",
+          "role": "Jungle",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "乾伸一郎",
+          "role": "Mid",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "とおこ",
+          "role": "ADC",
+          "rank": "エメラルド"
+        },
+        {
+          "name": "たかやスペシャル",
+          "role": "Support",
+          "rank": "エメラルド"
+        }
+      ],
+      "next_players": [
+        {
+          "name": "狐白うる",
+          "role": "Top",
+          "rank": "シルバー"
+        },
+        {
+          "name": "夜よいち",
+          "role": "Jungle",
+          "rank": "シルバー"
+        },
+        {
+          "name": "アステル・レダ",
+          "role": "Mid",
+          "rank": "シルバー"
+        },
+        {
+          "name": "白波らむね",
+          "role": "ADC",
+          "rank": "シルバー"
+        },
+        {
+          "name": "日向まる",
+          "role": "Support",
+          "rank": "シルバー"
+        }
+      ],
+      "coaches": [
+        {
+          "name": "しゃるる",
+          "role": "Head Coach"
+        },
+        {
+          "name": "Day1",
+          "role": "Assistant Coach"
+        }
+      ]
+    }
+  },
+  "tournament_info": {
+    "name": "League The k4sen: League of Legends Streamer's Championship",
+    "season": "精霊の花祭り 幽明の境",
+    "supported_by": "Riot Games",
+    "host": "k4sen (ZETA DIVISION)",
+    "start_date": "2025-06-25",
+    "end_date": "2025-08-27",
+    "regular_season": {
+      "start": "2025-06-25",
+      "end": "2025-08-06"
+    },
+    "playoffs": {
+      "start": "2025-08-26",
+      "end": "2025-08-27"
+    },
+    "format": {
+      "teams": 4,
+      "players_per_team": 12,
+      "total_players": 48,
+      "divisions": {
+        "core": {
+          "description": "歴戦のLoLストリーマー",
+          "rank_requirement": "エメラルド以上",
+          "players_per_team": 5
+        },
+        "next": {
+          "description": "次世代を担うストリーマー",
+          "rank_requirement": "シルバー以下",
+          "players_per_team": 5
+        }
+      },
+      "coaches_per_team": 2
+    },
+    "streaming": {
+      "main_channel": "thek4sen",
+      "platforms": ["Twitch", "YouTube"],
+      "commentators": [
+        {
+          "name": "Jaeger",
+          "role": "Play by Play"
+        },
+        {
+          "name": "Recruit",
+          "role": "Color Commentary"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,383 @@
+---
+import type { Team, TeamRecord, TeamCardProps } from '@/types';
+
+export interface Props extends TeamCardProps {}
+
+const { team, coreRecord, nextRecord } = Astro.props;
+
+// Calculate combined record
+const combinedWins = (coreRecord?.wins || 0) + (nextRecord?.wins || 0);
+const combinedLosses = (coreRecord?.losses || 0) + (nextRecord?.losses || 0);
+const combinedWinRate = combinedWins + combinedLosses > 0 
+  ? Math.round((combinedWins / (combinedWins + combinedLosses)) * 100) 
+  : 0;
+---
+
+<article class="team-card" data-team={team.id} style={`--team-color: ${team.color}`}>
+  <header class="team-header">
+    <div class="team-title">
+      <h3 class="team-name">{team.name}</h3>
+      <span class="team-short-name">{team.shortName}</span>
+    </div>
+    
+    <div class="team-record">
+      <span class="record-text">
+        <span class="wins">{combinedWins}</span>
+        <span class="separator">-</span>
+        <span class="losses">{combinedLosses}</span>
+      </span>
+      <span class="win-rate">{combinedWinRate}%</span>
+    </div>
+  </header>
+
+  <div class="team-content">
+    <!-- CORE Players Section -->
+    <section class="roster-section core-section">
+      <h4 class="section-title">
+        <span class="section-icon">⚔️</span>
+        CORE選手
+        {coreRecord && (
+          <span class="section-record">
+            ({coreRecord.wins}-{coreRecord.losses})
+          </span>
+        )}
+      </h4>
+      
+      <ul class="player-list" role="list">
+        {team.core_players.map((player) => (
+          <li class="player-item core-player">
+            <div class="player-info">
+              <span class="player-name">{player.name}</span>
+              <span class="player-role" title={`ポジション: ${player.role}`}>
+                {player.role}
+              </span>
+            </div>
+            <span class="player-rank">{player.rank}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- NEXT Players Section -->
+    <section class="roster-section next-section">
+      <h4 class="section-title">
+        <span class="section-icon">🌟</span>
+        NEXT選手
+        {nextRecord && (
+          <span class="section-record">
+            ({nextRecord.wins}-{nextRecord.losses})
+          </span>
+        )}
+      </h4>
+      
+      <ul class="player-list" role="list">
+        {team.next_players.map((player) => (
+          <li class="player-item next-player">
+            <div class="player-info">
+              <span class="player-name">{player.name}</span>
+              <span class="player-role" title={`ポジション: ${player.role}`}>
+                {player.role}
+              </span>
+            </div>
+            <span class="player-rank">{player.rank}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Coaches Section -->
+    <section class="roster-section coaches-section">
+      <h4 class="section-title">
+        <span class="section-icon">🎯</span>
+        コーチ
+      </h4>
+      
+      <ul class="coach-list" role="list">
+        {team.coaches.map((coach) => (
+          <li class="coach-item">
+            <span class="coach-name">{coach.name}</span>
+            <span class="coach-role">{coach.role}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  <div class="team-stats">
+    <div class="stat-item">
+      <span class="stat-label">総合戦績</span>
+      <span class="stat-value">{combinedWins}勝{combinedLosses}敗</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">勝率</span>
+      <span class="stat-value">{combinedWinRate}%</span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .team-card {
+    background: rgba(12, 22, 44, 0.9);
+    border: 2px solid var(--team-color);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--team-color), transparent);
+  }
+
+  .team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(200, 155, 60, 0.1);
+  }
+
+  .team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .team-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .team-name {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-light);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .team-short-name {
+    font-size: var(--font-size-sm);
+    color: var(--team-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .team-record {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+  }
+
+  .record-text {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-light);
+  }
+
+  .wins {
+    color: var(--color-success);
+  }
+
+  .separator {
+    color: var(--color-text-secondary);
+    margin: 0 var(--space-1);
+  }
+
+  .losses {
+    color: var(--color-error);
+  }
+
+  .win-rate {
+    font-size: var(--font-size-sm);
+    color: var(--team-color);
+    font-weight: 500;
+  }
+
+  .team-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .roster-section {
+    position: relative;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-base);
+    color: var(--team-color);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+  }
+
+  .section-icon {
+    font-size: var(--font-size-sm);
+  }
+
+  .section-record {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+
+  .player-list,
+  .coach-list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+  }
+
+  .player-item,
+  .coach-item {
+    background: rgba(70, 55, 20, 0.6);
+    border: 1px solid rgba(200, 155, 60, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
+    transition: all var(--transition-fast);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .player-item:hover,
+  .coach-item:hover {
+    background: rgba(70, 55, 20, 0.8);
+    border-color: var(--team-color);
+    transform: translateX(4px);
+  }
+
+  .core-player {
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .next-player {
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .player-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .player-name,
+  .coach-name {
+    font-weight: 500;
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+  }
+
+  .player-role,
+  .coach-role {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .player-rank {
+    font-size: var(--font-size-xs);
+    color: var(--team-color);
+    font-weight: 500;
+    padding: var(--space-1) var(--space-2);
+    background: rgba(200, 155, 60, 0.1);
+    border-radius: var(--radius-sm);
+  }
+
+  .team-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .stat-value {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-weight: 600;
+  }
+
+  /* Team-specific styling */
+  .team-card[data-team="precision"] {
+    --team-color: var(--color-precision);
+  }
+
+  .team-card[data-team="domination"] {
+    --team-color: var(--color-domination);
+  }
+
+  .team-card[data-team="sorcery"] {
+    --team-color: var(--color-sorcery);
+  }
+
+  .team-card[data-team="resolve"] {
+    --team-color: var(--color-resolve);
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .team-card {
+      padding: var(--space-4);
+    }
+
+    .team-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .team-record {
+      align-items: flex-start;
+    }
+
+    .team-stats {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .player-info {
+      gap: 2px;
+    }
+
+    .section-title {
+      font-size: var(--font-size-sm);
+    }
+
+    .player-item,
+    .coach-item {
+      padding: var(--space-2);
+    }
+  }
+</style>

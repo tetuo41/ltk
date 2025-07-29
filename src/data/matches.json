@@ -1,0 +1,416 @@
+{
+  "schedule": [
+    {
+      "date": "2025-06-25",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 1,
+      "description": "開幕戦",
+      "matches": [
+        {
+          "id": "match_001",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_002",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_003",
+          "division": "CORE",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_004",
+          "division": "NEXT",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-14",
+      "day": "月曜日",
+      "time": "19:00",
+      "round": 2,
+      "description": "第2節",
+      "matches": [
+        {
+          "id": "match_005",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_006",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_007",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_008",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-15",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 3,
+      "description": "第3節",
+      "matches": [
+        {
+          "id": "match_009",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_010",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_011",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_012",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-23",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 4,
+      "description": "第4節",
+      "matches": [
+        {
+          "id": "match_013",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_014",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_015",
+          "division": "CORE",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "1-0"
+          }
+        },
+        {
+          "id": "match_016",
+          "division": "NEXT",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-29",
+      "day": "火曜日",
+      "time": "19:00",
+      "round": 5,
+      "description": "第5節",
+      "matches": [
+        {
+          "id": "match_017",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_018",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_019",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_020",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        }
+      ]
+    },
+    {
+      "date": "2025-08-06",
+      "day": "木曜日",
+      "time": "19:00",
+      "round": 6,
+      "description": "最終節",
+      "matches": [
+        {
+          "id": "match_021",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_022",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_023",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_024",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        }
+      ]
+    }
+  ],
+  "playoffs": {
+    "format": "Double Elimination",
+    "location": "オフライン開催",
+    "schedule": [
+      {
+        "date": "2025-08-26",
+        "day": "火曜日",
+        "description": "プレイオフ1日目",
+        "matches": [
+          {
+            "id": "playoff_001",
+            "round": "準決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          },
+          {
+            "id": "playoff_002",
+            "round": "準決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          }
+        ]
+      },
+      {
+        "date": "2025-08-27",
+        "day": "水曜日",
+        "description": "プレイオフ2日目・決勝",
+        "matches": [
+          {
+            "id": "playoff_003",
+            "round": "3位決定戦",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          },
+          {
+            "id": "playoff_004",
+            "round": "決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          }
+        ]
+      }
+    ]
+  },
+  "current_standings": {
+    "core": [
+      {
+        "rank": 1,
+        "team": "sorcery_tiara",
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 0.75,
+        "points": 3
+      },
+      {
+        "rank": 2,
+        "team": "domination_crown",
+        "wins": 2,
+        "losses": 2,
+        "win_rate": 0.5,
+        "points": 2
+      },
+      {
+        "rank": 3,
+        "team": "resolve_regalia",
+        "wins": 2,
+        "losses": 2,
+        "win_rate": 0.5,
+        "points": 2
+      },
+      {
+        "rank": 4,
+        "team": "precision_diadem",
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 0.25,
+        "points": 1
+      }
+    ],
+    "next": [
+      {
+        "rank": 1,
+        "team": "domination_crown",
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 0.75,
+        "points": 3
+      },
+      {
+        "rank": 2,
+        "team": "precision_diadem",
+        "wins": 2,
+        "losses": 2,
+        "win_rate": 0.5,
+        "points": 2
+      },
+      {
+        "rank": 3,
+        "team": "sorcery_tiara",
+        "wins": 2,
+        "losses": 2,
+        "win_rate": 0.5,
+        "points": 2
+      },
+      {
+        "rank": 4,
+        "team": "resolve_regalia",
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 0.25,
+        "points": 1
+      }
+    ]
+  }
+}

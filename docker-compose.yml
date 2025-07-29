@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Development service
+  ltk-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ltk-astro-dev
+    ports:
+      - "4321:4321"
+    volumes:
+      - .:/app:Z
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - ASTRO_HOST=0.0.0.0
+      - ASTRO_PORT=4321
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4321/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - ltk-network
+
+  # Production service
+  ltk-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: ltk-astro-prod
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - ltk-network
+    profiles:
+      - production
+
+  # Nginx reverse proxy (optional)
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: ltk-nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ltk-prod
+    restart: unless-stopped
+    networks:
+      - ltk-network
+    profiles:
+      - production
+      - proxy
+
+networks:
+  ltk-network:
+    driver: bridge
+    name: ltk-network
+
+volumes:
+  node_modules:
+    name: ltk-node-modules
