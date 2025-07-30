@@ -4,6 +4,13 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  i18n: {
+    defaultLocale: 'ja',
+    locales: ['ja', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   integrations: [
     tailwind(),
     sitemap({
@@ -11,12 +18,16 @@ export default defineConfig({
       priority: 0.7,
       lastmod: new Date(),
       entryLimit: 10000,
-      // Custom sitemap entries
+      // Custom sitemap entries for both languages
       customPages: [
         'https://ltk-sbb.shiai.games/',
+        'https://ltk-sbb.shiai.games/en/',
         'https://ltk-sbb.shiai.games/#standings',
         'https://ltk-sbb.shiai.games/#teams',
-        'https://ltk-sbb.shiai.games/#schedule'
+        'https://ltk-sbb.shiai.games/#schedule',
+        'https://ltk-sbb.shiai.games/en/#standings',
+        'https://ltk-sbb.shiai.games/en/#teams',
+        'https://ltk-sbb.shiai.games/en/#schedule'
       ]
     })
   ],

@@ -1,0 +1,208 @@
+{
+  "common": {
+    "language": "言語",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "close": "閉じる",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "search": "検索",
+    "filter": "フィルター",
+    "all": "すべて",
+    "more": "もっと見る",
+    "less": "閉じる"
+  },
+  
+  "navigation": {
+    "home": "ホーム",
+    "teams": "チーム",
+    "schedule": "スケジュール", 
+    "standings": "順位表",
+    "statistics": "統計データ",
+    "clips": "切り抜き動画"
+  },
+  
+  "homepage": {
+    "title": "League The k4sen",
+    "subtitle": "League of Legends Streamer's Championship",
+    "season": "精霊の花祭り 幽明の境",
+    "supportedBy": "Supported by {{sponsor}}",
+    "stats": {
+      "teams": "チーム",
+      "streamers": "ストリーマー", 
+      "divisions": "部門"
+    },
+    "phases": {
+      "regularSeason": "レギュラーステージ",
+      "playoffs": "プレイオフ"
+    }
+  },
+  
+  "standings": {
+    "title": "現在の順位",
+    "description": "CORE・NEXT統合順位と部門別順位表",
+    "combined": "総合順位",
+    "division": {
+      "core": "CORE部門",
+      "next": "NEXT部門"
+    },
+    "columns": {
+      "rank": "順位",
+      "team": "チーム",
+      "wins": "勝利",
+      "losses": "敗北",
+      "winrate": "勝率",
+      "points": "ポイント"
+    }
+  },
+  
+  "teams": {
+    "title": "参加チーム",
+    "description": "{{totalTeams}}チーム、総勢{{totalPlayers}}名のストリーマーが熱戦を繰り広げます",
+    "record": "{{wins}}勝{{losses}}敗 ({{winrate}}%)",
+    "roles": {
+      "core": "CORE",
+      "next": "NEXT", 
+      "coach": "コーチ"
+    },
+    "teamNames": {
+      "precision_diadem": "Precision Diadem",
+      "domination_crown": "Domination Crown", 
+      "sorcery_tiara": "Sorcery Tiara",
+      "resolve_regalia": "Resolve Regalia"
+    }
+  },
+  
+  "schedule": {
+    "title": "試合日程",
+    "description": "レギュラーステージとプレイオフの日程",
+    "regularSeason": "レギュラーステージ",
+    "playoffs": "プレイオフ",
+    "status": {
+      "scheduled": "予定",
+      "completed": "完了",
+      "live": "ライブ",
+      "postponed": "延期"
+    },
+    "vs": "vs",
+    "winner": "勝者",
+    "playerLineup": "選手起用",
+    "format": "形式",
+    "location": "開催"
+  },
+  
+  "statistics": {
+    "title": "統計データ",
+    "description": "詳細な選手成績、チーム分析、チャンピオン統計",
+    "tabs": {
+      "playerStats": "選手統計",
+      "teamPerformance": "チーム成績",
+      "championAnalytics": "チャンピオン分析", 
+      "matchInsights": "試合分析"
+    },
+    "playerStats": {
+      "title": "選手成績一覧",
+      "description": "全選手の詳細パフォーマンス統計",
+      "filters": {
+        "allDivisions": "全部門",
+        "coreOnly": "CORE部門のみ",
+        "nextOnly": "NEXT部門のみ"
+      },
+      "columns": {
+        "player": "選手名",
+        "team": "チーム",
+        "role": "ポジション",
+        "gamesPlayed": "試合数",
+        "wins": "勝利",
+        "losses": "敗北",
+        "winrate": "勝率",
+        "avgKDA": "平均KDA",
+        "avgDamage": "平均ダメージ",
+        "avgGold": "平均ゴールド"
+      }
+    },
+    "teamPerformance": {
+      "title": "チーム成績比較",
+      "description": "各チームの総合パフォーマンス分析"
+    },
+    "championAnalytics": {
+      "title": "チャンピオン分析",
+      "description": "メタ分析とピック/バン統計"
+    },
+    "matchInsights": {
+      "title": "試合詳細分析", 
+      "description": "試合展開と重要な瞬間の分析"
+    }
+  },
+  
+  "clips": {
+    "title": "LTK 切り抜き動画",
+    "subtitle": "League The k4sen の名シーン・ハイライト集",
+    "description": "プロストリーマーたちの神プレイから面白シーンまで、LTKの魅力的な瞬間をまとめて視聴できます",
+    "stats": {
+      "regularVideos": "通常動画",
+      "shortVideos": "ショート動画", 
+      "totalVideos": "総動画数"
+    },
+    "filters": {
+      "all": "すべて",
+      "regular": "通常動画",
+      "shorts": "ショート動画"
+    },
+    "search": {
+      "placeholder": "動画を検索...",
+      "noResults": "動画が見つかりません",
+      "noResultsDescription": "{{type}}がまだありません。<br/>しばらくしてから再度お試しください。"
+    },
+    "video": {
+      "watch": "視聴する",
+      "watchShort": "視聴",
+      "views": "{{count}} 回視聴",
+      "viewsShort": "{{count}}K 回視聴",
+      "loadMore": "さらに表示 ({{count}}件)",
+      "loading": "読み込み中...",
+      "error": "読み込みエラー",
+      "errorDescription": "動画の読み込み中にエラーが発生しました。<br/>ページを再読み込みしてお試しください。"
+    }
+  },
+  
+  "seo": {
+    "homepage": {
+      "title": "League The k4sen (LTK) 2025 - {{season}} | LoLストリーマー大会",
+      "description": "{{tournamentName}} - {{season}}。k4sen(ZETA DIVISION)主催のLeague of Legendsストリーマー大会。4チーム48名のプロストリーマーによる熱戦。順位表・試合結果・チーム情報を更新。"
+    },
+    "statistics": {
+      "title": "LTK 統計データ | 詳細な選手・チーム分析 | League The k4sen",
+      "description": "League The k4sen(LTK)の詳細統計データ。選手成績、チーム分析、チャンピオン統計を包括的に分析。プロストリーマーたちのパフォーマンス指標を完全網羅。"
+    },
+    "clips": {
+      "title": "LTK 切り抜き動画 | League The k4sen ハイライト集",
+      "description": "League The k4sen(LTK)の名シーン・ハイライト動画を集約。ショート動画と長編切り抜きを分けて見やすく整理。プロストリーマーたちの神プレイ・面白シーンをまとめて視聴。"
+    }
+  },
+  
+  "footer": {
+    "copyright": "© 2025 League The k4sen. All rights reserved.",
+    "organizedBy": "主催: {{organizer}}",
+    "supportedBy": "協力: {{supporter}}"
+  },
+  
+  "errors": {
+    "pageNotFound": "ページが見つかりません",
+    "serverError": "サーバーエラーが発生しました",
+    "networkError": "ネットワークエラーが発生しました",
+    "retry": "再試行する",
+    "goHome": "ホームに戻る"
+  },
+  
+  "time": {
+    "justNow": "数秒前",
+    "minutesAgo": "{{count}}分前",
+    "hoursAgo": "{{count}}時間前", 
+    "daysAgo": "{{count}}日前",
+    "monthsAgo": "{{count}}ヶ月前",
+    "yearsAgo": "{{count}}年前"
+  }
+}

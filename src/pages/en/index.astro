@@ -1,4 +1,5 @@
 ---
+// English version of the homepage
 import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import TeamCard from '@/components/TeamCard.astro';
@@ -11,10 +12,8 @@ import Footer from '@/components/Footer.astro';
 import TranslationProvider from '@/components/TranslationProvider.astro';
 
 import { 
-  detectLanguageFromPath,
   loadTranslations,
-  createTranslationFunction,
-  getLocalizedMeta
+  createTranslationFunction
 } from '@/utils/i18n';
 
 import type {
@@ -41,8 +40,8 @@ const matchResults = matchResultsRaw as MatchResultEntry[];
 // Extract tournament info
 const tournamentInfo = teamsData.tournament_info;
 
-// Get current language and load translations
-const currentLang = Astro.locals?.lang || detectLanguageFromPath(Astro.url.pathname);
+// Load English translations
+const currentLang = 'en';
 const translations = await loadTranslations(currentLang);
 const t = createTranslationFunction(translations);
 
@@ -56,7 +55,7 @@ function calculateTeamRecords(): Record<string, { core: TeamRecord; next: TeamRe
   // Initialize records for all teams
   teams.forEach(team => {
     const teamKey = Object.keys(teamsData.teams).find(
-      key => teamsData.teams[key].name === team.name
+      key => teamsData.teams[key]?.name === team.name
     );
     if (teamKey) {
       records[teamKey] = {
@@ -87,9 +86,11 @@ function calculateTeamRecords(): Record<string, { core: TeamRecord; next: TeamRe
   Object.keys(records).forEach(teamKey => {
     ['core', 'next'].forEach(division => {
       const div = division as 'core' | 'next';
-      const record = records[teamKey][div];
-      const total = record.wins + record.losses;
-      record.winRate = total > 0 ? record.wins / total : 0;
+      const record = records[teamKey]?.[div];
+      if (record) {
+        const total = record.wins + record.losses;
+        record.winRate = total > 0 ? record.wins / total : 0;
+      }
     });
   });
 
@@ -102,7 +103,7 @@ const teamRecords = calculateTeamRecords();
 const coreStandings: StandingsEntry[] = matchesData.current_standings.core;
 const nextStandings: StandingsEntry[] = matchesData.current_standings.next;
 
-// SEO meta - Enhanced for Google search visibility with i18n
+// SEO meta - English version
 const pageTitle = t('seo.homepage.title', { 
   season: tournamentInfo.season 
 });
@@ -113,44 +114,28 @@ const pageDescription = t('seo.homepage.description', {
 const pageKeywords = [
   'League of Legends',
   'LoL',
-  'リーグオブレジェンド',
   'k4sen',
-  'か4せん',
   'LTK',
   'League The k4sen',
   'tournament',
-  'トーナメント',
   'streamer',
-  'ストリーマー',
   'championship',
-  'チャンピオンシップ',
   'ZETA DIVISION',
-  'ゼータディビジョン',
   'Riot Games',
-  'ライアットゲームズ',
-  '精霊の花祭り',
-  '幽明の境',
+  'Spirit Blossom Beyond',
   'esports',
-  'eスポーツ',
   'gaming',
-  'ゲーミング',
-  'プロゲーマー',
-  '順位表',
+  'pro gamer',
   'standings',
-  '試合結果',
   'match results',
   'live',
-  'ライブ',
-  '配信',
   'stream',
   'Japan',
-  '日本',
-  'オンライン大会',
+  'online tournament',
   'CORE',
   'NEXT',
   'MVP',
   'ban pick',
-  'バン・ピック',
   'draft'
 ];
 ---
@@ -202,15 +187,15 @@ const pageKeywords = [
             <div class="flex flex-col gap-1">
               <span class="text-sm text-accent font-semibold uppercase tracking-wide">{t('homepage.phases.regularSeason')}</span>
               <span class="text-base text-dark font-medium">
-                {new Date(tournamentInfo.regular_season.start).toLocaleDateString(currentLang === 'ja' ? 'ja-JP' : 'en-US')} -
-                {new Date(tournamentInfo.regular_season.end).toLocaleDateString(currentLang === 'ja' ? 'ja-JP' : 'en-US')}
+                {new Date(tournamentInfo.regular_season.start).toLocaleDateString('en-US')} -
+                {new Date(tournamentInfo.regular_season.end).toLocaleDateString('en-US')}
               </span>
             </div>
             <div class="flex flex-col gap-1">
               <span class="text-sm text-accent font-semibold uppercase tracking-wide">{t('homepage.phases.playoffs')}</span>
               <span class="text-base text-dark font-medium">
-                {new Date(tournamentInfo.playoffs.start).toLocaleDateString(currentLang === 'ja' ? 'ja-JP' : 'en-US')} -
-                {new Date(tournamentInfo.playoffs.end).toLocaleDateString(currentLang === 'ja' ? 'ja-JP' : 'en-US')}
+                {new Date(tournamentInfo.playoffs.start).toLocaleDateString('en-US')} -
+                {new Date(tournamentInfo.playoffs.end).toLocaleDateString('en-US')}
               </span>
             </div>
           </div>
@@ -269,7 +254,7 @@ const pageKeywords = [
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {teams.map((team) => {
             const teamKey = Object.keys(teamsData.teams).find(
-              key => teamsData.teams[key].name === team.name
+              key => teamsData.teams[key]?.name === team.name
             );
             const coreRecord = teamKey ? teamRecords[teamKey]?.core : undefined;
             const nextRecord = teamKey ? teamRecords[teamKey]?.next : undefined;
@@ -305,10 +290,10 @@ const pageKeywords = [
                 <div class="bg-secondary border border-tertiary rounded-lg p-6 transition-all duration-300 hover:border-accent-light hover:shadow-sm">
                   <header class="text-center mb-6 pb-4 border-b border-tertiary">
                     <h4 class="text-xl text-dark mb-2 font-semibold">
-                      {new Date(matchDay.date).toLocaleDateString('ja-JP', {
+                      {new Date(matchDay.date).toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric'
-                      })}（{matchDay.day}）
+                      })} ({matchDay.day})
                     </h4>
                     <span class="block text-sm text-accent font-medium mb-1">{matchDay.time}〜</span>
                     <span class="text-sm text-dark-light">{matchDay.description}</span>
@@ -326,13 +311,13 @@ const pageKeywords = [
                             <div class="flex items-center gap-2 text-sm">
                               <span class="text-dark font-medium">{
                                 teams.find(t => Object.keys(teamsData.teams).find(
-                                  key => teamsData.teams[key].name === t.name && key === match.team1
+                                  key => teamsData.teams[key]?.name === t.name && key === match.team1
                                 ))?.name || match.team1
                               }</span>
-                              <span class="text-dark-light text-xs">vs</span>
+                              <span class="text-dark-light text-xs">{t('schedule.vs')}</span>
                               <span class="text-dark font-medium">{
                                 teams.find(t => Object.keys(teamsData.teams).find(
-                                  key => teamsData.teams[key].name === t.name && key === match.team2
+                                  key => teamsData.teams[key]?.name === t.name && key === match.team2
                                 ))?.name || match.team2
                               }</span>
                             </div>
@@ -341,9 +326,9 @@ const pageKeywords = [
                           {match.result && (
                             <div class="text-right flex flex-col gap-1">
                               <span class="text-xs text-success font-semibold">
-                                勝者: {
+                                {t('schedule.winner')}: {
                                   teams.find(t => Object.keys(teamsData.teams).find(
-                                    key => teamsData.teams[key].name === t.name && key === match.result!.winner
+                                    key => teamsData.teams[key]?.name === t.name && key === match.result!.winner
                                   ))?.name || match.result.winner
                                 }
                               </span>
@@ -352,7 +337,7 @@ const pageKeywords = [
                           )}
 
                           {match.status === 'scheduled' && (
-                            <div class="text-xs text-warning font-medium">予定</div>
+                            <div class="text-xs text-warning font-medium">{t('schedule.status.scheduled')}</div>
                           )}
                         </div>
 
@@ -361,10 +346,10 @@ const pageKeywords = [
                             <MVPDisplay
                               mvpPlayer={match.result.mvp}
                               team1Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team1
+                                key => teamsData.teams[key]?.name === t.name && key === match.team1
                               ))?.name || match.team1}
                               team2Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team2
+                                key => teamsData.teams[key]?.name === t.name && key === match.team2
                               ))?.name || match.team2}
                               team1Id={match.team1}
                               winnerTeamId={match.result.winner}
@@ -377,10 +362,10 @@ const pageKeywords = [
                             <BanPickDisplay
                               draft={match.result.draft}
                               team1Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team1
+                                key => teamsData.teams[key]?.name === t.name && key === match.team1
                               ))?.name || match.team1}
                               team2Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                key => teamsData.teams[key].name === t.name && key === match.team2
+                                key => teamsData.teams[key]?.name === t.name && key === match.team2
                               ))?.name || match.team2}
                             />
                           </div>
@@ -395,10 +380,10 @@ const pageKeywords = [
                                   team1Players={lineupData.team1Players}
                                   team2Players={lineupData.team2Players}
                                   team1Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                    key => teamsData.teams[key].name === t.name && key === match.team1
+                                    key => teamsData.teams[key]?.name === t.name && key === match.team1
                                   ))?.name || match.team1}
                                   team2Name={teams.find(t => Object.keys(teamsData.teams).find(
-                                    key => teamsData.teams[key].name === t.name && key === match.team2
+                                    key => teamsData.teams[key]?.name === t.name && key === match.team2
                                   ))?.name || match.team2}
                                 />
                               </div>
@@ -416,20 +401,20 @@ const pageKeywords = [
 
           <!-- Playoffs Schedule -->
           <div class="bg-surface border border-tertiary rounded-lg p-8 shadow-sm">
-            <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">プレイオフ</h3>
+            <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">{t('schedule.playoffs')}</h3>
             <div class="text-center mb-6 flex justify-center gap-6">
-              <p class="text-sm text-accent m-0">形式: {matchesData.playoffs.format}</p>
-              <p class="text-sm text-accent m-0">開催: {matchesData.playoffs.location}</p>
+              <p class="text-sm text-accent m-0">{t('schedule.format')}: {matchesData.playoffs.format}</p>
+              <p class="text-sm text-accent m-0">{t('schedule.location')}: {matchesData.playoffs.location}</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {matchesData.playoffs.schedule.map((playoffDay) => (
                 <div class="bg-secondary border border-tertiary rounded-lg p-4">
                   <header class="text-center mb-4 pb-2 border-b border-tertiary">
                     <h4 class="text-base text-dark mb-1">
-                      {new Date(playoffDay.date).toLocaleDateString('ja-JP', {
+                      {new Date(playoffDay.date).toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric'
-                      })}（{playoffDay.day}）
+                      })} ({playoffDay.day})
                     </h4>
                     <span class="text-sm text-dark-light">{playoffDay.description}</span>
                   </header>
@@ -440,7 +425,7 @@ const pageKeywords = [
                         <span class="block text-xs text-accent font-semibold mb-2">{match.round}</span>
                         <div class="text-sm text-dark">
                           <span>{match.team1}</span>
-                          <span class="mx-2 text-dark-light">vs</span>
+                          <span class="mx-2 text-dark-light">{t('schedule.vs')}</span>
                           <span>{match.team2}</span>
                         </div>
                       </div>

@@ -1,15 +1,26 @@
 ---
 import type { NavItem } from '@/types';
+import LanguageSelector from '@/components/LanguageSelector.astro';
+import { 
+  detectLanguageFromPath,
+  loadTranslations,
+  createTranslationFunction 
+} from '@/utils/i18n';
+
+// Get current language and load translations
+const currentLang = Astro.locals?.lang || detectLanguageFromPath(Astro.url.pathname);
+const translations = await loadTranslations(currentLang);
+const t = createTranslationFunction(translations);
 
 // Get current page path for active state detection
 const currentPath = Astro.url.pathname;
 
 const navItems: NavItem[] = [
-  { href: '/', label: 'ホーム' },
-  { href: '#teams', label: 'チーム' },
-  { href: '#schedule', label: 'スケジュール' },
-  { href: '#standings', label: '順位表' },
-  { href: '/statistics', label: '統計データ' }
+  { href: '/', label: t('navigation.home') },
+  { href: '#teams', label: t('navigation.teams') },
+  { href: '#schedule', label: t('navigation.schedule') },
+  { href: '#standings', label: t('navigation.standings') },
+  { href: '/statistics', label: t('navigation.statistics') }
 ];
 
 // Function to determine if a nav item should be active
@@ -28,33 +39,38 @@ function isNavItemActive(href: string): boolean {
   <nav>
     <div class="max-w-6xl mx-auto flex justify-between items-center px-5 py-4">
       <div class="flex flex-col">
-        <h1 class="text-silver text-2xl font-bold mb-1">League The k4sen</h1>
-        <span class="text-gold text-sm font-normal">精霊の花祭り 幽明の境</span>
+        <h1 class="text-silver text-2xl font-bold mb-1">{t('homepage.title')}</h1>
+        <span class="text-gold text-sm font-normal">{t('homepage.season')}</span>
       </div>
       
-      <ul class="hidden md:flex list-none gap-8 m-0 p-0" role="list">
-        {navItems.map((item) => {
-          const isActive = isNavItemActive(item.href);
-          return (
-            <li class="relative">
-              <a 
-                href={item.href} 
-                class={`block px-4 py-2 rounded-md font-medium transition-all duration-150 relative ${
-                  isActive 
-                    ? 'text-silver bg-gold/20 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-5 after:h-0.5 after:bg-gold' 
-                    : 'text-gold/80 hover:text-silver hover:bg-gold/10 hover:-translate-y-0.5'
-                }`}
-                data-nav-link
-                data-href={item.href}
-              >
-                {item.label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <div class="flex items-center gap-4">
+        <ul class="hidden md:flex list-none gap-8 m-0 p-0" role="list">
+          {navItems.map((item) => {
+            const isActive = isNavItemActive(item.href);
+            return (
+              <li class="relative">
+                <a 
+                  href={item.href} 
+                  class={`block px-4 py-2 rounded-md font-medium transition-all duration-150 relative ${
+                    isActive 
+                      ? 'text-silver bg-gold/20 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-5 after:h-0.5 after:bg-gold' 
+                      : 'text-gold/80 hover:text-silver hover:bg-gold/10 hover:-translate-y-0.5'
+                  }`}
+                  data-nav-link
+                  data-href={item.href}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+        
+        <!-- Language Selector -->
+        <LanguageSelector />
+      </div>
       
-      <button class="md:hidden flex flex-col bg-transparent border-none cursor-pointer p-2 gap-1" aria-label="メニューを開く" data-mobile-toggle>
+      <button class="md:hidden flex flex-col bg-transparent border-none cursor-pointer p-2 gap-1" aria-label={t('navigation.openMenu', { default: 'メニューを開く' })} data-mobile-toggle>
         <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>
         <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>
         <span class="hamburger-line w-6 h-0.5 bg-gold transition-all duration-150 origin-center"></span>

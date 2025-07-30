@@ -1,0 +1,208 @@
+{
+  "common": {
+    "language": "Language",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "more": "Show more",
+    "less": "Show less"
+  },
+  
+  "navigation": {
+    "home": "Home",
+    "teams": "Teams", 
+    "schedule": "Schedule",
+    "standings": "Standings",
+    "statistics": "Statistics",
+    "clips": "Clips"
+  },
+  
+  "homepage": {
+    "title": "League The k4sen",
+    "subtitle": "League of Legends Streamer's Championship",
+    "season": "Season: Spirit Blossom Beyond",
+    "supportedBy": "Supported by {{sponsor}}",
+    "stats": {
+      "teams": "Teams",
+      "streamers": "Streamers",
+      "divisions": "Divisions"
+    },
+    "phases": {
+      "regularSeason": "Regular Season",
+      "playoffs": "Playoffs"
+    }
+  },
+  
+  "standings": {
+    "title": "Current Standings",
+    "description": "Combined CORE・NEXT rankings and divisional standings",
+    "combined": "Overall Standings",
+    "division": {
+      "core": "CORE Division",
+      "next": "NEXT Division"
+    },
+    "columns": {
+      "rank": "Rank",
+      "team": "Team",
+      "wins": "Wins",
+      "losses": "Losses", 
+      "winrate": "Win Rate",
+      "points": "Points"
+    }
+  },
+  
+  "teams": {
+    "title": "Participating Teams",
+    "description": "{{totalTeams}} teams with a total of {{totalPlayers}} streamers competing",
+    "record": "{{wins}}W-{{losses}}L ({{winrate}}%)",
+    "roles": {
+      "core": "CORE",
+      "next": "NEXT",
+      "coach": "Coach"
+    },
+    "teamNames": {
+      "precision_diadem": "Precision Diadem",
+      "domination_crown": "Domination Crown",
+      "sorcery_tiara": "Sorcery Tiara", 
+      "resolve_regalia": "Resolve Regalia"
+    }
+  },
+  
+  "schedule": {
+    "title": "Match Schedule",
+    "description": "Regular season and playoff schedule",
+    "regularSeason": "Regular Season",
+    "playoffs": "Playoffs",
+    "status": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "live": "Live",
+      "postponed": "Postponed"
+    },
+    "vs": "vs",
+    "winner": "Winner",
+    "playerLineup": "Player Lineup",
+    "format": "Format",
+    "location": "Location"
+  },
+  
+  "statistics": {
+    "title": "Statistics",
+    "description": "Detailed player performance, team analysis, and champion statistics",
+    "tabs": {
+      "playerStats": "Player Stats",
+      "teamPerformance": "Team Performance",
+      "championAnalytics": "Champion Analytics",
+      "matchInsights": "Match Insights"
+    },
+    "playerStats": {
+      "title": "Player Performance",
+      "description": "Comprehensive performance statistics for all players",
+      "filters": {
+        "allDivisions": "All Divisions",
+        "coreOnly": "CORE Only",
+        "nextOnly": "NEXT Only"
+      },
+      "columns": {
+        "player": "Player",
+        "team": "Team",
+        "role": "Role",
+        "gamesPlayed": "Games",
+        "wins": "Wins",
+        "losses": "Losses",
+        "winrate": "Win Rate",
+        "avgKDA": "Avg KDA",
+        "avgDamage": "Avg Damage",
+        "avgGold": "Avg Gold"
+      }
+    },
+    "teamPerformance": {
+      "title": "Team Performance",
+      "description": "Comprehensive team performance analysis"
+    },
+    "championAnalytics": {
+      "title": "Champion Analytics",
+      "description": "Meta analysis and pick/ban statistics"
+    },
+    "matchInsights": {
+      "title": "Match Insights",
+      "description": "Game flow and key moment analysis"
+    }
+  },
+  
+  "clips": {
+    "title": "LTK Clips & Highlights",
+    "subtitle": "League The k4sen Best Moments Collection",
+    "description": "From epic plays to funny moments, watch the most captivating moments from LTK",
+    "stats": {
+      "regularVideos": "Regular Videos",
+      "shortVideos": "Short Videos",
+      "totalVideos": "Total Videos"
+    },
+    "filters": {
+      "all": "All",
+      "regular": "Regular",
+      "shorts": "Shorts"
+    },
+    "search": {
+      "placeholder": "Search videos...",
+      "noResults": "No videos found",
+      "noResultsDescription": "No {{type}} available yet.<br/>Please try again later."
+    },
+    "video": {
+      "watch": "Watch",
+      "watchShort": "Watch",
+      "views": "{{count}} views",
+      "viewsShort": "{{count}}K views",
+      "loadMore": "Load more ({{count}} items)",
+      "loading": "Loading...",
+      "error": "Loading Error",
+      "errorDescription": "An error occurred while loading videos.<br/>Please reload the page and try again."
+    }
+  },
+  
+  "seo": {
+    "homepage": {
+      "title": "League The k4sen (LTK) 2025 - {{season}} | LoL Streamer Championship",
+      "description": "{{tournamentName}} - {{season}}. League of Legends streamer championship organized by k4sen (ZETA DIVISION). 4 teams, 48 pro streamers competing. Live standings, match results, and team information."
+    },
+    "statistics": {
+      "title": "LTK Statistics | Detailed Player & Team Analysis | League The k4sen",
+      "description": "Comprehensive statistics for League The k4sen (LTK). Player performance, team analysis, and champion statistics. Complete performance metrics for pro streamers."
+    },
+    "clips": {
+      "title": "LTK Clips & Highlights | League The k4sen Best Moments",
+      "description": "League The k4sen (LTK) highlight videos and clips collection. Organized short videos and long-form highlights. Epic plays and funny moments from pro streamers."
+    }
+  },
+  
+  "footer": {
+    "copyright": "© 2025 League The k4sen. All rights reserved.",
+    "organizedBy": "Organized by: {{organizer}}",
+    "supportedBy": "Supported by: {{supporter}}"
+  },
+  
+  "errors": {
+    "pageNotFound": "Page Not Found",
+    "serverError": "Server Error Occurred",
+    "networkError": "Network Error Occurred",
+    "retry": "Retry",
+    "goHome": "Go Home"
+  },
+  
+  "time": {
+    "justNow": "just now",
+    "minutesAgo": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hours ago",
+    "daysAgo": "{{count}} days ago", 
+    "monthsAgo": "{{count}} months ago",
+    "yearsAgo": "{{count}} years ago"
+  }
+}
