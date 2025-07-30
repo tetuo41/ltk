@@ -1,0 +1,86 @@
+---
+import { 
+  detectLanguageFromPath,
+  loadTranslations,
+  createTranslationFunction,
+  type SupportedLanguage 
+} from '@/utils/i18n';
+
+export interface Props {
+  lang?: SupportedLanguage;
+}
+
+// Get language from props, URL, or Astro locals
+const lang = Astro.props.lang || 
+             Astro.locals?.lang || 
+             detectLanguageFromPath(Astro.url.pathname);
+
+// Load translations for the current language
+let translations: Record<string, any> = {};
+try {
+  translations = await loadTranslations(lang);
+} catch (error) {
+  console.error(`Failed to load translations for language: ${lang}`, error);
+}
+
+// Create translation function
+const t = createTranslationFunction(translations);
+
+// Make translation function available to child components
+Astro.locals.t = t;
+Astro.locals.lang = lang;
+Astro.locals.translations = translations;
+---
+
+<!-- Translation provider wrapper -->
+<div data-lang={lang} data-translation-provider>
+  <slot />
+</div>
+
+<script define:vars={{ lang, translations }}>
+  // Make translations available to client-side scripts
+  window.LTK_LANG = lang;
+  window.LTK_TRANSLATIONS = translations;
+  
+  // Client-side translation function
+  window.t = function(key, params) {
+    const keys = key.split('.');
+    let value = translations;
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        console.warn(`Translation key not found: ${key}`);
+        return key;
+      }
+    }
+    
+    if (typeof value !== 'string') {
+      console.warn(`Translation value is not a string: ${key}`);
+      return key;
+    }
+    
+    // Replace parameters
+    if (params) {
+      return value.replace(/\{\{(\w+)\}\}/g, (match, paramKey) => {
+        return params[paramKey]?.toString() || match;
+      });
+    }
+    
+    return value;
+  };
+</script>
+
+<style>
+  [data-translation-provider] {
+    /* Set text direction based on language */
+    direction: ltr; /* All current languages are LTR */
+  }
+  
+  /* Future RTL language support */
+  [data-translation-provider][data-lang="ar"],
+  [data-translation-provider][data-lang="he"] {
+    direction: rtl;
+  }
+</style>

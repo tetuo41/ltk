@@ -1,0 +1,351 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import VideoGrid from '@/components/VideoGrid.astro';
+
+// SEO meta for clips page
+const pageTitle = `LTK 切り抜き動画 | League The k4sen ハイライト集`;
+const pageDescription = `League The k4sen(LTK)の名シーン・ハイライト動画を集約。ショート動画と長編切り抜きを分けて見やすく整理。プロストリーマーたちの神プレイ・面白シーンをまとめて視聴。`;
+const pageKeywords = [
+  'LTK',
+  'League The k4sen',
+  '切り抜き',
+  'クリップ',
+  'ハイライト',
+  'YouTube',
+  'ショート動画',
+  'League of Legends',
+  'LoL',
+  'ストリーマー',
+  'k4sen',
+  'か4せん',
+  'ZETA DIVISION',
+  'プロゲーマー',
+  '神プレイ',
+  '面白シーン',
+  'eスポーツ',
+  'ゲーミング',
+  '配信',
+  '動画',
+  'clips',
+  'highlights',
+  'gaming videos',
+  'esports clips'
+];
+
+// Mock data for development - will be replaced with YouTube API data
+const mockVideos = {
+  regular_videos: [
+    {
+      id: 'mock1',
+      title: 'LTK Day1 最高の神プレイ集',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+      duration: '10:23',
+      channelName: 'LTK Clips',
+      publishedAt: '2025-07-25',
+      viewCount: 15420,
+      description: 'League The k4sen Day1の最高の瞬間をまとめました'
+    },
+    {
+      id: 'mock2', 
+      title: 'k4sen選手の完璧なプレイ',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+      duration: '5:47',
+      channelName: 'Pro Gaming JP',
+      publishedAt: '2025-07-24',
+      viewCount: 8930,
+      description: 'k4sen選手による完璧なチームファイト'
+    }
+  ],
+  shorts: [
+    {
+      id: 'short1',
+      title: '【LTK】一瞬で試合が決まった神シーン #Shorts',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+      duration: '0:58',
+      channelName: 'LTK Highlights',
+      publishedAt: '2025-07-26',
+      viewCount: 45320,
+      description: 'LTKで起きた信じられない逆転劇'
+    },
+    {
+      id: 'short2',
+      title: '【爆笑】LTK面白シーン集 #LTK #Shorts',
+      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', 
+      duration: '0:45',
+      channelName: 'Gaming Moments',
+      publishedAt: '2025-07-25',
+      viewCount: 23740,
+      description: 'LTKストリーマーたちの面白い瞬間'
+    }
+  ]
+};
+
+// Structured data for SEO (simplified for now)
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "LTK 切り抜き動画",
+  "description": pageDescription,
+  "url": "https://ltk-sbb.shiai.games/clips"
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+>
+  <!-- Structured Data for SEO - temporarily disabled -->
+  <!-- <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head"></script> -->
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="mt-20 py-16 bg-gradient-to-br from-primary to-secondary">
+      <div class="max-w-6xl mx-auto px-5 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4 leading-tight font-display">
+          LTK 切り抜き動画
+        </h1>
+        <p class="text-xl text-dark-light mb-6 font-medium">
+          League The k4sen の名シーン・ハイライト集
+        </p>
+        <p class="text-lg text-dark mb-3 font-normal max-w-3xl mx-auto">
+          プロストリーマーたちの神プレイから面白シーンまで、LTKの魅力的な瞬間をまとめて視聴できます
+        </p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 max-w-2xl mx-auto">
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.regular_videos.length}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide">通常動画</span>
+          </div>
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.shorts.length}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide">ショート動画</span>
+          </div>
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.regular_videos.length + mockVideos.shorts.length}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide">総動画数</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-8 bg-primary border-b border-tertiary">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <!-- Video Type Toggle -->
+          <div class="flex bg-surface border border-tertiary rounded-lg p-1" role="tablist">
+            <button 
+              class="px-4 py-2 rounded-md font-medium transition-all duration-150 bg-gold text-dark"
+              role="tab"
+              aria-selected="true"
+              data-filter="all"
+            >
+              すべて
+            </button>
+            <button 
+              class="px-4 py-2 rounded-md font-medium transition-all duration-150 text-dark-light hover:text-dark hover:bg-gold/20"
+              role="tab"
+              aria-selected="false"
+              data-filter="regular"
+            >
+              通常動画
+            </button>
+            <button 
+              class="px-4 py-2 rounded-md font-medium transition-all duration-150 text-dark-light hover:text-dark hover:bg-gold/20"
+              role="tab"
+              aria-selected="false"
+              data-filter="shorts"
+            >
+              ショート動画
+            </button>
+          </div>
+
+          <!-- Search Box -->
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="動画を検索..."
+              class="w-full md:w-80 px-4 py-2 pl-10 bg-surface border border-tertiary rounded-lg text-dark placeholder-dark-light focus:border-accent focus:outline-none"
+              data-search-input
+            />
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Temporary simplified video display -->
+    <section class="py-16 bg-secondary">
+      <div class="max-w-6xl mx-auto px-5">
+        <h2 class="text-3xl text-dark mb-8 text-center">通常動画</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockVideos.regular_videos.map((video) => (
+            <div class="bg-surface border border-tertiary rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-dark mb-2">{video.title}</h3>
+              <p class="text-sm text-dark-light mb-2">{video.channelName}</p>
+              <p class="text-xs text-dark-light">{video.viewCount} 回視聴</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-primary">
+      <div class="max-w-6xl mx-auto px-5">
+        <h2 class="text-3xl text-dark mb-8 text-center">ショート動画</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {mockVideos.shorts.map((video) => (
+            <div class="bg-surface border border-tertiary rounded-lg p-3">
+              <h3 class="text-sm font-semibold text-dark mb-1">{video.title}</h3>
+              <p class="text-xs text-dark-light">{video.channelName}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const searchInput = document.querySelector('[data-search-input]') as HTMLInputElement;
+
+  // Filter button handling
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.getAttribute('data-filter');
+      if (filter) {
+        setActiveFilter(filter, filterButtons);
+        applyFilter(filter);
+      }
+    });
+  });
+
+  // Search functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      applySearch(query);
+    });
+  }
+
+  function setActiveFilter(filter: string, buttons: NodeListOf<Element>) {
+    buttons.forEach(btn => {
+      const isActive = btn.getAttribute('data-filter') === filter;
+      btn.classList.toggle('bg-gold', isActive);
+      btn.classList.toggle('text-dark', isActive);
+      btn.classList.toggle('text-dark-light', !isActive);
+      btn.setAttribute('aria-selected', isActive.toString());
+    });
+  }
+
+  function applyFilter(filter: string) {
+    const regularSection = document.getElementById('regular-videos-section');
+    const shortsSection = document.getElementById('short-videos-section');
+
+    if (!regularSection || !shortsSection) return;
+
+    switch (filter) {
+      case 'regular':
+        regularSection.style.display = 'block';
+        shortsSection.style.display = 'none';
+        break;
+      case 'shorts':
+        regularSection.style.display = 'none';
+        shortsSection.style.display = 'block';
+        break;
+      case 'all':
+      default:
+        regularSection.style.display = 'block';
+        shortsSection.style.display = 'block';
+        break;
+    }
+  }
+
+  function applySearch(query: string) {
+    const allVideoCards = document.querySelectorAll('[data-video-grid] > div');
+    
+    allVideoCards.forEach(card => {
+      const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+      const channel = card.querySelector('.font-medium')?.textContent?.toLowerCase() || '';
+      
+      const matches = title.includes(query) || channel.includes(query);
+      (card as HTMLElement).style.display = matches ? 'block' : 'none';
+    });
+  }
+
+  // Intersection Observer for lazy loading future videos
+  const observerOptions = {
+    root: null,
+    rootMargin: '100px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target as HTMLImageElement;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+          observer.unobserve(img);
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Observe all lazy-load images
+  document.querySelectorAll('img[data-src]').forEach(img => {
+    observer.observe(img);
+  });
+</script>
+
+<style>
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Smooth transitions for filter changes */
+  #regular-videos,
+  #shorts-videos {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Custom scrollbar for search input */
+  input[data-search-input]:focus {
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+
+  /* Responsive grid adjustments */
+  @media (max-width: 768px) {
+    [data-video-grid="shorts"] {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    
+    [data-video-grid="regular"] {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid.grid-cols-1.md\\:grid-cols-3 {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 0.75rem;
+    }
+  }
+</style>

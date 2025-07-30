@@ -1,0 +1,346 @@
+---
+import VideoCard from '@/components/VideoCard.astro';
+import type { YouTubeVideo } from '@/utils/youtubeApi';
+
+export interface Props {
+  videos: YouTubeVideo[];
+  variant: 'regular' | 'short';
+  title: string;
+  description?: string;
+  showLoadMore?: boolean;
+  maxInitialItems?: number;
+}
+
+const { 
+  videos, 
+  variant, 
+  title, 
+  description,
+  showLoadMore = false,
+  maxInitialItems = variant === 'short' ? 12 : 9
+} = Astro.props;
+
+// Determine grid classes based on variant
+const gridClasses = variant === 'short' 
+  ? 'grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'
+  : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+// Separate initial and additional videos for load more functionality
+const initialVideos = videos.slice(0, maxInitialItems);
+const additionalVideos = videos.slice(maxInitialItems);
+const hasMoreVideos = additionalVideos.length > 0;
+
+// Generate unique section ID
+const sectionId = `${variant}-videos-section`;
+const gridId = `${variant}-video-grid`;
+---
+
+<section id={sectionId} class={`py-16 ${variant === 'short' ? 'bg-primary' : 'bg-secondary'}`}>
+  <div class="max-w-6xl mx-auto px-5">
+    <!-- Section Header -->
+    <header class="text-center mb-12">
+      <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">
+        {title}
+      </h2>
+      {description && (
+        <p class="text-lg text-dark-light max-w-2xl mx-auto">
+          {description}
+        </p>
+      )}
+      
+      <!-- Video Count -->
+      <div class="mt-4 flex justify-center">
+        <div class="bg-surface border border-tertiary rounded-lg px-4 py-2">
+          <span class="text-sm text-dark">
+            <span class="font-semibold text-accent">{videos.length}</span> 件の動画
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Empty State -->
+    {videos.length === 0 && (
+      <div class="text-center py-16">
+        <div class="bg-surface border border-tertiary rounded-lg p-8 max-w-md mx-auto">
+          <svg class="w-16 h-16 text-dark-light mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0v16l4-4 4 4V4M7 4h10"/>
+          </svg>
+          <h3 class="text-lg font-semibold text-dark mb-2">動画が見つかりません</h3>
+          <p class="text-dark-light text-sm">
+            {variant === 'short' ? 'ショート動画' : '通常動画'}がまだありません。<br/>
+            しばらくしてから再度お試しください。
+          </p>
+        </div>
+      </div>
+    )}
+
+    <!-- Video Grid -->
+    {videos.length > 0 && (
+      <div class={gridClasses} id={gridId} data-video-grid={variant}>
+        <!-- Initial Videos -->
+        {initialVideos.map((video) => (
+          <VideoCard video={video} variant={variant} />
+        ))}
+        
+        <!-- Additional Videos (hidden initially if load more is enabled) -->
+        {showLoadMore && hasMoreVideos && (
+          <div class="hidden" data-additional-videos>
+            {additionalVideos.map((video) => (
+              <VideoCard video={video} variant={variant} />
+            ))}
+          </div>
+        )}
+        
+        {!showLoadMore && additionalVideos.map((video) => (
+          <VideoCard video={video} variant={variant} />
+        ))}
+      </div>
+    )}
+
+    <!-- Load More Button -->
+    {showLoadMore && hasMoreVideos && (
+      <div class="text-center mt-12">
+        <button 
+          class="bg-accent hover:bg-accent-light text-dark font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
+          data-load-more-btn={variant}
+          aria-label={`さらに${variant === 'short' ? 'ショート動画' : '動画'}を読み込む`}
+        >
+          <span class="flex items-center gap-2">
+            さらに表示 ({additionalVideos.length}件)
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    )}
+
+    <!-- Loading Indicator -->
+    <div class="hidden text-center mt-8" data-loading-indicator={variant}>
+      <div class="inline-flex items-center gap-2 text-dark-light">
+        <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        読み込み中...
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="hidden text-center mt-8" data-error-indicator={variant}>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 max-w-md mx-auto">
+        <div class="flex items-center gap-2 text-red-700 mb-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <span class="font-semibold">読み込みエラー</span>
+        </div>
+        <p class="text-red-600 text-sm">
+          動画の読み込み中にエラーが発生しました。<br/>
+          ページを再読み込みしてお試しください。
+        </p>
+      </div>
+    </div>
+
+    <!-- Infinite Scroll Trigger -->
+    {!showLoadMore && hasMoreVideos && (
+      <div class="h-20" data-infinite-scroll-trigger={variant}></div>
+    )}
+  </div>
+</section>
+
+<script define:vars={{ variant, maxInitialItems }}>
+  // Load more button functionality
+  const loadMoreBtn = document.querySelector(`[data-load-more-btn="${variant}"]`);
+  const additionalVideos = document.querySelector(`[data-additional-videos]`);
+  const loadingIndicator = document.querySelector(`[data-loading-indicator="${variant}"]`);
+  const errorIndicator = document.querySelector(`[data-error-indicator="${variant}"]`);
+
+  if (loadMoreBtn && additionalVideos) {
+    loadMoreBtn.addEventListener('click', () => {
+      // Show loading state
+      loadingIndicator?.classList.remove('hidden');
+      loadMoreBtn.style.display = 'none';
+
+      // Simulate API delay for better UX
+      setTimeout(() => {
+        // Show additional videos
+        additionalVideos.classList.remove('hidden');
+        
+        // Get all additional video elements
+        const videoElements = additionalVideos.querySelectorAll('.video-card-regular, .video-card-short');
+        const grid = document.getElementById(`${variant}-video-grid`);
+        
+        if (grid) {
+          // Move videos to main grid
+          videoElements.forEach(video => {
+            grid.appendChild(video);
+          });
+        }
+
+        // Hide loading and button
+        loadingIndicator?.classList.add('hidden');
+        loadMoreBtn.style.display = 'none';
+        
+        // Animate new videos in
+        videoElements.forEach((video, index) => {
+          setTimeout(() => {
+            video.style.opacity = '0';
+            video.style.transform = 'translateY(20px)';
+            video.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            
+            requestAnimationFrame(() => {
+              video.style.opacity = '1';
+              video.style.transform = 'translateY(0)';
+            });
+          }, index * 100);
+        });
+      }, 500);
+    });
+  }
+
+  // Infinite scroll functionality (if not using load more button)
+  const infiniteScrollTrigger = document.querySelector(`[data-infinite-scroll-trigger="${variant}"]`);
+  
+  if (infiniteScrollTrigger) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Trigger infinite scroll loading
+            console.log(`Loading more ${variant} videos...`);
+            // In a real implementation, this would trigger an API call
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '100px'
+      }
+    );
+
+    observer.observe(infiniteScrollTrigger);
+  }
+
+  // Enhanced lazy loading for images
+  const imageObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          
+          // Add loading animation
+          img.style.transition = 'opacity 0.3s ease';
+          
+          // Once image loads, fade it in
+          img.addEventListener('load', () => {
+            img.style.opacity = '1';
+          });
+          
+          imageObserver.unobserve(img);
+        }
+      });
+    },
+    {
+      rootMargin: '50px'
+    }
+  );
+
+  // Observe all lazy-loaded images
+  document.querySelectorAll(`[data-video-grid="${variant}"] img[loading="lazy"]`).forEach(img => {
+    img.style.opacity = '0';
+    imageObserver.observe(img);
+  });
+
+  // Video card click analytics (optional)
+  document.addEventListener('click', (e) => {
+    const videoCard = e.target.closest('.video-card-regular, .video-card-short');
+    if (videoCard) {
+      const videoId = videoCard.dataset.videoId;
+      const videoType = videoCard.dataset.videoType;
+      
+      // Track video card interactions
+      console.log(`Video ${videoType} clicked:`, videoId);
+      
+      // In a real implementation, you might send analytics data here
+      // analytics.track('video_card_clicked', { video_id: videoId, type: videoType });
+    }
+  });
+</script>
+
+<style>
+  /* Grid animation on load */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Animate grid items on initial load */
+  [data-video-grid] > * {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  [data-video-grid] > *:nth-child(1) { animation-delay: 0.1s; }
+  [data-video-grid] > *:nth-child(2) { animation-delay: 0.2s; }
+  [data-video-grid] > *:nth-child(3) { animation-delay: 0.3s; }
+  [data-video-grid] > *:nth-child(4) { animation-delay: 0.4s; }
+  [data-video-grid] > *:nth-child(5) { animation-delay: 0.5s; }
+  [data-video-grid] > *:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Responsive grid adjustments */
+  @media (max-width: 768px) {
+    [data-video-grid="shorts"] {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    
+    [data-video-grid="regular"] {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    [data-video-grid="shorts"] {
+      gap: 0.5rem;
+    }
+    
+    [data-video-grid="regular"] {
+      gap: 0.75rem;
+    }
+  }
+
+  /* Load more button hover effects */
+  [data-load-more-btn]:hover {
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Loading spinner animation */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+
+  /* Smooth section transitions */
+  section {
+    scroll-margin-top: 100px;
+  }
+
+  /* Focus trap for accessibility */
+  [data-video-grid]:focus-within {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+</style>

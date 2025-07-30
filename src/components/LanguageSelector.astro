@@ -1,0 +1,314 @@
+---
+import { 
+  SUPPORTED_LANGUAGES, 
+  LANGUAGE_NAMES, 
+  type SupportedLanguage,
+  detectLanguageFromPath,
+  getLocalizedPath 
+} from '@/utils/i18n';
+
+// Get current language from URL
+const currentLang = detectLanguageFromPath(Astro.url.pathname);
+const currentPath = Astro.url.pathname;
+
+// Generate language options
+const languageOptions = SUPPORTED_LANGUAGES.map(lang => ({
+  code: lang,
+  name: LANGUAGE_NAMES[lang],
+  url: getLocalizedPath(currentPath, currentLang, lang),
+  isActive: lang === currentLang
+}));
+---
+
+<div class="relative" data-language-selector>
+  <!-- Language Toggle Button -->
+  <button 
+    class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gold hover:text-silver transition-colors duration-150 bg-transparent border border-gold/30 rounded-md hover:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20"
+    aria-label="言語を選択 / Select Language"
+    data-language-toggle
+    type="button"
+  >
+    <!-- Globe Icon -->
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-3a5 5 0 00-5-5 5-5 0 00-5 5v3m9-9v3a5 5 0 015 5 5-5 0 015-5v-3m-9 9a9 9 0 109 0"/>
+    </svg>
+    
+    <!-- Current Language -->
+    <span class="hidden sm:inline">{LANGUAGE_NAMES[currentLang]}</span>
+    <span class="sm:hidden uppercase">{currentLang}</span>
+    
+    <!-- Dropdown Arrow -->
+    <svg class="w-4 h-4 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-dropdown-arrow>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+
+  <!-- Language Dropdown Menu -->
+  <div 
+    class="absolute right-0 top-full mt-2 w-48 bg-surface border border-tertiary rounded-lg shadow-lg z-50 opacity-0 invisible transform translate-y-[-10px] transition-all duration-200 ease-out"
+    data-language-menu
+    role="menu"
+    aria-orientation="vertical"
+  >
+    <div class="py-2">
+      {languageOptions.map((option) => (
+        <a
+          href={option.url}
+          class={`block px-4 py-2 text-sm transition-colors duration-150 ${
+            option.isActive 
+              ? 'bg-gold/10 text-gold font-medium' 
+              : 'text-dark hover:bg-gold/5 hover:text-gold'
+          }`}
+          role="menuitem"
+          data-language-option={option.code}
+          aria-current={option.isActive ? 'page' : undefined}
+        >
+          <div class="flex items-center justify-between">
+            <span>{option.name}</span>
+            {option.isActive && (
+              <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+    
+    <!-- Divider -->
+    <div class="border-t border-tertiary"></div>
+    
+    <!-- Help Text -->
+    <div class="px-4 py-2 text-xs text-dark-light">
+      <p class="mb-1">
+        {currentLang === 'ja' ? '言語設定はクッキーに保存されます' : 'Language preference is saved in cookies'}
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Language selector functionality
+  class LanguageSelector {
+    private container: HTMLElement;
+    private toggle: HTMLButtonElement;
+    private menu: HTMLElement;
+    private arrow: SVGElement;
+    private isOpen: boolean = false;
+
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.toggle = container.querySelector('[data-language-toggle]') as HTMLButtonElement;
+      this.menu = container.querySelector('[data-language-menu]') as HTMLElement;
+      this.arrow = container.querySelector('[data-dropdown-arrow]') as SVGElement;
+
+      this.init();
+    }
+
+    private init() {
+      // Toggle dropdown on button click
+      this.toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleDropdown();
+      });
+
+      // Handle keyboard navigation
+      this.toggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.toggleDropdown();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          this.openDropdown();
+          this.focusFirstOption();
+        }
+      });
+
+      // Handle menu keyboard navigation
+      this.menu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          this.closeDropdown();
+          this.toggle.focus();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          this.focusNextOption();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          this.focusPreviousOption();
+        }
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!this.container.contains(e.target as Node)) {
+          this.closeDropdown();
+        }
+      });
+
+      // Handle language selection
+      this.menu.addEventListener('click', (e) => {
+        const option = (e.target as Element).closest('[data-language-option]') as HTMLAnchorElement;
+        if (option) {
+          const langCode = option.dataset.languageOption;
+          if (langCode) {
+            this.selectLanguage(langCode, option.href);
+          }
+        }
+      });
+
+      // Close dropdown on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen) {
+          this.closeDropdown();
+          this.toggle.focus();
+        }
+      });
+    }
+
+    private toggleDropdown() {
+      if (this.isOpen) {
+        this.closeDropdown();
+      } else {
+        this.openDropdown();
+      }
+    }
+
+    private openDropdown() {
+      this.isOpen = true;
+      this.menu.classList.remove('opacity-0', 'invisible', 'translate-y-[-10px]');
+      this.menu.classList.add('opacity-100', 'visible', 'translate-y-0');
+      this.arrow.style.transform = 'rotate(180deg)';
+      this.toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    private closeDropdown() {
+      this.isOpen = false;
+      this.menu.classList.add('opacity-0', 'invisible', 'translate-y-[-10px]');
+      this.menu.classList.remove('opacity-100', 'visible', 'translate-y-0');
+      this.arrow.style.transform = 'rotate(0deg)';
+      this.toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    private focusFirstOption() {
+      const firstOption = this.menu.querySelector('[data-language-option]') as HTMLElement;
+      if (firstOption) {
+        firstOption.focus();
+      }
+    }
+
+    private focusNextOption() {
+      const options = Array.from(this.menu.querySelectorAll('[data-language-option]')) as HTMLElement[];
+      const currentIndex = options.findIndex(option => option === document.activeElement);
+      const nextIndex = (currentIndex + 1) % options.length;
+      options[nextIndex]?.focus();
+    }
+
+    private focusPreviousOption() {
+      const options = Array.from(this.menu.querySelectorAll('[data-language-option]')) as HTMLElement[];
+      const currentIndex = options.findIndex(option => option === document.activeElement);
+      const prevIndex = currentIndex <= 0 ? options.length - 1 : currentIndex - 1;
+      options[prevIndex]?.focus();
+    }
+
+    private selectLanguage(langCode: string, url: string) {
+      // Set language preference cookie
+      this.setLanguageCookie(langCode);
+
+      // Navigate to localized URL
+      window.location.href = url;
+    }
+
+    private setLanguageCookie(lang: string) {
+      const maxAge = 365 * 24 * 60 * 60; // 1 year
+      document.cookie = `ltk-language=${lang}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    }
+  }
+
+  // Initialize language selector
+  document.addEventListener('DOMContentLoaded', () => {
+    const languageSelector = document.querySelector('[data-language-selector]') as HTMLElement;
+    if (languageSelector) {
+      new LanguageSelector(languageSelector);
+    }
+  });
+
+  // Auto-detect language on first visit
+  function detectAndRedirectLanguage() {
+    // Only run on homepage without language prefix
+    if (window.location.pathname === '/') {
+      // Check if user has language preference
+      const savedLang = getCookie('ltk-language');
+      if (savedLang && ['ja', 'en'].includes(savedLang)) {
+        return; // Use saved preference
+      }
+
+      // Detect browser language
+      const browserLang = navigator.language.split('-')[0];
+      if (browserLang === 'en') {
+        // Redirect to English version
+        window.location.href = '/en/';
+      }
+      // Default to Japanese (no redirect needed)
+    }
+  }
+
+  function getCookie(name: string): string | null {
+    const cookies = document.cookie.split(';');
+    const cookie = cookies.find(c => c.trim().startsWith(`${name}=`));
+    return cookie ? cookie.split('=')[1] : null;
+  }
+
+  // Run language detection
+  detectAndRedirectLanguage();
+</script>
+
+<style>
+  /* Smooth transitions for dropdown */
+  [data-language-menu] {
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+  }
+
+  /* Focus styles for accessibility */
+  [data-language-option]:focus {
+    outline: 2px solid var(--color-gold);
+    outline-offset: -2px;
+  }
+
+  /* Hover effects */
+  [data-language-toggle]:hover [data-dropdown-arrow] {
+    transform: translateY(1px);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    [data-language-menu] {
+      width: 40vw;
+      min-width: 160px;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    [data-language-toggle] {
+      border-width: 2px;
+    }
+    
+    [data-language-option].bg-gold\/10 {
+      background-color: var(--color-gold);
+      color: var(--color-dark);
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    [data-language-menu] {
+      transition: none;
+    }
+    
+    [data-dropdown-arrow] {
+      transition: none;
+    }
+  }
+</style>
