@@ -1,0 +1,159 @@
+---
+import type { MatchResultEntry } from '@/utils/matchDataTransform';
+
+export interface Props {
+  team1Players: MatchResultEntry[];
+  team2Players: MatchResultEntry[];
+  team1Name: string;
+  team2Name: string;
+}
+
+const { team1Players, team2Players, team1Name, team2Name } = Astro.props;
+
+// Role order for consistent display
+const roleOrder: Array<"TOP" | "JG" | "MID" | "ADC" | "SUP"> = ["TOP", "JG", "MID", "ADC", "SUP"];
+
+// Function to get role color
+function getRoleColor(role: string): string {
+  const colors = {
+    'TOP': 'text-blue-400 bg-blue-400/10 border-blue-400/30',
+    'JG': 'text-green-400 bg-green-400/10 border-green-400/30', 
+    'MID': 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30',
+    'ADC': 'text-red-400 bg-red-400/10 border-red-400/30',
+    'SUP': 'text-purple-400 bg-purple-400/10 border-purple-400/30'
+  };
+  return colors[role as keyof typeof colors] || 'text-gray-400 bg-gray-400/10 border-gray-400/30';
+}
+
+// Function to get team color
+function getTeamColor(teamName: string): { bg: string; border: string; text: string } {
+  const colors = {
+    'precision_diadem': { bg: 'bg-blue-400/10', border: 'border-blue-400', text: 'text-blue-400' },
+    'domination_crown': { bg: 'bg-red-400/10', border: 'border-red-400', text: 'text-red-400' },
+    'sorcery_tiara': { bg: 'bg-purple-400/10', border: 'border-purple-400', text: 'text-purple-400' },
+    'resolve_regalia': { bg: 'bg-green-400/10', border: 'border-green-400', text: 'text-green-400' }
+  };
+  
+  const teamKey = Object.keys(colors).find(key => 
+    teamName.toLowerCase().includes(key.replace('_', ' '))
+  );
+  
+  return colors[teamKey as keyof typeof colors] || { bg: 'bg-gray-400/10', border: 'border-gray-400', text: 'text-gray-400' };
+}
+
+// Sort players by role
+function sortPlayersByRole(players: MatchResultEntry[]): MatchResultEntry[] {
+  return roleOrder.map(role => players.find(p => p.role === role)).filter(Boolean) as MatchResultEntry[];
+}
+
+const sortedTeam1Players = sortPlayersByRole(team1Players);
+const sortedTeam2Players = sortPlayersByRole(team2Players);
+
+const team1Colors = getTeamColor(team1Name);
+const team2Colors = getTeamColor(team2Name);
+---
+
+<div class="bg-surface border border-tertiary rounded-lg p-5 mt-4">
+  <h4 class="text-base font-semibold text-dark mb-4 flex items-center gap-2">
+    👥 選手起用
+  </h4>
+  
+  <!-- Desktop Layout -->
+  <div class="hidden md:block">
+    <div class="flex flex-col gap-4">
+      <!-- Team 1 -->
+      <div class={`${team1Colors.bg} border ${team1Colors.border} rounded-lg p-4`}>
+        <h5 class={`text-sm font-semibold ${team1Colors.text} mb-3 text-center`}>
+          {team1Name}
+        </h5>
+        <div class="space-y-2.5">
+          {sortedTeam1Players.map(player => (
+            <div class="flex items-center justify-between p-2 bg-surface/50 rounded">
+              <div class="flex items-center gap-2">
+                <span class={`px-2 py-1 rounded text-xs font-medium border ${getRoleColor(player.role)}`}>
+                  {player.role}
+                </span>
+                <span class="text-xs font-medium text-dark">{player.player}</span>
+              </div>
+              <span class="text-xs text-dark-light font-medium">{player.champion}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Team 2 -->
+      <div class={`${team2Colors.bg} border ${team2Colors.border} rounded-lg p-4`}>
+        <h5 class={`text-sm font-semibold ${team2Colors.text} mb-3 text-center`}>
+          {team2Name}
+        </h5>
+        <div class="space-y-2.5">
+          {sortedTeam2Players.map(player => (
+            <div class="flex items-center justify-between p-2 bg-surface/50 rounded">
+              <div class="flex items-center gap-2">
+                <span class={`px-2 py-1 rounded text-xs font-medium border ${getRoleColor(player.role)}`}>
+                  {player.role}
+                </span>
+                <span class="text-xs font-medium text-dark">{player.player}</span>
+              </div>
+              <span class="text-xs text-dark-light font-medium">{player.champion}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Layout -->
+  <div class="md:hidden space-y-5">
+    <!-- Team 1 -->
+    <div class={`${team1Colors.bg} border ${team1Colors.border} rounded-lg p-4`}>
+      <h5 class={`text-sm font-semibold ${team1Colors.text} mb-3`}>
+        {team1Name}
+      </h5>
+      <div class="grid grid-cols-1 gap-2">
+        {sortedTeam1Players.map(player => (
+          <div class="flex items-center justify-between p-2 bg-surface/50 rounded text-xs">
+            <div class="flex items-center gap-2">
+              <span class={`px-1.5 py-0.5 rounded text-xs font-medium border ${getRoleColor(player.role)}`}>
+                {player.role}
+              </span>
+              <span class="font-medium text-dark">{player.player}</span>
+            </div>
+            <span class="text-dark-light font-medium">{player.champion}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Team 2 -->
+    <div class={`${team2Colors.bg} border ${team2Colors.border} rounded-lg p-4`}>
+      <h5 class={`text-sm font-semibold ${team2Colors.text} mb-3`}>
+        {team2Name}
+      </h5>
+      <div class="grid grid-cols-1 gap-2">
+        {sortedTeam2Players.map(player => (
+          <div class="flex items-center justify-between p-2 bg-surface/50 rounded text-xs">
+            <div class="flex items-center gap-2">
+              <span class={`px-1.5 py-0.5 rounded text-xs font-medium border ${getRoleColor(player.role)}`}>
+                {player.role}
+              </span>
+              <span class="font-medium text-dark">{player.player}</span>
+            </div>
+            <span class="text-dark-light font-medium">{player.champion}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Ensure consistent spacing */
+  .space-y-2 > * + * {
+    margin-top: 0.5rem;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+</style>

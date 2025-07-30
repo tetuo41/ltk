@@ -6,6 +6,7 @@ import StandingsTable from '@/components/StandingsTable.astro';
 import CombinedStandingsTable from '@/components/CombinedStandingsTable.astro';
 import BanPickDisplay from '@/components/BanPickDisplay.astro';
 import MVPDisplay from '@/components/MVPDisplay.astro';
+import MatchLineup from '@/components/MatchLineup.astro';
 import Footer from '@/components/Footer.astro';
 
 import type {
@@ -16,13 +17,18 @@ import type {
   StandingsEntry
 } from '@/types';
 
+import type { MatchResultEntry } from '@/utils/matchDataTransform';
+import { getMatchLineup, hasMatchLineup } from '@/utils/matchDataTransform';
+
 // Import data files
 import teamsDataRaw from '@/data/ltk-sbb-teams.json';
 import matchesDataRaw from '@/data/ltk-sbb-matches.json';
+import matchResultsRaw from '@/data/match_results.json';
 
 // Type the imported data
 const teamsData = teamsDataRaw as TeamsData;
 const matchesData = matchesDataRaw as MatchesData;
+const matchResults = matchResultsRaw as MatchResultEntry[];
 
 // Extract tournament info
 const tournamentInfo = teamsData.tournament_info;
@@ -272,11 +278,11 @@ const pageKeywords = [
           <!-- Regular Season Schedule -->
           <div class="bg-surface border border-tertiary rounded-lg p-8 shadow-sm">
             <h3 class="text-2xl text-dark mb-6 text-center pb-3 border-b border-tertiary">レギュラーステージ</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {matchesData.schedule.map((matchDay) => (
-                <div class="bg-secondary border border-tertiary rounded-lg p-4 transition-all duration-300 hover:border-accent-light hover:shadow-sm">
-                  <header class="text-center mb-4 pb-3 border-b border-tertiary">
-                    <h4 class="text-lg text-dark mb-1">
+                <div class="bg-secondary border border-tertiary rounded-lg p-6 transition-all duration-300 hover:border-accent-light hover:shadow-sm">
+                  <header class="text-center mb-6 pb-4 border-b border-tertiary">
+                    <h4 class="text-xl text-dark mb-2 font-semibold">
                       {new Date(matchDay.date).toLocaleDateString('ja-JP', {
                         month: 'long',
                         day: 'numeric'
@@ -286,9 +292,9 @@ const pageKeywords = [
                     <span class="text-sm text-dark-light">{matchDay.description}</span>
                   </header>
 
-                  <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-6">
                     {matchDay.matches.map((match) => (
-                      <div class={`bg-surface border-l-4 rounded p-3 ${
+                      <div class={`bg-surface border-l-4 rounded p-4 ${
                         match.status === 'completed' ? 'border-l-success' : 'border-l-warning'
                       }`}>
                         <div class="flex justify-between items-center mb-3">
@@ -357,6 +363,27 @@ const pageKeywords = [
                             />
                           </div>
                         )}
+
+                        {match.status === 'completed' && hasMatchLineup(matchResults, matchDay.date, match.team1, match.team2, match.division) && (() => {
+                          const lineupData = getMatchLineup(matchResults, matchDay.date, match.team1, match.team2, match.division);
+                          if (lineupData) {
+                            return (
+                              <div class="w-full max-w-full overflow-hidden">
+                                <MatchLineup
+                                  team1Players={lineupData.team1Players}
+                                  team2Players={lineupData.team2Players}
+                                  team1Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                    key => teamsData.teams[key].name === t.name && key === match.team1
+                                  ))?.name || match.team1}
+                                  team2Name={teams.find(t => Object.keys(teamsData.teams).find(
+                                    key => teamsData.teams[key].name === t.name && key === match.team2
+                                  ))?.name || match.team2}
+                                />
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
                       </div>
                     ))}
                   </div>

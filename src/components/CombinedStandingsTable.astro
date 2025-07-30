@@ -37,10 +37,6 @@ function getRankIndicator(rank: number): string {
   return indicators[rank - 1] || `${rank}位`;
 }
 
-// Function to get division badge
-function getDivisionBadge(division: Division): string {
-  return division === 'CORE' ? '⚔️' : '🌟';
-}
 // Function to calculate combined team points with bonus system
 function calculateCombinedTeamPoints(): Record<string, {
   totalPoints: number;

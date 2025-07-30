@@ -23,6 +23,10 @@ This is an Astro-based static website for the LTK (League The k4sen) 2025 tourna
 - `pnpm playwright test --ui` - Run tests in interactive UI mode
 - `pnpm exec playwright show-report` - View detailed HTML test report after test execution
 
+### Domain Management Commands
+- `pnpm domain:setup` - Configure custom domain setup for deployment
+- `pnpm domain:status` - Check domain configuration and DNS status
+
 ### Container Development (Podman/Docker)
 - `./scripts/dev.sh start-dev` - Build and start development container (port 4321)
 - `./scripts/dev.sh start-prod` - Build and start production container (port 8080)
@@ -39,34 +43,49 @@ This is an Astro-based static website for the LTK (League The k4sen) 2025 tourna
 
 ## Code Architecture
 
-### Data-Driven Tournament Website
+### Data-Driven Tournament Website with Advanced Statistics
 The site uses a static data-driven approach where tournament information is stored in JSON files and rendered through typed interfaces:
 
-- **Data Sources**: `src/data/ltk-sbb-teams.json` and `src/data/ltk-sbb-matches.json` contain all tournament data
-- **Type Safety**: Complete TypeScript type definitions in `src/types/` ensure data consistency
+- **Primary Data Sources**: `src/data/ltk-sbb-teams.json` and `src/data/ltk-sbb-matches.json` contain core tournament data
+- **Enhanced Match Data**: `src/data/enhanced-matches.json` contains matches with detailed player statistics  
+- **Comprehensive Statistics**: `src/data/detailed-match-stats.json` (860KB) with processed player/team/champion analytics
+- **Statistics Page**: Dedicated `/statistics` route with comprehensive tournament analysis
+- **Type Safety**: Complete TypeScript type definitions in `src/types/` and `src/types/statistics.ts` ensure data consistency
 - **Component Architecture**: Astro components handle presentation with minimal client-side JavaScript
 
 ### Directory Structure
 ```
 src/
 ├── components/          # Reusable Astro components
-│   ├── StandingsTable.astro    # Tournament standings display
-│   ├── TeamCard.astro          # Individual team information
-│   ├── BanPickDisplay.astro    # League of Legends draft information (bans/picks)
-│   ├── Header.astro            # Site navigation
-│   └── Footer.astro            # Site footer
+│   ├── StandingsTable.astro       # Tournament standings display
+│   ├── CombinedStandingsTable.astro # Combined CORE/NEXT standings
+│   ├── TeamCard.astro             # Individual team information
+│   ├── BanPickDisplay.astro       # League of Legends draft information (bans/picks)
+│   ├── PlayerStatsTable.astro     # Comprehensive player statistics table
+│   ├── TeamPerformanceChart.astro # Team performance analysis with charts
+│   ├── ChampionAnalytics.astro    # Champion meta analysis and pick/ban rates
+│   ├── MatchInsightsPanel.astro   # Detailed match analysis and insights
+│   ├── Header.astro               # Site navigation with statistics page link
+│   └── Footer.astro               # Site footer
 ├── data/               # Static tournament data (JSON)
-│   ├── ltk-sbb-teams.json    # Team rosters, coaches, player info
-│   └── ltk-sbb-matches.json  # Match schedule, results, standings
+│   ├── ltk-sbb-teams.json         # Team rosters, coaches, player info
+│   ├── ltk-sbb-matches.json       # Match schedule, results, standings
+│   ├── enhanced-matches.json      # Matches enhanced with detailed player stats
+│   ├── detailed-match-stats.json  # Comprehensive statistics (860KB processed data)
+│   └── match_results.json         # Raw match results for data processing
 ├── types/              # TypeScript type definitions
 │   ├── teams.ts        # Team, player, coach interfaces
 │   ├── matches.ts      # Match, tournament schedule types
+│   ├── statistics.ts   # Comprehensive statistics interfaces (20+ types)
 │   ├── common.ts       # Shared utility types
 │   └── index.ts        # Type re-exports
+├── utils/              # Utility functions
+│   └── matchDataTransform.ts     # Data transformation utilities for statistics
 ├── layouts/
-│   └── Layout.astro    # Base page layout
+│   └── Layout.astro    # Base page layout with SEO optimization
 └── pages/
-    └── index.astro     # Main tournament page
+    ├── index.astro     # Main tournament page
+    └── statistics.astro # Comprehensive statistics page with tabbed interface
 ```
 
 ### Type System Architecture
@@ -76,13 +95,18 @@ The project uses a comprehensive type system that models the tournament structur
 - **Tournament Structure**: Two divisions (CORE/NEXT) with different rank requirements
 - **Match System**: Typed match states (`MatchStatus`), results, and playoff structures
 - **League of Legends Integration**: `ChampionDraft` interface for ban/pick data with team-specific bans and picks
+- **Advanced Statistics**: 20+ interfaces in `statistics.ts` covering player stats, team performance, champion analytics, match insights
+- **Data Transformation**: Utilities in `matchDataTransform.ts` with team name mapping and statistical processing
 - **Component Props**: Strongly typed props for all Astro components
 
 ### Data Flow Pattern
-1. JSON data files serve as the single source of truth
-2. TypeScript interfaces validate data structure at build time
-3. Astro components consume typed data through imports
-4. Build-time rendering generates static HTML with embedded data
+1. **Primary Data**: JSON data files (`ltk-sbb-teams.json`, `ltk-sbb-matches.json`) serve as the single source of truth
+2. **Data Enhancement**: `matchDataTransform.ts` processes raw match results into enhanced statistics
+3. **Statistical Processing**: Comprehensive data transformation creates `detailed-match-stats.json` with 860KB of processed analytics
+4. **Type Validation**: TypeScript interfaces validate data structure at build time
+5. **Component Consumption**: Astro components consume typed data through imports with full type safety
+6. **Static Generation**: Build-time rendering generates static HTML with embedded data
+7. **Statistics Presentation**: Dedicated statistics page presents processed data through specialized components
 
 ## Development Patterns
 
@@ -111,10 +135,19 @@ The project uses TypeScript path mapping for clean imports:
 To update tournament information:
 1. Edit `src/data/ltk-sbb-teams.json` for roster changes
 2. Edit `src/data/ltk-sbb-matches.json` for schedule/results and ban/pick data
-3. Update type definitions in `src/types/` if schema changes
-4. Run `pnpm check` to validate types
-5. Run `pnpm playwright test` to ensure responsive design compliance
-6. Rebuild with `pnpm build`
+3. **For Advanced Statistics**: Use `matchDataTransform.ts` utilities to process raw match data into enhanced statistics
+4. Update type definitions in `src/types/` if schema changes (especially `statistics.ts` for new metrics)
+5. Run `pnpm check` to validate types across all files including statistics components
+6. Run `pnpm playwright test` to ensure responsive design compliance
+7. Rebuild with `pnpm build`
+
+### Data Processing Workflow
+When adding new match results with detailed player statistics:
+1. Add raw match data to `match_results.json` (if available)
+2. Use transformation utilities in `matchDataTransform.ts` to process data
+3. Update `enhanced-matches.json` with enhanced match data
+4. Regenerate `detailed-match-stats.json` with comprehensive statistics
+5. Verify statistics page displays correctly at `/statistics`
 
 ### Adding Ban/Pick Data to Matches
 To add League of Legends draft information to match results:

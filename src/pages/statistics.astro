@@ -1,0 +1,290 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import PlayerStatsTable from '@/components/PlayerStatsTable.astro';
+import TeamPerformanceChart from '@/components/TeamPerformanceChart.astro';
+import ChampionAnalytics from '@/components/ChampionAnalytics.astro';
+import MatchInsightsPanel from '@/components/MatchInsightsPanel.astro';
+
+import type { DetailedMatchStats } from '@/types/statistics';
+
+// Import detailed statistics data
+import detailedStatsRaw from '@/data/detailed-match-stats.json';
+const detailedStats = detailedStatsRaw as DetailedMatchStats;
+
+// SEO meta data
+const pageTitle = `統計データ - League The k4sen (LTK) 2025 | 詳細選手・チーム分析`;
+const pageDescription = `LTK 2025の詳細統計データ。選手個人成績、チーム分析、チャンピオン使用率、試合洞察など包括的なデータ分析。KDA、ダメージ、勝率などの詳細指標で大会を深く理解。`;
+const pageKeywords = [
+  'LTK',
+  'League The k4sen',
+  '統計',
+  'statistics',
+  '選手成績',
+  'player stats',
+  'チーム分析',
+  'team analysis',
+  'KDA',
+  'ダメージ',
+  'damage',
+  'チャンピオン',
+  'champion',
+  'ピック率',
+  'pick rate',
+  'バン率',
+  'ban rate',
+  '勝率',
+  'win rate',
+  'League of Legends',
+  'LoL',
+  'esports',
+  'eスポーツ',
+  '大会データ',
+  'tournament data'
+];
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+>
+  <Header />
+  
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-br from-primary to-secondary">
+      <div class="max-w-6xl mx-auto px-5 text-center">
+        <!-- Back Link -->
+        <div class="mb-6">
+          <a 
+            href="/" 
+            class="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-tertiary rounded-lg text-dark-light hover:text-silver hover:border-accent transition-all duration-300"
+          >
+            ← メインページに戻る
+          </a>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-bold text-dark mb-4 leading-tight font-display">
+          詳細統計データ
+        </h1>
+        <p class="text-xl text-dark-light mb-6 font-medium">
+          LTK 2025 Tournament Statistics & Analysis
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-3xl font-bold text-accent mb-1">{detailedStats.season_overview.total_matches}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide font-medium">試合数</span>
+          </div>
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-3xl font-bold text-accent mb-1">{detailedStats.season_overview.total_players}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide font-medium">選手数</span>
+          </div>
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-3xl font-bold text-accent mb-1">{detailedStats.season_overview.unique_champions_played}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide font-medium">使用チャンピオン</span>
+          </div>
+          <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
+            <span class="block text-3xl font-bold text-accent mb-1">{detailedStats.season_overview.unique_champions_banned}</span>
+            <span class="text-sm text-dark-light uppercase tracking-wide font-medium">BANチャンピオン</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Navigation -->
+    <section class="py-8 bg-primary">
+      <div class="max-w-6xl mx-auto px-5">
+        <nav class="flex flex-wrap justify-center gap-4" role="tablist">
+          <button class="stats-tab-btn active" data-tab="players" role="tab" aria-selected="true">
+            <span class="block text-lg font-semibold mb-1">👤 選手統計</span>
+            <span class="text-sm opacity-80">個人成績・KDA</span>
+          </button>
+          <button class="stats-tab-btn" data-tab="teams" role="tab" aria-selected="false">
+            <span class="block text-lg font-semibold mb-1">🏆 チーム分析</span>
+            <span class="text-sm opacity-80">チーム成績・比較</span>
+          </button>
+          <button class="stats-tab-btn" data-tab="champions" role="tab" aria-selected="false">
+            <span class="block text-lg font-semibold mb-1">🎯 チャンピオン</span>
+            <span class="text-sm opacity-80">ピック・バン・勝率</span>
+          </button>
+          <button class="stats-tab-btn" data-tab="matches" role="tab" aria-selected="false">
+            <span class="block text-lg font-semibold mb-1">📊 試合分析</span>
+            <span class="text-sm opacity-80">詳細・洞察</span>
+          </button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Statistics Content -->
+    <div class="max-w-7xl mx-auto px-5 py-12">
+      
+      <!-- Player Statistics Tab -->
+      <div id="players-tab" class="stats-tab-content active" role="tabpanel">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">選手統計</h2>
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
+            全選手の詳細成績データ・KDA・ダメージ・使用チャンピオン分析
+          </p>
+        </header>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div>
+            <h3 class="text-2xl font-semibold text-dark mb-6 flex items-center gap-2">
+              <span class="text-red-400">⚔️</span> CORE部門
+            </h3>
+            <PlayerStatsTable 
+              players={detailedStats.player_statistics} 
+              division="CORE"
+              limit={10}
+            />
+          </div>
+          
+          <div>
+            <h3 class="text-2xl font-semibold text-dark mb-6 flex items-center gap-2">
+              <span class="text-purple-400">🌟</span> NEXT部門
+            </h3>
+            <PlayerStatsTable 
+              players={detailedStats.player_statistics} 
+              division="NEXT"
+              limit={10}
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Performance Tab -->
+      <div id="teams-tab" class="stats-tab-content" role="tabpanel">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">チーム分析</h2>
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
+            各チームのパフォーマンス指標・ロール別分析・対戦成績
+          </p>
+        </header>
+        
+        <TeamPerformanceChart 
+          teams={detailedStats.team_performance}
+        />
+      </div>
+
+      <!-- Champion Analytics Tab -->
+      <div id="champions-tab" class="stats-tab-content" role="tabpanel">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">チャンピオン分析</h2>
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
+            チャンピオン使用率・勝率・メタ分析・ロール別データ
+          </p>
+        </header>
+        
+        <ChampionAnalytics 
+          champions={detailedStats.champion_analytics}
+          metaAnalysis={detailedStats.meta_analysis}
+        />
+      </div>
+
+      <!-- Match Insights Tab -->
+      <div id="matches-tab" class="stats-tab-content" role="tabpanel">
+        <header class="text-center mb-12">
+          <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">試合分析</h2>
+          <p class="text-lg text-dark-light max-w-2xl mx-auto">
+            各試合の詳細分析・キーモーメント・ドラフト戦略
+          </p>
+        </header>
+        
+        <MatchInsightsPanel 
+          matches={detailedStats.matches}
+        />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .stats-tab-btn {
+    @apply bg-surface border border-tertiary rounded-lg p-4 text-center transition-all duration-300 hover:border-accent-light hover:shadow-sm cursor-pointer min-w-[180px];
+  }
+  
+  .stats-tab-btn.active {
+    @apply border-accent bg-accent/10 transform scale-105;
+  }
+  
+  .stats-tab-content {
+    @apply hidden;
+  }
+  
+  .stats-tab-content.active {
+    @apply block;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .stats-tab-btn {
+      @apply min-w-[140px] p-3;
+    }
+    
+    .stats-tab-btn span:first-child {
+      @apply text-base;
+    }
+    
+    .stats-tab-btn span:last-child {
+      @apply text-xs;
+    }
+  }
+</style>
+
+<script>
+  // Tab switching functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.stats-tab-btn');
+    const tabContents = document.querySelectorAll('.stats-tab-content');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab') + '-tab';
+        
+        // Remove active state from all buttons and contents
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Add active state to clicked button and corresponding content
+        button.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+        
+        const targetContent = document.getElementById(targetTab);
+        if (targetContent) {
+          targetContent.classList.add('active');
+        }
+      });
+    });
+    
+    // Keyboard navigation for accessibility
+    tabButtons.forEach((button, index) => {
+      button.addEventListener('keydown', (e: KeyboardEvent) => {
+        let targetIndex = index;
+        
+        if (e.key === 'ArrowRight') {
+          targetIndex = (index + 1) % tabButtons.length;
+        } else if (e.key === 'ArrowLeft') {
+          targetIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+        } else {
+          return;
+        }
+        
+        e.preventDefault();
+        const targetButton = tabButtons[targetIndex] as HTMLButtonElement;
+        if (targetButton) {
+          targetButton.focus();
+          targetButton.click();
+        }
+      });
+    });
+  });
+</script>

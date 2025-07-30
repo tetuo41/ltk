@@ -1,0 +1,232 @@
+---
+import type { MatchInsights } from '@/types/statistics';
+
+export interface Props {
+  matches: MatchInsights[];
+  limit?: number;
+}
+
+const { matches, limit } = Astro.props;
+
+// Filter and sort matches
+let displayMatches = matches
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+if (limit) {
+  displayMatches = displayMatches.slice(0, limit);
+}
+
+// Function to format date
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ja-JP', {
+    month: 'short',
+    day: 'numeric',
+    weekday: 'short'
+  });
+}
+
+// Function to format match duration
+function formatDuration(duration: string): string {
+  const [minutes, seconds] = duration.split(':').map(Number);
+  return `${minutes}分${seconds}秒`;
+}
+
+// Function to get team color
+function getTeamColor(teamName: string): { bg: string; border: string; text: string } {
+  const colors = {
+    'precision_diadem': { bg: 'bg-blue-400/10', border: 'border-blue-400', text: 'text-blue-400' },
+    'domination_crown': { bg: 'bg-red-400/10', border: 'border-red-400', text: 'text-red-400' },
+    'sorcery_tiara': { bg: 'bg-purple-400/10', border: 'border-purple-400', text: 'text-purple-400' },
+    'resolve_regalia': { bg: 'bg-green-400/10', border: 'border-green-400', text: 'text-green-400' }
+  };
+  return colors[teamName as keyof typeof colors] || { bg: 'bg-gray-400/10', border: 'border-gray-400', text: 'text-gray-400' };
+}
+
+// Function to get division badge
+function getDivisionBadge(division: "CORE" | "NEXT"): string {
+  return division === "CORE" 
+    ? 'bg-red-400/20 text-red-400 border-red-400/30' 
+    : 'bg-purple-400/20 text-purple-400 border-purple-400/30';
+}
+
+// Function to format numbers
+function formatNumber(num: number, decimals: number = 1): string {
+  return Number(num).toLocaleString('ja-JP', { 
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals 
+  });
+}
+
+---
+
+<div class="space-y-8">
+  
+  <!-- Match List -->
+  <div class="space-y-6">
+    {displayMatches.map((match) => {
+      const team1Colors = getTeamColor(match.teams[0]);
+      const team2Colors = getTeamColor(match.teams[1]);
+      const winnerColors = match.winner === match.teams[0] ? team1Colors : team2Colors;
+      
+      return (
+        <div class="bg-surface border border-tertiary rounded-xl overflow-hidden shadow-sm">
+          
+          <!-- Match Header -->
+          <div class={`px-6 py-4 ${winnerColors.bg} border-b ${winnerColors.border}/20`}>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                  <span class={`px-2 py-1 rounded text-xs font-semibold border ${getDivisionBadge(match.division)}`}>
+                    {match.division === "CORE" ? "⚔️ CORE" : "🌟 NEXT"}
+                  </span>
+                  <span class="text-sm text-dark-light">{formatDate(match.date)}</span>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                  <!-- Team 1 -->
+                  <div class="flex items-center gap-2">
+                    <div class={`w-3 h-3 rounded ${team1Colors.bg} ${team1Colors.border} border`}></div>
+                    <span class={`font-medium ${match.winner === match.teams[0] ? 'text-silver font-bold' : 'text-dark-light'}`}>
+                      {match.teams[0].replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </span>
+                  </div>
+                  
+                  <span class="text-dark-light">vs</span>
+                  
+                  <!-- Team 2 -->
+                  <div class="flex items-center gap-2">
+                    <div class={`w-3 h-3 rounded ${team2Colors.bg} ${team2Colors.border} border`}></div>
+                    <span class={`font-medium ${match.winner === match.teams[1] ? 'text-silver font-bold' : 'text-dark-light'}`}>
+                      {match.teams[1].replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-4 text-sm">
+                <span class="text-dark-light">試合時間: {formatDuration(match.duration)}</span>
+                <span class={`px-2 py-1 rounded text-xs font-bold ${winnerColors.text} ${winnerColors.bg}`}>
+                  勝者: {match.winner.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Match Details -->
+          <div class="p-6">
+            
+            <!-- Game Flow -->
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold text-dark mb-3 flex items-center gap-2">
+                📈 試合の流れ
+              </h4>
+              
+              <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="text-center p-3 bg-gold/10 rounded-lg">
+                  <span class="block text-xs text-dark-light mb-1">序盤リード</span>
+                  <span class="font-semibold text-silver">{match.game_flow.early_game_leader}</span>
+                </div>
+                <div class="text-center p-3 bg-gold/10 rounded-lg">
+                  <span class="block text-xs text-dark-light mb-1">中盤パワースパイク</span>
+                  <span class="font-semibold text-silver">{match.game_flow.mid_game_power_spike}</span>
+                </div>
+                <div class="text-center p-3 bg-gold/10 rounded-lg">
+                  <span class="block text-xs text-dark-light mb-1">終盤制御</span>
+                  <span class="font-semibold text-silver">{match.game_flow.late_game_control}</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <div class="text-center p-3 bg-blue-400/10 rounded-lg">
+                  <span class="block text-xs text-dark-light mb-1">カムバック係数</span>
+                  <span class="font-medium text-silver">{formatNumber(match.game_flow.comeback_factor * 100, 0)}%</span>
+                </div>
+                <div class="text-center p-3 bg-green-400/10 rounded-lg">
+                  <span class="block text-xs text-dark-light mb-1">スノーボール係数</span>
+                  <span class="font-medium text-silver">{formatNumber(match.game_flow.snowball_factor * 100, 0)}%</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Key Moments -->
+            {match.key_moments && match.key_moments.length > 0 && (
+              <div class="mb-6">
+                <h4 class="text-lg font-semibold text-dark mb-3 flex items-center gap-2">
+                  ⭐ キーモーメント
+                </h4>
+                
+                <div class="space-y-3">
+                  {match.key_moments.slice(0, 3).map(moment => (
+                    <div class="flex items-start gap-3 p-3 bg-accent/5 rounded-lg border border-accent/10">
+                      <span class="text-xs font-mono text-accent bg-accent/20 px-2 py-1 rounded">
+                        {moment.timestamp}
+                      </span>
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                          <span class="text-sm font-medium text-silver">{moment.type}</span>
+                        </div>
+                        <p class="text-sm text-dark-light">{moment.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <!-- Draft Analysis -->
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold text-dark mb-3 flex items-center gap-2">
+                🎯 ドラフト分析
+              </h4>
+              
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Draft Advantage -->
+                <div class="bg-gold/10 border border-gold/20 rounded-lg p-4">
+                  <h5 class="font-semibold text-dark mb-3">ドラフト優勢</h5>
+                  <p class="text-silver text-sm">{match.draft_analysis.draft_advantage}</p>
+                </div>
+                
+                <!-- Power Picks -->
+                <div class="bg-green-400/10 border border-green-400/20 rounded-lg p-4">
+                  <h5 class="font-semibold text-dark mb-3">パワーピック</h5>
+                  <div class="flex flex-wrap gap-1">
+                    {match.draft_analysis.power_picks.map(pick => (
+                      <span class="px-2 py-1 bg-green-400/20 text-green-400 rounded text-xs font-medium">
+                        {pick}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+  
+  {displayMatches.length === 0 && (
+    <div class="text-center py-12">
+      <p class="text-dark-light">完了済みの試合データがありません。</p>
+    </div>
+  )}
+</div>
+
+<style>
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grid-cols-6 {
+      @apply grid-cols-2 gap-2;
+    }
+    
+    .grid-cols-4 {
+      @apply grid-cols-2 gap-2;
+    }
+    
+    .grid-cols-3 {
+      @apply grid-cols-1 gap-3;
+    }
+  }
+</style>
