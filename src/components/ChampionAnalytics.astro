@@ -1,0 +1,366 @@
+---
+import type { ChampionAnalytics, MetaAnalysis } from '@/types/statistics';
+
+export interface Props {
+  champions: ChampionAnalytics[];
+  metaAnalysis: MetaAnalysis;
+}
+
+const { champions, metaAnalysis } = Astro.props;
+
+// Sort champions by pick rate
+const topPickedChampions = [...champions].sort((a, b) => b.pick_rate - a.pick_rate).slice(0, 10);
+const topBannedChampions = [...champions].sort((a, b) => b.ban_rate - a.ban_rate).slice(0, 10);
+const topWinRateChampions = [...champions]
+  .filter(champ => champ.total_picks >= 3) // At least 3 games for meaningful win rate
+  .sort((a, b) => b.win_rate - a.win_rate)
+  .slice(0, 10);
+
+// Function to format numbers
+function formatNumber(num: number, decimals: number = 2): string {
+  return Number(num).toLocaleString('ja-JP', { 
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals 
+  });
+}
+
+function formatPercentage(num: number): string {
+  return formatNumber(num * 100, 1) + '%';
+}
+
+
+// Function to get role color
+function getRoleColor(role: string): string {
+  const colors = {
+    'TOP': 'text-blue-400 bg-blue-400/10',
+    'JG': 'text-green-400 bg-green-400/10', 
+    'MID': 'text-yellow-400 bg-yellow-400/10',
+    'ADC': 'text-red-400 bg-red-400/10',
+    'SUP': 'text-purple-400 bg-purple-400/10'
+  };
+  return colors[role as keyof typeof colors] || 'text-gray-400 bg-gray-400/10';
+}
+
+// Function to get performance bar color
+function getPerformanceColor(value: number, type: 'winrate' | 'pickrate'): string {
+  if (type === 'winrate') {
+    if (value >= 0.7) return 'bg-green-400';
+    if (value >= 0.5) return 'bg-yellow-400';
+    return 'bg-red-400';
+  } else {
+    if (value >= 0.5) return 'bg-purple-400';
+    if (value >= 0.3) return 'bg-blue-400';
+    return 'bg-gray-400';
+  }
+}
+---
+
+<div class="space-y-8">
+  <!-- Meta Analysis Overview -->
+  <div class="bg-surface border border-tertiary rounded-xl p-6">
+    <h3 class="text-2xl font-semibold text-dark mb-6 flex items-center gap-2">
+      🎯 メタ分析概要
+    </h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Most Contested Champions -->
+      <div class="bg-gold/10 border border-gold/20 rounded-lg p-4">
+        <h4 class="font-semibold text-dark mb-3 flex items-center gap-2">
+          🔥 最も注目されたチャンピオン
+        </h4>
+        <div class="space-y-2">
+          {metaAnalysis.most_picked_champions.slice(0, 5).map((champion: any) => (
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-silver font-medium">{champion.champion}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-dark-light">値: {formatPercentage(champion.value)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Power Picks -->
+      <div class="bg-red-400/10 border border-red-400/20 rounded-lg p-4">
+        <h4 class="font-semibold text-dark mb-3 flex items-center gap-2">
+          ⚡ パワーピック
+        </h4>
+        <div class="space-y-2">
+          {metaAnalysis.highest_winrate_champions.slice(0, 5).map((champion: any) => (
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-silver font-medium">{champion.champion}</span>
+              <span class="text-green-400 font-semibold">{formatPercentage(champion.value)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Sleeper Picks -->
+      <div class="bg-purple-400/10 border border-purple-400/20 rounded-lg p-4">
+        <h4 class="font-semibold text-dark mb-3 flex items-center gap-2">
+          💎 隠れた強ピック
+        </h4>
+        <div class="space-y-2">
+          {metaAnalysis.most_banned_champions.slice(0, 5).map((champion: any) => (
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-silver font-medium">{champion.champion}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-green-400 text-xs">{formatPercentage(champion.value)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Champion Statistics Tables -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <!-- Most Picked Champions -->
+    <div class="bg-surface border border-tertiary rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-blue-400/30 border-b border-blue-400/20">
+        <h3 class="text-xl font-semibold text-primary flex items-center gap-2">
+          📈 ピック率TOP10
+        </h3>
+      </div>
+      
+      <div class="p-4">
+        <div class="space-y-3">
+          {topPickedChampions.map((champion, index) => (
+            <div class="flex items-center justify-between p-3 bg-blue-400/5 rounded-lg">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-bold text-blue-400 w-6">#{index + 1}</span>
+                <div>
+                  <div class="font-medium text-silver">{champion.champion}</div>
+                  <span class="text-xs text-dark-light">
+                    {champion.role_distribution.length > 0 ? champion.role_distribution[0]?.role : 'N/A'}
+                  </span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-semibold text-silver">{formatPercentage(champion.pick_rate)}</div>
+                <div class="text-xs text-dark-light">{champion.total_picks}戦</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Most Banned Champions -->
+    <div class="bg-surface border border-tertiary rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-red-400/30 border-b border-red-400/20">
+        <h3 class="text-xl font-semibold text-primary flex items-center gap-2">
+          🚫 バン率TOP10
+        </h3>
+      </div>
+      
+      <div class="p-4">
+        <div class="space-y-3">
+          {topBannedChampions.map((champion, index) => (
+            <div class="flex items-center justify-between p-3 bg-red-400/5 rounded-lg">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-bold text-red-400 w-6">#{index + 1}</span>
+                <div>
+                  <div class="font-medium text-silver">{champion.champion}</div>
+                  <span class="text-xs text-dark-light">
+                    {champion.role_distribution.length > 0 ? champion.role_distribution[0]?.role : 'N/A'}
+                  </span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-semibold text-silver">{formatPercentage(champion.ban_rate)}</div>
+                <div class="text-xs text-dark-light">{champion.total_bans}回</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Highest Win Rate Champions -->
+    <div class="bg-surface border border-tertiary rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-green-400/30 border-b border-green-400/20">
+        <h3 class="text-xl font-semibold text-primary flex items-center gap-2">
+          🏆 勝率TOP10
+        </h3>
+        <p class="text-xs text-dark-light mt-1">※3戦以上のチャンピオンのみ</p>
+      </div>
+      
+      <div class="p-4">
+        <div class="space-y-3">
+          {topWinRateChampions.map((champion, index) => (
+            <div class="flex items-center justify-between p-3 bg-green-400/5 rounded-lg">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-bold text-green-400 w-6">#{index + 1}</span>
+                <div>
+                  <div class="font-medium text-silver">{champion.champion}</div>
+                  <span class="text-xs text-dark-light">
+                    {champion.role_distribution.length > 0 ? champion.role_distribution[0]?.role : 'N/A'}
+                  </span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-semibold text-green-400">{formatPercentage(champion.win_rate)}</div>
+                <div class="text-xs text-dark-light">{champion.wins}勝{champion.losses}敗</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Champion Statistics Table -->
+  <div class="bg-surface border border-tertiary rounded-xl overflow-hidden shadow-sm">
+    <div class="px-6 py-4 bg-gold/30 border-b border-gold/20">
+      <h3 class="text-xl font-semibold text-primary flex items-center gap-2">
+        📊 全チャンピオン詳細統計
+      </h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm">
+        <thead>
+          <tr class="bg-gold/20">
+            <th scope="col" class="text-silver px-4 py-3 text-left font-semibold border-b border-gold/20">チャンピオン</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">ロール</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">ピック率</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">バン率</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">勝率</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">戦績</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">平均KDA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {champions
+            .sort((a, b) => (b.pick_rate + b.ban_rate) - (a.pick_rate + a.ban_rate))
+            .slice(0, 30)
+            .map((champion) => (
+              <tr class="transition-all duration-150 hover:bg-gold/5 border-b border-gold/10">
+                <td class="px-4 py-4 text-left">
+                  <div class="flex items-center gap-3">
+                    <span class="font-medium text-silver">{champion.champion}</span>
+                  </div>
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  <span class="text-xs text-dark-light">
+                    {champion.role_distribution.length > 0 ? champion.role_distribution[0]?.role : 'N/A'}
+                  </span>
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  <div class="flex flex-col items-center gap-1">
+                    <span class="font-semibold text-silver">{formatPercentage(champion.pick_rate)}</span>
+                    <div class="w-12 h-1 bg-gold/20 rounded overflow-hidden">
+                      <div 
+                        class={`h-full transition-all duration-300 ${getPerformanceColor(champion.pick_rate, 'pickrate')}`}
+                        style={`width: ${Math.min(champion.pick_rate * 200, 100)}%`}
+                      ></div>
+                    </div>
+                  </div>
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  <div class="flex flex-col items-center gap-1">
+                    <span class="font-semibold text-silver">{formatPercentage(champion.ban_rate)}</span>
+                    <div class="w-12 h-1 bg-gold/20 rounded overflow-hidden">
+                      <div 
+                        class={`h-full transition-all duration-300 bg-red-400`}
+                        style={`width: ${Math.min(champion.ban_rate * 200, 100)}%`}
+                      ></div>
+                    </div>
+                  </div>
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  {champion.total_picks > 0 ? (
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="font-semibold text-silver">{formatPercentage(champion.win_rate)}</span>
+                      <div class="w-12 h-1 bg-gold/20 rounded overflow-hidden">
+                        <div 
+                          class={`h-full transition-all duration-300 ${getPerformanceColor(champion.win_rate, 'winrate')}`}
+                          style={`width: ${champion.win_rate * 100}%`}
+                        ></div>
+                      </div>
+                    </div>
+                  ) : (
+                    <span class="text-dark-light text-xs">-</span>
+                  )}
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  {champion.total_picks > 0 ? (
+                    <span class="text-silver text-sm">{champion.wins}勝{champion.losses}敗</span>
+                  ) : (
+                    <span class="text-dark-light text-xs">未プレイ</span>
+                  )}
+                </td>
+                
+                <td class="px-3 py-4 text-center">
+                  {champion.average_performance.average_kda > 0 ? (
+                    <span class="font-semibold text-silver">{formatNumber(champion.average_performance.average_kda)}</span>
+                  ) : (
+                    <span class="text-dark-light text-xs">-</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Role-based Champion Analysis -->
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+    {['TOP', 'JG', 'MID', 'ADC', 'SUP'].map(role => {
+      const roleChampions = champions
+        .filter(champ => champ.role_distribution.some(r => r.role === role) && champ.total_picks > 0)
+        .sort((a, b) => b.pick_rate - a.pick_rate)
+        .slice(0, 5);
+      
+      return (
+        <div class="bg-surface border border-tertiary rounded-xl p-4">
+          <h4 class={`text-lg font-semibold mb-4 flex items-center gap-2 ${getRoleColor(role).split(' ')[0]}`}>
+            {role}レーン
+          </h4>
+          
+          <div class="space-y-3">
+            {roleChampions.map((champion) => (
+              <div class={`p-3 rounded-lg ${getRoleColor(role)}`}>
+                <div class="font-medium text-silver text-sm">{champion.champion}</div>
+                <div class="flex justify-between items-center mt-1">
+                  <span class="text-xs text-dark-light">
+                    P: {formatPercentage(champion.pick_rate)}
+                  </span>
+                  <span class="text-xs text-dark-light">
+                    {formatPercentage(champion.win_rate)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grid-cols-3 {
+      @apply grid-cols-1 gap-4;
+    }
+    
+    .grid-cols-5 {
+      @apply grid-cols-2 gap-4;
+    }
+    
+    table {
+      min-width: 800px;
+    }
+  }
+</style>

@@ -1,0 +1,2729 @@
+{
+  "schedule": [
+    {
+      "date": "2025-06-25",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 1,
+      "description": "開幕戦",
+      "matches": [
+        {
+          "id": "match_001",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "歌衣メイカ",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Smolder",
+                  "Ksante",
+                  "Azir",
+                  "Viego",
+                  "Yone"
+                ],
+                "team2": [
+                  "Jinx",
+                  "Thresh",
+                  "Ambessa",
+                  "Briar",
+                  "Aurora"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Tristana",
+                  "Graves",
+                  "Nautilus",
+                  "Corki",
+                  "Ornn"
+                ],
+                "team2": [
+                  "Syndra",
+                  "Kindred",
+                  "Lulu",
+                  "Ashe",
+                  "Gnar"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "35:36",
+              "game_flow": {
+                "early_game_leader": "domination_crown",
+                "mid_game_power_spike": "domination_crown",
+                "late_game_control": "domination_crown",
+                "comeback_factor": 0.11742528900079385,
+                "snowball_factor": 0.8024558105737546
+              },
+              "draft_analysis": {
+                "draft_advantage": "domination_crown",
+                "power_picks": [
+                  "グウェン",
+                  "セジュアニ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "domination_crown",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Domination Crown",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "葛葉"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Domination Crown",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "葛葉",
+                "team": "Domination Crown",
+                "role": "JG",
+                "champion": "リリア",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 9,
+                  "deaths": 1,
+                  "assists": 12,
+                  "kda": 21,
+                  "damage": 0,
+                  "damage_share": 0,
+                  "gold": 0
+                },
+                "highlight_moments": [
+                  "Exceptional リリア performance with 21 KDA"
+                ]
+              }
+            },
+            "duration": "35:36"
+          }
+        },
+        {
+          "id": "match_002",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0",
+            "mvp": "夢野あかり",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Yasuo",
+                  "Zed"
+                ],
+                "team2": [
+                  "Master Yi",
+                  "Darius"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Jinx",
+                  "Amumu",
+                  "Lux",
+                  "Garen",
+                  "Annie"
+                ],
+                "team2": [
+                  "Miss Fortune",
+                  "Warwick",
+                  "Morgana",
+                  "Malphite",
+                  "Soraka"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "32:55",
+              "game_flow": {
+                "early_game_leader": "precision_diadem",
+                "mid_game_power_spike": "precision_diadem",
+                "late_game_control": "precision_diadem",
+                "comeback_factor": 0.07958779214656309,
+                "snowball_factor": 0.7470296312470608
+              },
+              "draft_analysis": {
+                "draft_advantage": "precision_diadem",
+                "power_picks": [
+                  "ヨリック",
+                  "トランドル"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "precision_diadem",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Precision Diadem",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "夢野あかり"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Precision Diadem",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "夢野あかり",
+                "team": "Precision Diadem",
+                "role": "MID",
+                "champion": "ハイマーディンガー",
+                "performance_score": 40,
+                "key_stats": {
+                  "kills": 5,
+                  "deaths": 2,
+                  "assists": 3,
+                  "kda": 4,
+                  "damage": 0,
+                  "damage_share": 0,
+                  "gold": 0
+                },
+                "highlight_moments": [
+                  "Exceptional ハイマーディンガー performance with 4 KDA"
+                ]
+              }
+            },
+            "duration": "32:55"
+          }
+        },
+        {
+          "id": "match_003",
+          "division": "CORE",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0",
+            "mvp": "mittiii",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Akali",
+                  "Lucian",
+                  "Braum",
+                  "Yone",
+                  "Smolder"
+                ],
+                "team2": [
+                  "Ambessa",
+                  "Viego",
+                  "Alistar",
+                  "Aurora",
+                  "Briar"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "LeBlanc",
+                  "Nidalee",
+                  "Rell",
+                  "Jhin",
+                  "Gnar"
+                ],
+                "team2": [
+                  "Viktor",
+                  "Graves",
+                  "Lulu",
+                  "Caitlyn",
+                  "Camille"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "33:50",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.02207920780673338,
+                "snowball_factor": 0.8949680910818806
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "グウェン",
+                  "パンテオン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "mittiii"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "mittiii",
+                "team": "Sorcery Tiara",
+                "role": "TOP",
+                "champion": "ジャックス",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 10,
+                  "deaths": 0,
+                  "assists": 4,
+                  "kda": 14,
+                  "damage": 0,
+                  "damage_share": 0,
+                  "gold": 0
+                },
+                "highlight_moments": [
+                  "Exceptional ジャックス performance with 14 KDA"
+                ]
+              }
+            },
+            "duration": "33:50"
+          }
+        },
+        {
+          "id": "match_004",
+          "division": "NEXT",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0",
+            "mvp": "天宮こころ",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Katarina",
+                  "Tryndamere"
+                ],
+                "team2": [
+                  "Blitzcrank",
+                  "Teemo"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Ashe",
+                  "Jarvan IV",
+                  "Brand",
+                  "Caitlyn",
+                  "Maokai"
+                ],
+                "team2": [
+                  "Ezreal",
+                  "Xin Zhao",
+                  "Ahri",
+                  "Leona",
+                  "Dr. Mundo"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "41:20",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.06311430586844391,
+                "snowball_factor": 0.7782792718243402
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "レネクトン",
+                  "ノクターン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "鈴木ノリアキ"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "鈴木ノリアキ",
+                "team": "Sorcery Tiara",
+                "role": "MID",
+                "champion": "リサンドラ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 3,
+                  "deaths": 1,
+                  "assists": 15,
+                  "kda": 18,
+                  "damage": 0,
+                  "damage_share": 0,
+                  "gold": 0
+                },
+                "highlight_moments": [
+                  "Exceptional リサンドラ performance with 18 KDA"
+                ]
+              }
+            },
+            "duration": "41:20"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-14",
+      "day": "月曜日",
+      "time": "19:00",
+      "round": 2,
+      "description": "第2節",
+      "matches": [
+        {
+          "id": "match_005",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "1-0",
+            "mvp": "たかやスペシャル",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Ksante",
+                  "Jinx",
+                  "Thresh",
+                  "Ambessa",
+                  "Viego"
+                ],
+                "team2": [
+                  "Smolder",
+                  "Aurora",
+                  "Azir",
+                  "Briar",
+                  "Yone"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Corki",
+                  "Sejuani",
+                  "Orianna",
+                  "Kai'Sa",
+                  "Shen"
+                ],
+                "team2": [
+                  "Syndra",
+                  "Graves",
+                  "Nautilus",
+                  "Ashe",
+                  "Ornn"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "36:19",
+              "game_flow": {
+                "early_game_leader": "resolve_regalia",
+                "mid_game_power_spike": "resolve_regalia",
+                "late_game_control": "resolve_regalia",
+                "comeback_factor": 0.04327202955947877,
+                "snowball_factor": 0.8787348561517179
+              },
+              "draft_analysis": {
+                "draft_advantage": "resolve_regalia",
+                "power_picks": [
+                  "ジェイス",
+                  "シン・ジャオ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "resolve_regalia",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Resolve Regalia",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "Kamito"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Resolve Regalia",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "Kamito",
+                "team": "Precision Diadem",
+                "role": "MID",
+                "champion": "シンドラ",
+                "performance_score": 25.397,
+                "key_stats": {
+                  "kills": 0,
+                  "deaths": 3,
+                  "assists": 3,
+                  "kda": 1,
+                  "damage": 15397,
+                  "damage_share": 0.11010597977659864,
+                  "gold": 10718
+                },
+                "highlight_moments": [
+                  "Exceptional シンドラ performance with 1 KDA"
+                ]
+              }
+            },
+            "duration": "36:19"
+          }
+        },
+        {
+          "id": "match_006",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "1-0",
+            "mvp": "狐白うる",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Yasuo",
+                  "Master Yi"
+                ],
+                "team2": [
+                  "Darius",
+                  "Blitzcrank"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Miss Fortune",
+                  "Volibear",
+                  "Annie",
+                  "Ashe",
+                  "Braum"
+                ],
+                "team2": [
+                  "Jinx",
+                  "Graves",
+                  "Lux",
+                  "Caitlyn",
+                  "Leona"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "35:01",
+              "game_flow": {
+                "early_game_leader": "resolve_regalia",
+                "mid_game_power_spike": "resolve_regalia",
+                "late_game_control": "resolve_regalia",
+                "comeback_factor": 0.2767002373893518,
+                "snowball_factor": 0.826604706037039
+              },
+              "draft_analysis": {
+                "draft_advantage": "resolve_regalia",
+                "power_picks": [
+                  "エイトロックス",
+                  "マオカイ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "resolve_regalia",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Resolve Regalia",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "白波らむね"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Resolve Regalia",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "白波らむね",
+                "team": "Resolve Regalia",
+                "role": "ADC",
+                "champion": "シヴィア",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 9,
+                  "deaths": 1,
+                  "assists": 13,
+                  "kda": 22,
+                  "damage": 14392,
+                  "damage_share": 0.1641797855350217,
+                  "gold": 15942
+                },
+                "highlight_moments": [
+                  "Exceptional シヴィア performance with 22 KDA"
+                ]
+              }
+            },
+            "duration": "35:01"
+          }
+        },
+        {
+          "id": "match_007",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "k4sen",
+            "draft": {
+              "bans": {
+                "team1": [
+                  "Smolder",
+                  "Aurora",
+                  "Ksante",
+                  "Ambessa",
+                  "Briar"
+                ],
+                "team2": [
+                  "Azir",
+                  "Viego",
+                  "Yone",
+                  "Jinx",
+                  "Thresh"
+                ]
+              },
+              "picks": {
+                "team1": [
+                  "Viktor",
+                  "Graves",
+                  "Nautilus",
+                  "Kai'Sa",
+                  "Ornn"
+                ],
+                "team2": [
+                  "LeBlanc",
+                  "Kindred",
+                  "Lulu",
+                  "Ashe",
+                  "Gnar"
+                ]
+              }
+            },
+            "enhanced_stats": {
+              "duration": "33:46",
+              "game_flow": {
+                "early_game_leader": "domination_crown",
+                "mid_game_power_spike": "domination_crown",
+                "late_game_control": "domination_crown",
+                "comeback_factor": 0.20126566943037344,
+                "snowball_factor": 0.94684846890793
+              },
+              "draft_analysis": {
+                "draft_advantage": "domination_crown",
+                "power_picks": [
+                  "エイトロックス",
+                  "シン・ジャオ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "domination_crown",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Domination Crown",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "葛葉"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Domination Crown",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "葛葉",
+                "team": "Domination Crown",
+                "role": "JG",
+                "champion": "ヴィエゴ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 12,
+                  "deaths": 0,
+                  "assists": 8,
+                  "kda": 20,
+                  "damage": 26962,
+                  "damage_share": 0.34373207205599254,
+                  "gold": 15566
+                },
+                "highlight_moments": [
+                  "Exceptional ヴィエゴ performance with 20 KDA"
+                ]
+              }
+            },
+            "duration": "33:46"
+          }
+        },
+        {
+          "id": "match_008",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "ta1yo",
+            "enhanced_stats": {
+              "duration": "40:16",
+              "game_flow": {
+                "early_game_leader": "domination_crown",
+                "mid_game_power_spike": "domination_crown",
+                "late_game_control": "domination_crown",
+                "comeback_factor": 0.20478798411699622,
+                "snowball_factor": 0.7017363625456302
+              },
+              "draft_analysis": {
+                "draft_advantage": "domination_crown",
+                "power_picks": [
+                  "レネクトン",
+                  "ノクターン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "domination_crown",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Domination Crown",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "天帝フォルテ"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Domination Crown",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "天帝フォルテ",
+                "team": "Domination Crown",
+                "role": "ADC",
+                "champion": "ジン",
+                "performance_score": 68.077,
+                "key_stats": {
+                  "kills": 4,
+                  "deaths": 3,
+                  "assists": 10,
+                  "kda": 4.7,
+                  "damage": 21077,
+                  "damage_share": 0.23836558361512275,
+                  "gold": 15047
+                },
+                "highlight_moments": [
+                  "Exceptional ジン performance with 4.7 KDA"
+                ]
+              }
+            },
+            "duration": "40:16"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-15",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 3,
+      "description": "第3節",
+      "matches": [
+        {
+          "id": "match_009",
+          "division": "CORE",
+          "team1": "sorcery_tiara",
+          "team2": "precision_diadem",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0",
+            "mvp": "kinako",
+            "enhanced_stats": {
+              "duration": "28:13",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.2385690398544431,
+                "snowball_factor": 0.8005350449066455
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "マルファイト",
+                  "ウーコン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "うるか"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "うるか",
+                "team": "Sorcery Tiara",
+                "role": "SUP",
+                "champion": "セナ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 2,
+                  "deaths": 0,
+                  "assists": 17,
+                  "kda": 19,
+                  "damage": 16081,
+                  "damage_share": 0.07112150938055602,
+                  "gold": 9179
+                },
+                "highlight_moments": [
+                  "Exceptional セナ performance with 19 KDA"
+                ]
+              }
+            },
+            "duration": "28:13"
+          }
+        },
+        {
+          "id": "match_010",
+          "division": "NEXT",
+          "team1": "sorcery_tiara",
+          "team2": "precision_diadem",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0",
+            "mvp": "まざー3",
+            "enhanced_stats": {
+              "duration": "49:45",
+              "game_flow": {
+                "early_game_leader": "precision_diadem",
+                "mid_game_power_spike": "precision_diadem",
+                "late_game_control": "precision_diadem",
+                "comeback_factor": 0.02366398481330165,
+                "snowball_factor": 0.7059575662052479
+              },
+              "draft_analysis": {
+                "draft_advantage": "precision_diadem",
+                "power_picks": [
+                  "シェン",
+                  "ノクターン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "precision_diadem",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Precision Diadem",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "夢野あかり"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Precision Diadem",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "夢野あかり",
+                "team": "Precision Diadem",
+                "role": "MID",
+                "champion": "ハイマーディンガー",
+                "performance_score": 80.25999999999999,
+                "key_stats": {
+                  "kills": 4,
+                  "deaths": 5,
+                  "assists": 12,
+                  "kda": 3.2,
+                  "damage": 48260,
+                  "damage_share": 0.35803577390181834,
+                  "gold": 17354
+                },
+                "highlight_moments": [
+                  "Exceptional ハイマーディンガー performance with 3.2 KDA"
+                ]
+              }
+            },
+            "duration": "49:45"
+          }
+        },
+        {
+          "id": "match_011",
+          "division": "CORE",
+          "team1": "resolve_regalia",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "1-0",
+            "mvp": "焼きパン",
+            "enhanced_stats": {
+              "duration": "40:00",
+              "game_flow": {
+                "early_game_leader": "resolve_regalia",
+                "mid_game_power_spike": "resolve_regalia",
+                "late_game_control": "resolve_regalia",
+                "comeback_factor": 0.28495898597229613,
+                "snowball_factor": 0.8867868112067228
+              },
+              "draft_analysis": {
+                "draft_advantage": "resolve_regalia",
+                "power_picks": [
+                  "ブラッドミア",
+                  "ノクターン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "resolve_regalia",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Resolve Regalia",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "焼きパン"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Resolve Regalia",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "焼きパン",
+                "team": "Resolve Regalia",
+                "role": "TOP",
+                "champion": "ブラッドミア",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 7,
+                  "deaths": 1,
+                  "assists": 7,
+                  "kda": 14,
+                  "damage": 39678,
+                  "damage_share": 0.40396245240373846,
+                  "gold": 17269
+                },
+                "highlight_moments": [
+                  "Exceptional ブラッドミア performance with 14 KDA"
+                ]
+              }
+            },
+            "duration": "40:00"
+          }
+        },
+        {
+          "id": "match_012",
+          "division": "NEXT",
+          "team1": "resolve_regalia",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "空澄セナ",
+            "enhanced_stats": {
+              "duration": "38:21",
+              "game_flow": {
+                "early_game_leader": "domination_crown",
+                "mid_game_power_spike": "domination_crown",
+                "late_game_control": "domination_crown",
+                "comeback_factor": 0.17742008099610088,
+                "snowball_factor": 0.8963478706489054
+              },
+              "draft_analysis": {
+                "draft_advantage": "domination_crown",
+                "power_picks": [
+                  "マルファイト",
+                  "ザイラ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "domination_crown",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Domination Crown",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "白那しずく"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Domination Crown",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "白那しずく",
+                "team": "Domination Crown",
+                "role": "SUP",
+                "champion": "カルマ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 0,
+                  "deaths": 1,
+                  "assists": 12,
+                  "kda": 12,
+                  "damage": 7071,
+                  "damage_share": 0.09212669211626907,
+                  "gold": 9479
+                },
+                "highlight_moments": [
+                  "Exceptional カルマ performance with 12 KDA"
+                ]
+              }
+            },
+            "duration": "38:21"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-23",
+      "day": "水曜日",
+      "time": "19:00",
+      "round": 4,
+      "description": "第4節",
+      "matches": [
+        {
+          "id": "match_013",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "precision_diadem",
+            "score": "1-0",
+            "mvp": "YUKIO",
+            "enhanced_stats": {
+              "duration": "29:53",
+              "game_flow": {
+                "early_game_leader": "precision_diadem",
+                "mid_game_power_spike": "precision_diadem",
+                "late_game_control": "precision_diadem",
+                "comeback_factor": 0.16486995421755793,
+                "snowball_factor": 0.9679261001114126
+              },
+              "draft_analysis": {
+                "draft_advantage": "precision_diadem",
+                "power_picks": [
+                  "マオカイ",
+                  "シン・ジャオ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "precision_diadem",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Precision Diadem",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "ゆきお"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Precision Diadem",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "ゆきお",
+                "team": "Precision Diadem",
+                "role": "TOP",
+                "champion": "モルデカイザー",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 11,
+                  "deaths": 0,
+                  "assists": 12,
+                  "kda": 23,
+                  "damage": 32767,
+                  "damage_share": 0.08765026562307737,
+                  "gold": 14606
+                },
+                "highlight_moments": [
+                  "Exceptional モルデカイザー performance with 23 KDA"
+                ]
+              }
+            },
+            "duration": "29:53"
+          }
+        },
+        {
+          "id": "match_014",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "domination_crown",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "ゆふな",
+            "enhanced_stats": {
+              "duration": "34:10",
+              "game_flow": {
+                "early_game_leader": "domination_crown",
+                "mid_game_power_spike": "domination_crown",
+                "late_game_control": "domination_crown",
+                "comeback_factor": 0.05070721834699221,
+                "snowball_factor": 0.8987465811172267
+              },
+              "draft_analysis": {
+                "draft_advantage": "domination_crown",
+                "power_picks": [
+                  "レネクトン",
+                  "ウーコン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "domination_crown",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Domination Crown",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "ゆふな"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Domination Crown",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "ゆふな",
+                "team": "Domination Crown",
+                "role": "JG",
+                "champion": "ウーコン",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 4,
+                  "deaths": 0,
+                  "assists": 17,
+                  "kda": 21,
+                  "damage": 13686,
+                  "damage_share": 0.13866823376833914,
+                  "gold": 12946
+                },
+                "highlight_moments": [
+                  "Exceptional ウーコン performance with 21 KDA"
+                ]
+              }
+            },
+            "duration": "34:10"
+          }
+        },
+        {
+          "id": "match_015",
+          "division": "CORE",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0",
+            "mvp": "kinako",
+            "enhanced_stats": {
+              "duration": "49:10",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.09632359559384611,
+                "snowball_factor": 0.7945286238863848
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "カ・サンテ",
+                  "スカーナー"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "うるか"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "うるか",
+                "team": "Sorcery Tiara",
+                "role": "SUP",
+                "champion": "ジリアン",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 2,
+                  "deaths": 0,
+                  "assists": 15,
+                  "kda": 17,
+                  "damage": 15406,
+                  "damage_share": 0.15079085427922637,
+                  "gold": 13289
+                },
+                "highlight_moments": [
+                  "Exceptional ジリアン performance with 17 KDA"
+                ]
+              }
+            },
+            "duration": "49:10"
+          }
+        },
+        {
+          "id": "match_016",
+          "division": "NEXT",
+          "team1": "sorcery_tiara",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "1-0",
+            "mvp": "鈴木ノリアキ",
+            "enhanced_stats": {
+              "duration": "44:24",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.08035659219775355,
+                "snowball_factor": 0.9677426195178143
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "レネクトン",
+                  "サイオン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "橘ひなの"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "橘ひなの",
+                "team": "Sorcery Tiara",
+                "role": "ADC",
+                "champion": "ジンクス",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 9,
+                  "deaths": 1,
+                  "assists": 13,
+                  "kda": 22,
+                  "damage": 44801,
+                  "damage_share": 0.38544794418012407,
+                  "gold": 20144
+                },
+                "highlight_moments": [
+                  "Exceptional ジンクス performance with 22 KDA"
+                ]
+              }
+            },
+            "duration": "44:24"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-07-29",
+      "day": "火曜日",
+      "time": "19:00",
+      "round": 5,
+      "description": "第5節",
+      "matches": [
+        {
+          "id": "match_017",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "0-1",
+            "mvp": "kinako",
+            "enhanced_stats": {
+              "duration": "33:12",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.2470059510293991,
+                "snowball_factor": 0.858660603455005
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "カ・サンテ",
+                  "アイバーン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "AlphaAzur"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "AlphaAzur",
+                "team": "Sorcery Tiara",
+                "role": "MID",
+                "champion": "フェイ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 4,
+                  "deaths": 1,
+                  "assists": 9,
+                  "kda": 13,
+                  "damage": 27549,
+                  "damage_share": 0.2931649125794128,
+                  "gold": 12468
+                },
+                "highlight_moments": [
+                  "Exceptional フェイ performance with 13 KDA"
+                ]
+              }
+            },
+            "duration": "33:12"
+          }
+        },
+        {
+          "id": "match_018",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "0-1",
+            "mvp": "胡桃のあ",
+            "enhanced_stats": {
+              "duration": "38:10",
+              "game_flow": {
+                "early_game_leader": "sorcery_tiara",
+                "mid_game_power_spike": "sorcery_tiara",
+                "late_game_control": "sorcery_tiara",
+                "comeback_factor": 0.14577635745530118,
+                "snowball_factor": 0.7983756243241581
+              },
+              "draft_analysis": {
+                "draft_advantage": "sorcery_tiara",
+                "power_picks": [
+                  "ジャックス",
+                  "ウーコン"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "sorcery_tiara",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Sorcery Tiara",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "橘ひなの"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Sorcery Tiara",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "橘ひなの",
+                "team": "Sorcery Tiara",
+                "role": "ADC",
+                "champion": "ジンクス",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 9,
+                  "deaths": 1,
+                  "assists": 9,
+                  "kda": 18,
+                  "damage": 31428,
+                  "damage_share": 0.29849555504900843,
+                  "gold": 17761
+                },
+                "highlight_moments": [
+                  "Exceptional ジンクス performance with 18 KDA"
+                ]
+              }
+            },
+            "duration": "38:10"
+          }
+        },
+        {
+          "id": "match_019",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "0-1",
+            "mvp": "焼きパン",
+            "enhanced_stats": {
+              "duration": "45:08",
+              "game_flow": {
+                "early_game_leader": "resolve_regalia",
+                "mid_game_power_spike": "resolve_regalia",
+                "late_game_control": "resolve_regalia",
+                "comeback_factor": 0.1423033771360437,
+                "snowball_factor": 0.8720106718641367
+              },
+              "draft_analysis": {
+                "draft_advantage": "resolve_regalia",
+                "power_picks": [
+                  "ヨリック",
+                  "マオカイ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "resolve_regalia",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Resolve Regalia",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "焼きパン"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Resolve Regalia",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "焼きパン",
+                "team": "Resolve Regalia",
+                "role": "TOP",
+                "champion": "グウェン",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 11,
+                  "deaths": 2,
+                  "assists": 7,
+                  "kda": 9,
+                  "damage": 36998,
+                  "damage_share": 0.299887333533269,
+                  "gold": 20242
+                },
+                "highlight_moments": [
+                  "Exceptional グウェン performance with 9 KDA"
+                ]
+              }
+            },
+            "duration": "45:08"
+          }
+        },
+        {
+          "id": "match_020",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "0-1",
+            "mvp": "アステル・レダ",
+            "enhanced_stats": {
+              "duration": "38:42",
+              "game_flow": {
+                "early_game_leader": "resolve_regalia",
+                "mid_game_power_spike": "resolve_regalia",
+                "late_game_control": "resolve_regalia",
+                "comeback_factor": 0.2239085882958807,
+                "snowball_factor": 0.7257605854703872
+              },
+              "draft_analysis": {
+                "draft_advantage": "resolve_regalia",
+                "power_picks": [
+                  "サイオン",
+                  "ヴァイ"
+                ],
+                "counter_picks": [],
+                "ban_effectiveness": [],
+                "composition_synergy": {
+                  "team": "resolve_regalia",
+                  "composition_type": "Team Fight",
+                  "synergy_rating": 7,
+                  "key_synergies": [
+                    "Strong team fight potential"
+                  ]
+                }
+              },
+              "key_moments": [
+                {
+                  "timestamp": "15:00",
+                  "type": "Team Fight",
+                  "description": "Major team fight victory for Resolve Regalia",
+                  "impact_rating": 8,
+                  "players_involved": [
+                    "アステル・レダ"
+                  ]
+                },
+                {
+                  "timestamp": "25:30",
+                  "type": "Baron",
+                  "description": "Baron secured by Resolve Regalia",
+                  "impact_rating": 9,
+                  "players_involved": []
+                }
+              ],
+              "player_of_the_match": {
+                "player": "アステル・レダ",
+                "team": "Resolve Regalia",
+                "role": "MID",
+                "champion": "オーロラ",
+                "performance_score": 100,
+                "key_stats": {
+                  "kills": 3,
+                  "deaths": 1,
+                  "assists": 10,
+                  "kda": 13,
+                  "damage": 24032,
+                  "damage_share": 0.31947250877379557,
+                  "gold": 14505
+                },
+                "highlight_moments": [
+                  "Exceptional オーロラ performance with 13 KDA"
+                ]
+              }
+            },
+            "duration": "38:42"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2025-08-06",
+      "day": "木曜日",
+      "time": "19:00",
+      "round": 6,
+      "description": "最終節",
+      "matches": [
+        {
+          "id": "match_021",
+          "division": "CORE",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_022",
+          "division": "NEXT",
+          "team1": "precision_diadem",
+          "team2": "resolve_regalia",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_023",
+          "division": "CORE",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        },
+        {
+          "id": "match_024",
+          "division": "NEXT",
+          "team1": "domination_crown",
+          "team2": "sorcery_tiara",
+          "status": "scheduled",
+          "result": null
+        }
+      ]
+    }
+  ],
+  "playoffs": {
+    "format": "Double Elimination",
+    "location": "オフライン開催",
+    "schedule": [
+      {
+        "date": "2025-08-26",
+        "day": "火曜日",
+        "description": "プレイオフ1日目",
+        "matches": [
+          {
+            "id": "playoff_001",
+            "round": "準決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          },
+          {
+            "id": "playoff_002",
+            "round": "準決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          }
+        ]
+      },
+      {
+        "date": "2025-08-27",
+        "day": "水曜日",
+        "description": "プレイオフ2日目・決勝",
+        "matches": [
+          {
+            "id": "playoff_003",
+            "round": "3位決定戦",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          },
+          {
+            "id": "playoff_004",
+            "round": "決勝",
+            "team1": "TBD",
+            "team2": "TBD",
+            "status": "scheduled"
+          }
+        ]
+      }
+    ]
+  },
+  "current_standings": {
+    "core": [
+      {
+        "rank": 1,
+        "team": "sorcery_tiara",
+        "wins": 4,
+        "losses": 1,
+        "winRate": 0.8,
+        "points": 4
+      },
+      {
+        "rank": 2,
+        "team": "resolve_regalia",
+        "wins": 3,
+        "losses": 2,
+        "winRate": 0.6,
+        "points": 3
+      },
+      {
+        "rank": 3,
+        "team": "domination_crown",
+        "wins": 2,
+        "losses": 3,
+        "winRate": 0.4,
+        "points": 2
+      },
+      {
+        "rank": 4,
+        "team": "precision_diadem",
+        "wins": 1,
+        "losses": 4,
+        "winRate": 0.2,
+        "points": 1
+      }
+    ],
+    "next": [
+      {
+        "rank": 1,
+        "team": "domination_crown",
+        "wins": 3,
+        "losses": 2,
+        "winRate": 0.6,
+        "points": 3
+      },
+      {
+        "rank": 2,
+        "team": "sorcery_tiara",
+        "wins": 3,
+        "losses": 2,
+        "winRate": 0.6,
+        "points": 3
+      },
+      {
+        "rank": 3,
+        "team": "precision_diadem",
+        "wins": 2,
+        "losses": 3,
+        "winRate": 0.4,
+        "points": 2
+      },
+      {
+        "rank": 4,
+        "team": "resolve_regalia",
+        "wins": 2,
+        "losses": 3,
+        "winRate": 0.4,
+        "points": 2
+      }
+    ]
+  },
+  "season_overview": {
+    "total_matches": 61,
+    "completed_matches": 61,
+    "total_players": 43,
+    "unique_champions_played": 120,
+    "unique_champions_banned": 114
+  },
+  "team_performance": [
+    {
+      "team": "precision_diadem",
+      "division": "CORE",
+      "matches_played": 9,
+      "wins": 15,
+      "losses": 20,
+      "win_rate": 1.6666666666666667,
+      "average_match_duration": "31:23",
+      "total_kills": 551,
+      "total_deaths": 630,
+      "kill_death_ratio": 0.8746031746031746,
+      "average_damage_per_game": 294864,
+      "average_gold_per_game": 191292.22222222222,
+      "roster_stability": 0,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "ゆきお",
+          "games_played": 35,
+          "average_kda": 4.608571428571428,
+          "champion_diversity": 13,
+          "most_played_champion": "エイトロックス",
+          "performance_rating": 4.608571428571428
+        },
+        {
+          "role": "JG",
+          "primary_player": "千燈ゆうひ",
+          "games_played": 35,
+          "average_kda": 6.011428571428572,
+          "champion_diversity": 14,
+          "most_played_champion": "ジャーヴァンⅣ",
+          "performance_rating": 6.011428571428572
+        },
+        {
+          "role": "MID",
+          "primary_player": "Kamito",
+          "games_played": 35,
+          "average_kda": 4.6257142857142854,
+          "champion_diversity": 14,
+          "most_played_champion": "シンドラ",
+          "performance_rating": 4.6257142857142854
+        },
+        {
+          "role": "ADC",
+          "primary_player": "SHAKA",
+          "games_played": 35,
+          "average_kda": 5.48,
+          "champion_diversity": 9,
+          "most_played_champion": "ヴァルス",
+          "performance_rating": 5.48
+        },
+        {
+          "role": "SUP",
+          "primary_player": "神楽めあ",
+          "games_played": 35,
+          "average_kda": 3.7057142857142855,
+          "champion_diversity": 6,
+          "most_played_champion": "レオナ",
+          "performance_rating": 3.7057142857142855
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "domination_crown",
+          "division": "CORE",
+          "matches_played": 6,
+          "wins": 9,
+          "losses": 7,
+          "win_rate": 1.5,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "CORE",
+          "matches_played": 5,
+          "wins": 5,
+          "losses": 5,
+          "win_rate": 1,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "CORE",
+          "matches_played": 4,
+          "wins": 1,
+          "losses": 8,
+          "win_rate": 0.25,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-23"
+        }
+      ]
+    },
+    {
+      "team": "precision_diadem",
+      "division": "NEXT",
+      "matches_played": 10,
+      "wins": 5,
+      "losses": 20,
+      "win_rate": 0.5,
+      "average_match_duration": "21:54",
+      "total_kills": 237,
+      "total_deaths": 586,
+      "kill_death_ratio": 0.4044368600682594,
+      "average_damage_per_game": 152558.7,
+      "average_gold_per_game": 118522.7,
+      "roster_stability": 0.1,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "まざー3",
+          "games_played": 25,
+          "average_kda": 2.0759999999999996,
+          "champion_diversity": 8,
+          "most_played_champion": "グウェン",
+          "performance_rating": 2.0759999999999996
+        },
+        {
+          "role": "JG",
+          "primary_player": "天月",
+          "games_played": 25,
+          "average_kda": 2.464,
+          "champion_diversity": 7,
+          "most_played_champion": "パンテオン",
+          "performance_rating": 2.464
+        },
+        {
+          "role": "MID",
+          "primary_player": "夢野あかり",
+          "games_played": 25,
+          "average_kda": 1.7999999999999998,
+          "champion_diversity": 8,
+          "most_played_champion": "ハイマーディンガー",
+          "performance_rating": 1.7999999999999998
+        },
+        {
+          "role": "ADC",
+          "primary_player": "兎咲ミミ",
+          "games_played": 25,
+          "average_kda": 2.616,
+          "champion_diversity": 10,
+          "most_played_champion": "シヴィア",
+          "performance_rating": 2.616
+        },
+        {
+          "role": "SUP",
+          "primary_player": "しろまんた",
+          "games_played": 25,
+          "average_kda": 1.8719999999999999,
+          "champion_diversity": 6,
+          "most_played_champion": "ノーチラス",
+          "performance_rating": 1.8719999999999999
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "domination_crown",
+          "division": "NEXT",
+          "matches_played": 6,
+          "wins": 2,
+          "losses": 8,
+          "win_rate": 0.3333333333333333,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-23"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "NEXT",
+          "matches_played": 6,
+          "wins": 1,
+          "losses": 9,
+          "win_rate": 0.16666666666666666,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "NEXT",
+          "matches_played": 4,
+          "wins": 2,
+          "losses": 3,
+          "win_rate": 0.5,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-23"
+        }
+      ]
+    },
+    {
+      "team": "domination_crown",
+      "division": "CORE",
+      "matches_played": 11,
+      "wins": 11,
+      "losses": 25,
+      "win_rate": 1,
+      "average_match_duration": "31:23",
+      "total_kills": 575,
+      "total_deaths": 690,
+      "kill_death_ratio": 0.8333333333333334,
+      "average_damage_per_game": 245894.27272727274,
+      "average_gold_per_game": 158227.81818181818,
+      "roster_stability": 0.09090909090909091,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "歌衣メイカ",
+          "games_played": 36,
+          "average_kda": 3.511111111111111,
+          "champion_diversity": 12,
+          "most_played_champion": "サイオン",
+          "performance_rating": 3.511111111111111
+        },
+        {
+          "role": "JG",
+          "primary_player": "葛葉",
+          "games_played": 36,
+          "average_kda": 5.252777777777777,
+          "champion_diversity": 14,
+          "most_played_champion": "リー・シン",
+          "performance_rating": 5.252777777777777
+        },
+        {
+          "role": "MID",
+          "primary_player": "k4sen",
+          "games_played": 36,
+          "average_kda": 4.808333333333334,
+          "champion_diversity": 13,
+          "most_played_champion": "タリヤ",
+          "performance_rating": 4.808333333333334
+        },
+        {
+          "role": "ADC",
+          "primary_player": "鷹宮リオン",
+          "games_played": 36,
+          "average_kda": 6.125,
+          "champion_diversity": 8,
+          "most_played_champion": "ヴァルス",
+          "performance_rating": 6.125
+        },
+        {
+          "role": "SUP",
+          "primary_player": "昏昏アリア",
+          "games_played": 36,
+          "average_kda": 3.908333333333333,
+          "champion_diversity": 8,
+          "most_played_champion": "ラカン",
+          "performance_rating": 3.908333333333333
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "CORE",
+          "matches_played": 6,
+          "wins": 7,
+          "losses": 9,
+          "win_rate": 1.1666666666666667,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "CORE",
+          "matches_played": 6,
+          "wins": 1,
+          "losses": 10,
+          "win_rate": 0.16666666666666666,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "CORE",
+          "matches_played": 5,
+          "wins": 3,
+          "losses": 6,
+          "win_rate": 0.6,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-28"
+        }
+      ]
+    },
+    {
+      "team": "domination_crown",
+      "division": "NEXT",
+      "matches_played": 8,
+      "wins": 14,
+      "losses": 3,
+      "win_rate": 1.75,
+      "average_match_duration": "21:54",
+      "total_kills": 356,
+      "total_deaths": 160,
+      "kill_death_ratio": 2.225,
+      "average_damage_per_game": 165275.875,
+      "average_gold_per_game": 119019,
+      "roster_stability": 0.25,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "ta1yo",
+          "games_played": 17,
+          "average_kda": 6.288235294117648,
+          "champion_diversity": 6,
+          "most_played_champion": "レネクトン",
+          "performance_rating": 6.288235294117648
+        },
+        {
+          "role": "JG",
+          "primary_player": "ゆふな",
+          "games_played": 17,
+          "average_kda": 8.152941176470588,
+          "champion_diversity": 4,
+          "most_played_champion": "ウーコン",
+          "performance_rating": 8.152941176470588
+        },
+        {
+          "role": "MID",
+          "primary_player": "空澄セナ",
+          "games_played": 17,
+          "average_kda": 8.570588235294117,
+          "champion_diversity": 4,
+          "most_played_champion": "オリアナ",
+          "performance_rating": 8.570588235294117
+        },
+        {
+          "role": "ADC",
+          "primary_player": "天帝フォルテ",
+          "games_played": 17,
+          "average_kda": 14.023529411764704,
+          "champion_diversity": 8,
+          "most_played_champion": "ジン",
+          "performance_rating": 10
+        },
+        {
+          "role": "SUP",
+          "primary_player": "白那しずく",
+          "games_played": 17,
+          "average_kda": 11.51764705882353,
+          "champion_diversity": 6,
+          "most_played_champion": "レオナ",
+          "performance_rating": 10
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "NEXT",
+          "matches_played": 6,
+          "wins": 8,
+          "losses": 2,
+          "win_rate": 1.3333333333333333,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-23"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "NEXT",
+          "matches_played": 4,
+          "wins": 3,
+          "losses": 1,
+          "win_rate": 0.75,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "NEXT",
+          "matches_played": 3,
+          "wins": 3,
+          "losses": 0,
+          "win_rate": 1,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-15"
+        }
+      ]
+    },
+    {
+      "team": "resolve_regalia",
+      "division": "CORE",
+      "matches_played": 10,
+      "wins": 15,
+      "losses": 17,
+      "win_rate": 1.5,
+      "average_match_duration": "28:44",
+      "total_kills": 536,
+      "total_deaths": 550,
+      "kill_death_ratio": 0.9745454545454545,
+      "average_damage_per_game": 266694.9,
+      "average_gold_per_game": 168909.7,
+      "roster_stability": 0,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "焼きパン",
+          "games_played": 32,
+          "average_kda": 4.459375,
+          "champion_diversity": 13,
+          "most_played_champion": "グウェン",
+          "performance_rating": 4.459375
+        },
+        {
+          "role": "JG",
+          "primary_player": "Killin9Hit",
+          "games_played": 32,
+          "average_kda": 4.565625000000002,
+          "champion_diversity": 10,
+          "most_played_champion": "ノクターン",
+          "performance_rating": 4.565625000000002
+        },
+        {
+          "role": "MID",
+          "primary_player": "乾伸一郎",
+          "games_played": 32,
+          "average_kda": 6.603125,
+          "champion_diversity": 13,
+          "most_played_champion": "ビクター",
+          "performance_rating": 6.603125
+        },
+        {
+          "role": "ADC",
+          "primary_player": "No.1005(とおこ)",
+          "games_played": 32,
+          "average_kda": 5.468750000000001,
+          "champion_diversity": 10,
+          "most_played_champion": "カイ＝サ",
+          "performance_rating": 5.468750000000001
+        },
+        {
+          "role": "SUP",
+          "primary_player": "たかやスペシャル",
+          "games_played": 32,
+          "average_kda": 7.603125,
+          "champion_diversity": 10,
+          "most_played_champion": "ノーチラス",
+          "performance_rating": 7.603125
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "CORE",
+          "matches_played": 5,
+          "wins": 5,
+          "losses": 5,
+          "win_rate": 1,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "domination_crown",
+          "division": "CORE",
+          "matches_played": 5,
+          "wins": 6,
+          "losses": 3,
+          "win_rate": 1.2,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-28"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "CORE",
+          "matches_played": 7,
+          "wins": 4,
+          "losses": 9,
+          "win_rate": 0.5714285714285714,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        }
+      ]
+    },
+    {
+      "team": "resolve_regalia",
+      "division": "NEXT",
+      "matches_played": 9,
+      "wins": 13,
+      "losses": 7,
+      "win_rate": 1.4444444444444444,
+      "average_match_duration": "32:50",
+      "total_kills": 384,
+      "total_deaths": 277,
+      "kill_death_ratio": 1.3862815884476534,
+      "average_damage_per_game": 180962.55555555556,
+      "average_gold_per_game": 124407.88888888889,
+      "roster_stability": 0.2222222222222222,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "狐白うる",
+          "games_played": 20,
+          "average_kda": 6.8,
+          "champion_diversity": 9,
+          "most_played_champion": "エイトロックス",
+          "performance_rating": 6.8
+        },
+        {
+          "role": "JG",
+          "primary_player": "夜よいち",
+          "games_played": 20,
+          "average_kda": 7.275,
+          "champion_diversity": 6,
+          "most_played_champion": "パンテオン",
+          "performance_rating": 7.275
+        },
+        {
+          "role": "MID",
+          "primary_player": "アステル・レダ",
+          "games_played": 20,
+          "average_kda": 8.805000000000001,
+          "champion_diversity": 10,
+          "most_played_champion": "ビクター",
+          "performance_rating": 8.805000000000001
+        },
+        {
+          "role": "ADC",
+          "primary_player": "白波らむね",
+          "games_played": 20,
+          "average_kda": 10.060000000000002,
+          "champion_diversity": 7,
+          "most_played_champion": "セナ",
+          "performance_rating": 10
+        },
+        {
+          "role": "SUP",
+          "primary_player": "日向まる",
+          "games_played": 20,
+          "average_kda": 6.5,
+          "champion_diversity": 5,
+          "most_played_champion": "レオナ",
+          "performance_rating": 6.5
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "NEXT",
+          "matches_played": 6,
+          "wins": 9,
+          "losses": 1,
+          "win_rate": 1.5,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "domination_crown",
+          "division": "NEXT",
+          "matches_played": 3,
+          "wins": 0,
+          "losses": 3,
+          "win_rate": 0,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-15"
+        },
+        {
+          "opponent": "sorcery_tiara",
+          "division": "NEXT",
+          "matches_played": 5,
+          "wins": 4,
+          "losses": 3,
+          "win_rate": 0.8,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        }
+      ]
+    },
+    {
+      "team": "sorcery_tiara",
+      "division": "CORE",
+      "matches_played": 10,
+      "wins": 27,
+      "losses": 6,
+      "win_rate": 2.7,
+      "average_match_duration": "14:59",
+      "total_kills": 627,
+      "total_deaths": 420,
+      "kill_death_ratio": 1.4928571428571429,
+      "average_damage_per_game": 274414.7,
+      "average_gold_per_game": 170794.3,
+      "roster_stability": 0,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "mittiii",
+          "games_played": 33,
+          "average_kda": 6.051515151515149,
+          "champion_diversity": 13,
+          "most_played_champion": "レネクトン",
+          "performance_rating": 6.051515151515149
+        },
+        {
+          "role": "JG",
+          "primary_player": "きなこ",
+          "games_played": 33,
+          "average_kda": 7.593939393939393,
+          "champion_diversity": 11,
+          "most_played_champion": "シン・ジャオ",
+          "performance_rating": 7.593939393939393
+        },
+        {
+          "role": "MID",
+          "primary_player": "AlphaAzur",
+          "games_played": 33,
+          "average_kda": 6.872727272727272,
+          "champion_diversity": 16,
+          "most_played_champion": "アニー",
+          "performance_rating": 6.872727272727272
+        },
+        {
+          "role": "ADC",
+          "primary_player": "なぎさっち",
+          "games_played": 33,
+          "average_kda": 7.657575757575758,
+          "champion_diversity": 8,
+          "most_played_champion": "ヴァルス",
+          "performance_rating": 7.657575757575758
+        },
+        {
+          "role": "SUP",
+          "primary_player": "うるか",
+          "games_played": 33,
+          "average_kda": 9.033333333333333,
+          "champion_diversity": 17,
+          "most_played_champion": "レル",
+          "performance_rating": 9.033333333333333
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "CORE",
+          "matches_played": 4,
+          "wins": 8,
+          "losses": 1,
+          "win_rate": 2,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-23"
+        },
+        {
+          "opponent": "domination_crown",
+          "division": "CORE",
+          "matches_played": 6,
+          "wins": 10,
+          "losses": 1,
+          "win_rate": 1.6666666666666667,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "CORE",
+          "matches_played": 7,
+          "wins": 9,
+          "losses": 4,
+          "win_rate": 1.2857142857142858,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        }
+      ]
+    },
+    {
+      "team": "sorcery_tiara",
+      "division": "NEXT",
+      "matches_played": 7,
+      "wins": 7,
+      "losses": 9,
+      "win_rate": 1,
+      "average_match_duration": "34:05",
+      "total_kills": 286,
+      "total_deaths": 250,
+      "kill_death_ratio": 1.144,
+      "average_damage_per_game": 208256.2857142857,
+      "average_gold_per_game": 134214,
+      "roster_stability": 0.14285714285714285,
+      "role_performance": [
+        {
+          "role": "TOP",
+          "primary_player": "胡桃のあ",
+          "games_played": 16,
+          "average_kda": 3.5875000000000004,
+          "champion_diversity": 6,
+          "most_played_champion": "レネクトン",
+          "performance_rating": 3.5875000000000004
+        },
+        {
+          "role": "JG",
+          "primary_player": "天宮こころ",
+          "games_played": 16,
+          "average_kda": 5.01875,
+          "champion_diversity": 9,
+          "most_played_champion": "ノクターン",
+          "performance_rating": 5.01875
+        },
+        {
+          "role": "MID",
+          "primary_player": "鈴木ノリアキ",
+          "games_played": 16,
+          "average_kda": 7.262499999999999,
+          "champion_diversity": 10,
+          "most_played_champion": "ルブラン",
+          "performance_rating": 7.262499999999999
+        },
+        {
+          "role": "ADC",
+          "primary_player": "橘ひなの",
+          "games_played": 16,
+          "average_kda": 8.4625,
+          "champion_diversity": 8,
+          "most_played_champion": "ジンクス",
+          "performance_rating": 8.4625
+        },
+        {
+          "role": "SUP",
+          "primary_player": "トナカイト",
+          "games_played": 16,
+          "average_kda": 5.0874999999999995,
+          "champion_diversity": 6,
+          "most_played_champion": "ラカン",
+          "performance_rating": 5.0874999999999995
+        }
+      ],
+      "head_to_head": [
+        {
+          "opponent": "precision_diadem",
+          "division": "NEXT",
+          "matches_played": 4,
+          "wins": 3,
+          "losses": 2,
+          "win_rate": 0.75,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-23"
+        },
+        {
+          "opponent": "domination_crown",
+          "division": "NEXT",
+          "matches_played": 4,
+          "wins": 1,
+          "losses": 3,
+          "win_rate": 0.25,
+          "last_match_result": "Win",
+          "last_match_date": "2025-07-29"
+        },
+        {
+          "opponent": "resolve_regalia",
+          "division": "NEXT",
+          "matches_played": 5,
+          "wins": 3,
+          "losses": 4,
+          "win_rate": 0.6,
+          "last_match_result": "Loss",
+          "last_match_date": "2025-07-29"
+        }
+      ]
+    }
+  ]
+}

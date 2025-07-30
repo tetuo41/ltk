@@ -1,12 +1,27 @@
 ---
 import type { NavItem } from '@/types';
 
+// Get current page path for active state detection
+const currentPath = Astro.url.pathname;
+
 const navItems: NavItem[] = [
-  { href: '#home', label: 'ホーム', active: true },
+  { href: '/', label: 'ホーム' },
   { href: '#teams', label: 'チーム' },
   { href: '#schedule', label: 'スケジュール' },
-  { href: '#standings', label: '順位表' }
+  { href: '#standings', label: '順位表' },
+  { href: '/statistics', label: '統計データ' }
 ];
+
+// Function to determine if a nav item should be active
+function isNavItemActive(href: string): boolean {
+  if (href.startsWith('#')) {
+    // Hash links are only active on the home page
+    return currentPath === '/';
+  } else {
+    // Route links match the current path
+    return currentPath === href;
+  }
+}
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b-2 border-gold transition-all duration-300">
@@ -18,21 +33,25 @@ const navItems: NavItem[] = [
       </div>
       
       <ul class="hidden md:flex list-none gap-8 m-0 p-0" role="list">
-        {navItems.map((item) => (
-          <li class="relative">
-            <a 
-              href={item.href} 
-              class={`block px-4 py-2 rounded-md font-medium transition-all duration-150 relative ${
-                item.active 
-                  ? 'text-silver bg-gold/20 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-5 after:h-0.5 after:bg-gold' 
-                  : 'text-gold/80 hover:text-silver hover:bg-gold/10 hover:-translate-y-0.5'
-              }`}
-              data-nav-link
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
+        {navItems.map((item) => {
+          const isActive = isNavItemActive(item.href);
+          return (
+            <li class="relative">
+              <a 
+                href={item.href} 
+                class={`block px-4 py-2 rounded-md font-medium transition-all duration-150 relative ${
+                  isActive 
+                    ? 'text-silver bg-gold/20 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-5 after:h-0.5 after:bg-gold' 
+                    : 'text-gold/80 hover:text-silver hover:bg-gold/10 hover:-translate-y-0.5'
+                }`}
+                data-nav-link
+                data-href={item.href}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
       </ul>
       
       <button class="md:hidden flex flex-col bg-transparent border-none cursor-pointer p-2 gap-1" aria-label="メニューを開く" data-mobile-toggle>
@@ -75,24 +94,36 @@ const navItems: NavItem[] = [
     private setupSmoothScroll(): void {
       this.navLinks.forEach(link => {
         link.addEventListener('click', (e: Event) => {
-          e.preventDefault();
           const targetId = link.getAttribute('href');
+          const currentPath = window.location.pathname;
           
           if (targetId && targetId.startsWith('#')) {
-            const targetSection = document.querySelector(targetId) as HTMLElement;
-            
-            if (targetSection) {
-              const offsetTop = targetSection.offsetTop - 100;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-              });
-            }
+            // Hash link behavior
+            if (currentPath === '/') {
+              // On home page, scroll to section
+              e.preventDefault();
+              const targetSection = document.querySelector(targetId) as HTMLElement;
+              
+              if (targetSection) {
+                const offsetTop = targetSection.offsetTop - 100;
+                window.scrollTo({
+                  top: offsetTop,
+                  behavior: 'smooth'
+                });
+              }
 
-            // Update active state
-            this.updateActiveLink(link);
+              // Update active state for hash navigation
+              this.updateActiveLink(link);
+            } else {
+              // On other pages, navigate to home page with hash
+              window.location.href = '/' + targetId;
+            }
             
             // Close mobile menu if open
+            this.closeMobileMenu();
+          } else {
+            // For regular route links (like / or /statistics), allow default navigation
+            // Just close mobile menu if open
             this.closeMobileMenu();
           }
         });
@@ -100,6 +131,10 @@ const navItems: NavItem[] = [
     }
 
     private setupScrollSpy(): void {
+      // Only enable scroll spy on the home page
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/') return;
+
       const observerOptions: IntersectionObserverInit = {
         root: null,
         rootMargin: '-20% 0px -70% 0px',
@@ -147,8 +182,21 @@ const navItems: NavItem[] = [
     }
 
     private updateActiveLink(activeLink: NavLinkElement): void {
-      this.navLinks.forEach(link => link.classList.remove('active'));
-      activeLink.classList.add('active');
+      // Remove active styling from all links
+      this.navLinks.forEach(link => {
+        link.classList.remove('text-silver', 'bg-gold/20');
+        link.classList.add('text-gold/80');
+        // Remove the pseudo-element by removing the after classes
+        const afterClasses = ['after:absolute', 'after:bottom-0', 'after:left-1/2', 'after:-translate-x-1/2', 'after:w-5', 'after:h-0.5', 'after:bg-gold'];
+        link.classList.remove(...afterClasses);
+      });
+
+      // Add active styling to the target link
+      activeLink.classList.remove('text-gold/80');
+      activeLink.classList.add('text-silver', 'bg-gold/20');
+      // Add the pseudo-element classes
+      const afterClasses = ['after:absolute', 'after:bottom-0', 'after:left-1/2', 'after:-translate-x-1/2', 'after:w-5', 'after:h-0.5', 'after:bg-gold'];
+      activeLink.classList.add(...afterClasses);
     }
 
     private toggleMobileMenu(): void {

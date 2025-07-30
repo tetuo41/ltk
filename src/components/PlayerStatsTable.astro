@@ -1,0 +1,239 @@
+---
+import type { PlayerSeasonStats } from '@/types/statistics';
+
+export interface Props {
+  players: PlayerSeasonStats[];
+  division?: "CORE" | "NEXT";
+  sortBy?: keyof PlayerSeasonStats;
+  limit?: number;
+}
+
+const { players, division, sortBy = 'average_kda', limit } = Astro.props;
+
+// Filter players by division if specified
+let filteredPlayers = division 
+  ? players.filter(player => player.division === division)
+  : players;
+
+// Sort players by the specified field
+filteredPlayers = filteredPlayers.sort((a, b) => {
+  const aValue = a[sortBy];
+  const bValue = b[sortBy];
+  
+  if (typeof aValue === 'number' && typeof bValue === 'number') {
+    return bValue - aValue; // Descending order
+  }
+  
+  return 0;
+});
+
+// Limit results if specified
+if (limit) {
+  filteredPlayers = filteredPlayers.slice(0, limit);
+}
+
+// Function to format numbers
+function formatNumber(num: number, decimals: number = 2): string {
+  return Number(num).toLocaleString('ja-JP', { 
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals 
+  });
+}
+
+function formatInteger(num: number): string {
+  return Number(num).toLocaleString('ja-JP');
+}
+
+// Function to get rank display
+function getRankDisplay(index: number): string {
+  const rank = index + 1;
+  const indicators = ['🥇', '🥈', '🥉'];
+  return indicators[rank - 1] || `${rank}位`;
+}
+
+// Function to get role color
+function getRoleColor(role: string): string {
+  const colors = {
+    'TOP': 'text-blue-400 bg-blue-400/10',
+    'JG': 'text-green-400 bg-green-400/10', 
+    'MID': 'text-yellow-400 bg-yellow-400/10',
+    'ADC': 'text-red-400 bg-red-400/10',
+    'SUP': 'text-purple-400 bg-purple-400/10'
+  };
+  return colors[role as keyof typeof colors] || 'text-gray-400 bg-gray-400/10';
+}
+
+// Function to get performance rating color
+function getPerformanceColor(kda: number): string {
+  if (kda >= 3.0) return 'text-green-400';
+  if (kda >= 2.0) return 'text-yellow-400';
+  if (kda >= 1.5) return 'text-orange-400';
+  return 'text-red-400';
+}
+---
+
+<div class="bg-surface border border-tertiary rounded-xl overflow-hidden shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-sm" role="table" aria-label={`${division || '全部門'}選手統計表`}>
+      <!-- Table Header -->
+      <thead>
+        <tr class="bg-gold/30">
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky left-0 z-10 bg-gold/30 w-16">順位</th>
+          <th scope="col" class="text-silver px-4 py-4 text-left font-semibold border-b-2 border-gold/20 whitespace-nowrap sticky left-16 z-10 bg-gold/30 min-w-[120px]">選手名</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-16">ロール</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-16">試合</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-20">勝率</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-20">KDA</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-16">K</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-16">D</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-16">A</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-24">ダメージ/G</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-24">ゴールド/G</th>
+          <th scope="col" class="text-silver px-3 py-4 text-center font-semibold border-b-2 border-gold/20 whitespace-nowrap w-20">使用チャンピオン</th>
+        </tr>
+      </thead>
+      
+      <!-- Table Body -->
+      <tbody>
+        {filteredPlayers.map((player, index) => {
+          const mainChampion = player.champion_pool.length > 0 ? player.champion_pool[0] : null;
+          
+          return (
+            <tr class="transition-all duration-150 hover:bg-gold/5 border-b border-gold/10">
+              <!-- Rank -->
+              <td class="px-3 py-4 text-center align-middle sticky left-0 z-10 bg-surface border-r border-gold/10">
+                <div class="flex items-center justify-center">
+                  <span class="text-sm" aria-label={`${index + 1}位`}>
+                    {getRankDisplay(index)}
+                  </span>
+                </div>
+              </td>
+              
+              <!-- Player Name -->
+              <td class="px-4 py-4 text-left align-middle sticky left-16 z-10 bg-surface border-r border-gold/10">
+                <div class="flex flex-col">
+                  <span class="font-medium text-silver text-base leading-tight">{player.player}</span>
+                  <span class="text-xs text-dark-light mt-1">{player.team}</span>
+                </div>
+              </td>
+              
+              <!-- Role -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class={`inline-block px-2 py-1 rounded text-xs font-medium ${getRoleColor(player.role)}`}>
+                  {player.role}
+                </span>
+              </td>
+              
+              <!-- Matches Played -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="font-semibold text-silver">{player.matches_played}</span>
+              </td>
+              
+              <!-- Win Rate -->
+              <td class="px-3 py-4 text-center align-middle">
+                <div class="flex flex-col items-center gap-1">
+                  <span class="font-semibold text-silver text-sm">{formatNumber(player.win_rate * 100, 0)}%</span>
+                  <div class="w-12 h-1 bg-gold/20 rounded overflow-hidden">
+                    <div 
+                      class={`h-full transition-all duration-300 ${player.win_rate >= 0.6 ? 'bg-green-400' : player.win_rate >= 0.4 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                      style={`width: ${player.win_rate * 100}%`}
+                    ></div>
+                  </div>
+                </div>
+              </td>
+              
+              <!-- KDA -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class={`font-bold text-base ${getPerformanceColor(player.average_kda)}`}>
+                  {formatNumber(player.average_kda)}
+                </span>
+              </td>
+              
+              <!-- Kills -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="text-silver text-sm">{formatNumber(player.total_kills / player.matches_played, 1)}</span>
+              </td>
+              
+              <!-- Deaths -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="text-silver text-sm">{formatNumber(player.total_deaths / player.matches_played, 1)}</span>
+              </td>
+              
+              <!-- Assists -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="text-silver text-sm">{formatNumber(player.total_assists / player.matches_played, 1)}</span>
+              </td>
+              
+              <!-- Damage per Game -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="text-silver text-sm">{formatInteger(player.damage_per_game)}</span>
+              </td>
+              
+              <!-- Gold per Game -->
+              <td class="px-3 py-4 text-center align-middle">
+                <span class="text-silver text-sm">{formatInteger(player.gold_per_game)}</span>
+              </td>
+              
+              <!-- Most Played Champion -->
+              <td class="px-3 py-4 text-center align-middle">
+                {mainChampion ? (
+                  <div class="flex flex-col items-center gap-1">
+                    <span class="text-silver text-xs font-medium leading-tight">{mainChampion.champion}</span>
+                    <div class="flex items-center gap-1 text-xs text-dark-light">
+                      <span>{mainChampion.games_played}戦</span>
+                      <span class={mainChampion.win_rate >= 0.6 ? 'text-green-400' : mainChampion.win_rate >= 0.4 ? 'text-yellow-400' : 'text-red-400'}>
+                        {formatNumber(mainChampion.win_rate * 100, 0)}%
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span class="text-dark-light text-xs">-</span>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+  
+  {filteredPlayers.length === 0 && (
+    <div class="text-center py-12">
+      <p class="text-dark-light">該当する選手データがありません。</p>
+    </div>
+  )}
+</div>
+
+<!-- Legend -->
+<div class="mt-4 flex flex-wrap gap-4 text-xs text-dark-light">
+  <div class="flex items-center gap-1">
+    <span class="w-2 h-2 bg-green-400 rounded"></span>
+    <span>優秀 (KDA 3.0+, 勝率60%+)</span>
+  </div>
+  <div class="flex items-center gap-1">
+    <span class="w-2 h-2 bg-yellow-400 rounded"></span>
+    <span>良好 (KDA 2.0+, 勝率40%+)</span>
+  </div>
+  <div class="flex items-center gap-1">
+    <span class="w-2 h-2 bg-red-400 rounded"></span>
+    <span>課題 (KDA 2.0未満, 勝率40%未満)</span>
+  </div>
+</div>
+
+<style>
+  /* Ensure sticky positioning works properly */
+  .sticky {
+    position: sticky;
+  }
+  
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .sticky {
+      position: static;
+    }
+    
+    table {
+      min-width: 800px;
+    }
+  }
+</style>

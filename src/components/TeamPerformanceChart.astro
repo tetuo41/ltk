@@ -1,0 +1,316 @@
+---
+import type { TeamPerformanceMetrics } from '@/types/statistics';
+
+export interface Props {
+  teams: TeamPerformanceMetrics[];
+  division?: "CORE" | "NEXT";
+  metric?: "win_rate" | "kda" | "damage" | "gold";
+}
+
+const { teams, division } = Astro.props;
+
+// Filter teams by division if specified
+let filteredTeams = division 
+  ? teams.filter(team => team.division === division)
+  : teams;
+
+// Group teams by team name for comparison
+const teamGroups = filteredTeams.reduce((acc, team) => {
+  const teamName = team.team;
+  if (!acc[teamName]) {
+    acc[teamName] = { core: null, next: null };
+  }
+  acc[teamName][team.division.toLowerCase() as 'core' | 'next'] = team;
+  return acc;
+}, {} as Record<string, { core: TeamPerformanceMetrics | null; next: TeamPerformanceMetrics | null }>);
+
+// Function to format numbers
+function formatNumber(num: number, decimals: number = 2): string {
+  return Number(num).toLocaleString('ja-JP', { 
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals 
+  });
+}
+
+function formatInteger(num: number): string {
+  return Number(num).toLocaleString('ja-JP');
+}
+
+// Function to get team color
+function getTeamColor(teamName: string): { bg: string; border: string; text: string } {
+  const colors = {
+    'precision_diadem': { bg: 'bg-blue-400/10', border: 'border-blue-400', text: 'text-blue-400' },
+    'domination_crown': { bg: 'bg-red-400/10', border: 'border-red-400', text: 'text-red-400' },
+    'sorcery_tiara': { bg: 'bg-purple-400/10', border: 'border-purple-400', text: 'text-purple-400' },
+    'resolve_regalia': { bg: 'bg-green-400/10', border: 'border-green-400', text: 'text-green-400' }
+  };
+  return colors[teamName as keyof typeof colors] || { bg: 'bg-gray-400/10', border: 'border-gray-400', text: 'text-gray-400' };
+}
+
+// Function to get division badge color
+function getDivisionBadge(division: "CORE" | "NEXT"): string {
+  return division === "CORE" 
+    ? 'bg-red-400/20 text-red-400 border-red-400/30' 
+    : 'bg-purple-400/20 text-purple-400 border-purple-400/30';
+}
+
+
+// Function to get performance rating
+function getPerformanceRating(winRate: number): { rating: string; color: string } {
+  if (winRate >= 0.7) return { rating: 'S', color: 'text-gold bg-gold/20' };
+  if (winRate >= 0.6) return { rating: 'A', color: 'text-green-400 bg-green-400/20' };
+  if (winRate >= 0.5) return { rating: 'B', color: 'text-yellow-400 bg-yellow-400/20' };
+  if (winRate >= 0.4) return { rating: 'C', color: 'text-orange-400 bg-orange-400/20' };
+  return { rating: 'D', color: 'text-red-400 bg-red-400/20' };
+}
+---
+
+<div class="space-y-8">
+  <!-- Team Overview Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {Object.entries(teamGroups).map(([teamName, divisions]) => {
+      const coreTeam = divisions.core;
+      const nextTeam = divisions.next;
+      const teamColors = getTeamColor(teamName);
+      
+      return (
+        <div class={`${teamColors.bg} border ${teamColors.border} rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}>
+          <div class="text-center mb-4">
+            <h3 class={`text-xl font-bold ${teamColors.text} mb-2`}>
+              {teamName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            </h3>
+          </div>
+          
+          <!-- CORE Division Stats -->
+          {coreTeam && (
+            <div class="mb-4 p-3 bg-surface/50 rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <span class={`px-2 py-1 rounded text-xs font-semibold border ${getDivisionBadge("CORE")}`}>
+                  ⚔️ CORE
+                </span>
+                <div class={`px-2 py-1 rounded text-xs font-bold ${getPerformanceRating(coreTeam.win_rate).color}`}>
+                  {getPerformanceRating(coreTeam.win_rate).rating}
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <span class="text-dark-light block">勝率</span>
+                  <span class="font-semibold text-silver">{formatNumber(coreTeam.win_rate * 100, 0)}%</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">試合</span>
+                  <span class="font-semibold text-silver">{coreTeam.wins}勝{coreTeam.losses}敗</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">K/D</span>
+                  <span class="font-semibold text-silver">{formatNumber(coreTeam.kill_death_ratio)}</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">平均時間</span>
+                  <span class="font-semibold text-silver">{coreTeam.average_match_duration}</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <!-- NEXT Division Stats -->
+          {nextTeam && (
+            <div class="p-3 bg-surface/50 rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <span class={`px-2 py-1 rounded text-xs font-semibold border ${getDivisionBadge("NEXT")}`}>
+                  🌟 NEXT
+                </span>
+                <div class={`px-2 py-1 rounded text-xs font-bold ${getPerformanceRating(nextTeam.win_rate).color}`}>
+                  {getPerformanceRating(nextTeam.win_rate).rating}
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <span class="text-dark-light block">勝率</span>
+                  <span class="font-semibold text-silver">{formatNumber(nextTeam.win_rate * 100, 0)}%</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">試合</span>
+                  <span class="font-semibold text-silver">{nextTeam.wins}勝{nextTeam.losses}敗</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">K/D</span>
+                  <span class="font-semibold text-silver">{formatNumber(nextTeam.kill_death_ratio)}</span>
+                </div>
+                <div>
+                  <span class="text-dark-light block">平均時間</span>
+                  <span class="font-semibold text-silver">{nextTeam.average_match_duration}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- Detailed Team Comparison Table -->
+  <div class="bg-surface border border-tertiary rounded-xl overflow-hidden shadow-sm">
+    <div class="px-6 py-4 bg-gold/30 border-b border-gold/20">
+      <h3 class="text-xl font-semibold text-primary flex items-center gap-2">
+        📊 チーム詳細比較
+      </h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm">
+        <thead>
+          <tr class="bg-gold/20">
+            <th scope="col" class="text-silver px-4 py-3 text-left font-semibold border-b border-gold/20">チーム</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">部門</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">勝率</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">K/D比</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">平均ダメージ</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">平均ゴールド</th>
+            <th scope="col" class="text-silver px-3 py-3 text-center font-semibold border-b border-gold/20">ロースター安定性</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTeams
+            .sort((a, b) => b.win_rate - a.win_rate)
+            .map((team) => {
+              const teamColors = getTeamColor(team.team);
+              const performance = getPerformanceRating(team.win_rate);
+              
+              return (
+                <tr class="transition-all duration-150 hover:bg-gold/5 border-b border-gold/10">
+                  <td class="px-4 py-4 text-left">
+                    <div class="flex items-center gap-3">
+                      <div class={`w-4 h-4 rounded ${teamColors.bg} ${teamColors.border} border`}></div>
+                      <span class="font-medium text-silver">
+                        {team.team.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </span>
+                    </div>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <span class={`px-2 py-1 rounded text-xs font-semibold border ${getDivisionBadge(team.division)}`}>
+                      {team.division === "CORE" ? "⚔️ CORE" : "🌟 NEXT"}
+                    </span>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="font-semibold text-silver">{formatNumber(team.win_rate * 100, 0)}%</span>
+                      <span class={`px-2 py-1 rounded text-xs font-bold ${performance.color}`}>
+                        {performance.rating}
+                      </span>
+                    </div>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <span class="font-semibold text-silver">{formatNumber(team.kill_death_ratio)}</span>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <span class="text-silver">{formatInteger(team.average_damage_per_game)}</span>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <span class="text-silver">{formatInteger(team.average_gold_per_game)}</span>
+                  </td>
+                  
+                  <td class="px-3 py-4 text-center">
+                    <div class="flex flex-col items-center gap-1">
+                      <span class="text-silver text-sm">{formatNumber(team.roster_stability * 100, 0)}%</span>
+                      <div class="w-12 h-1 bg-gold/20 rounded overflow-hidden">
+                        <div 
+                          class={`h-full transition-all duration-300 ${team.roster_stability >= 0.8 ? 'bg-green-400' : team.roster_stability >= 0.6 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                          style={`width: ${team.roster_stability * 100}%`}
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Role Performance Analysis -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-surface border border-tertiary rounded-xl p-6">
+      <h3 class="text-xl font-semibold text-dark mb-6 flex items-center gap-2">
+        ⚔️ CORE部門 - ロール別成績
+      </h3>
+      
+      {Object.entries(teamGroups).map(([teamName, divisions]) => {
+        const coreTeam = divisions.core;
+        if (!coreTeam) return null;
+        
+        const teamColors = getTeamColor(teamName);
+        
+        return (
+          <div class={`${teamColors.bg} border ${teamColors.border} rounded-lg p-4 mb-4`}>
+            <h4 class={`font-semibold ${teamColors.text} mb-3`}>
+              {teamName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            </h4>
+            <div class="grid grid-cols-5 gap-2 text-xs">
+              {coreTeam.role_performance.map(role => (
+                <div class="text-center">
+                  <div class="font-medium text-dark">{role.role}</div>
+                  <div class="text-silver mt-1">{formatNumber(role.average_kda)}</div>
+                  <div class="text-dark-light text-xs">{role.primary_player}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    
+    <div class="bg-surface border border-tertiary rounded-xl p-6">
+      <h3 class="text-xl font-semibold text-dark mb-6 flex items-center gap-2">
+        🌟 NEXT部門 - ロール別成績
+      </h3>
+      
+      {Object.entries(teamGroups).map(([teamName, divisions]) => {
+        const nextTeam = divisions.next;
+        if (!nextTeam) return null;
+        
+        const teamColors = getTeamColor(teamName);
+        
+        return (
+          <div class={`${teamColors.bg} border ${teamColors.border} rounded-lg p-4 mb-4`}>
+            <h4 class={`font-semibold ${teamColors.text} mb-3`}>
+              {teamName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            </h4>
+            <div class="grid grid-cols-5 gap-2 text-xs">
+              {nextTeam.role_performance.map(role => (
+                <div class="text-center">
+                  <div class="font-medium text-dark">{role.role}</div>
+                  <div class="text-silver mt-1">{formatNumber(role.average_kda)}</div>
+                  <div class="text-dark-light text-xs">{role.primary_player}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grid-cols-4 {
+      @apply grid-cols-1 gap-4;
+    }
+    
+    .grid-cols-5 {
+      @apply grid-cols-3;
+    }
+    
+    table {
+      min-width: 700px;
+    }
+  }
+</style>
