@@ -22,6 +22,8 @@ export default defineConfig({
       customPages: [
         'https://ltk-sbb.shiai.games/',
         'https://ltk-sbb.shiai.games/en/',
+        'https://ltk-sbb.shiai.games/statistics',
+        'https://ltk-sbb.shiai.games/en/statistics',
         'https://ltk-sbb.shiai.games/#standings',
         'https://ltk-sbb.shiai.games/#teams',
         'https://ltk-sbb.shiai.games/#schedule',
