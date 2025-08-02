@@ -18,10 +18,15 @@ export default defineConfig({
       priority: 0.7,
       lastmod: new Date(),
       entryLimit: 10000,
-      // Custom sitemap entries for both languages
+      // Custom sitemap entries for both languages with proper prioritization
       customPages: [
+        // Main pages (highest priority)
         'https://ltk-sbb.shiai.games/',
         'https://ltk-sbb.shiai.games/en/',
+        // Statistics pages (high priority for SEO)
+        'https://ltk-sbb.shiai.games/statistics',
+        'https://ltk-sbb.shiai.games/en/statistics',
+        // Section anchors (medium priority)
         'https://ltk-sbb.shiai.games/#standings',
         'https://ltk-sbb.shiai.games/#teams',
         'https://ltk-sbb.shiai.games/#schedule',

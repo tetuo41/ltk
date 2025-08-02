@@ -50,19 +50,91 @@ const structuredData = {
   "performer": [
     {
       "@type": "SportsTeam",
-      "name": "Precision Diadem"
+      "name": "Precision Diadem",
+      "identifier": "precision_diadem",
+      "sport": "League of Legends",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "League The k4sen 2025"
+      }
     },
     {
       "@type": "SportsTeam", 
-      "name": "Domination Crown"
+      "name": "Domination Crown",
+      "identifier": "domination_crown",
+      "sport": "League of Legends",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "League The k4sen 2025"
+      }
     },
     {
       "@type": "SportsTeam",
-      "name": "Sorcery Tiara"
+      "name": "Sorcery Tiara",
+      "identifier": "sorcery_tiara",
+      "sport": "League of Legends",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "League The k4sen 2025"
+      }
     },
     {
       "@type": "SportsTeam",
-      "name": "Resolve Regalia"
+      "name": "Resolve Regalia",
+      "identifier": "resolve_regalia",
+      "sport": "League of Legends",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "League The k4sen 2025"
+      }
+    }
+  ]
+};
+
+// FAQ structured data for better search visibility (Google 2024 SEO guidelines)
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "League The k4sen (LTK) 2025とは何ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LTK 2025は、k4sen主催のLeague of Legendsストリーマー大会です。4チーム20人の配信者が参加し、CORE部門とNEXT部門に分かれて競います。"
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "大会の開催期間はいつですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "レギュラーシーズンは2025年6月25日から8月13日まで、プレイオフは8月20日から8月27日まで開催されます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "CORE部門とNEXT部門の違いは何ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer", 
+        "text": "CORE部門はランクダイヤモンド以上の上級者部門、NEXT部門はランクゴールド以下の初心者向け部門です。それぞれ異なるレベルで競技が行われます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "配信はどこで見ることができますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "各選手の個人配信チャンネルやk4senの公式配信で視聴できます。詳細な配信情報は公式サイトでご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "統計データはどこで確認できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "本サイトの統計ページで選手成績、チーム分析、チャンピオン使用率などの詳細データをご覧いただけます。"
+      }
     }
   ]
 };
@@ -112,6 +184,9 @@ const structuredData = {
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   
+  <!-- FAQ Structured Data for enhanced search visibility -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)}></script>
+  
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content={currentUrl}>
@@ -132,10 +207,18 @@ const structuredData = {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" href="/favicon.png">
   
-  <!-- Fonts -->
+  <!-- Resource Hints for Performance (Core Web Vitals) -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  
+  <!-- Fonts with optimized loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap">
+  
+  <!-- Critical resource preloading -->
+  <link rel="modulepreload" href="/src/layouts/Layout.astro">
   
   <!-- Theme Color -->
   <meta name="theme-color" content="#c89b3c">
