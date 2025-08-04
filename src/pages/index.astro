@@ -103,13 +103,13 @@ const coreStandings: StandingsEntry[] = matchesData.current_standings.core;
 const nextStandings: StandingsEntry[] = matchesData.current_standings.next;
 
 // SEO meta - Enhanced for Google search visibility with i18n
-const pageTitle = t('seo.homepage.title', { 
-  season: tournamentInfo.season 
-});
-const pageDescription = t('seo.homepage.description', {
-  tournamentName: tournamentInfo.name,
-  season: tournamentInfo.season
-});
+const pageTitle = currentLang === 'ja' 
+  ? `k4sen主催 LTK 2025 - League of Legends ストリーマー大会 | 精霊の花祭り 幽明の境`
+  : `LTK 2025 - k4sen's League of Legends Streamer Tournament | Official Site`;
+
+const pageDescription = currentLang === 'ja'
+  ? `k4sen主催の本格League of Legendsストリーマー大会「LTK 2025 精霊の花祭り 幽明の境」公式情報サイト。4チーム対戦、リアルタイム順位表、詳細統計、試合結果、選手情報を掲載。ZETA DIVISION協力のesports大会。`
+  : `Official site for LTK 2025 "Spirit Flower Festival - Boundary of Light and Dark", k4sen's League of Legends streamer tournament. Real-time standings, detailed statistics, match results, and player information.`;
 const pageKeywords = [
   'League of Legends',
   'LoL',
@@ -213,6 +213,18 @@ const pageKeywords = [
                 {new Date(tournamentInfo.playoffs.end).toLocaleDateString(currentLang === 'ja' ? 'ja-JP' : 'en-US')}
               </span>
             </div>
+            <div class="mt-3 pt-3 border-t border-tertiary">
+              <a 
+                href="/statistics" 
+                class="inline-flex items-center gap-2 text-accent hover:text-accent-light transition-colors duration-300 font-medium text-sm"
+                title="詳細な大会統計データを確認"
+              >
+                📊 詳細統計データを見る
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -223,9 +235,21 @@ const pageKeywords = [
       <div class="max-w-6xl mx-auto px-5">
         <header class="text-center mb-12">
           <h2 class="text-3xl text-dark mb-4 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-0.5 after:bg-accent after:-bottom-2">{t('standings.title')}</h2>
-          <p class="text-lg text-dark-light max-w-2xl mx-auto">
+          <p class="text-lg text-dark-light max-w-2xl mx-auto mb-4">
             {t('standings.description')}
           </p>
+          <div class="flex justify-center">
+            <a 
+              href="/statistics" 
+              class="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent rounded-lg text-accent hover:bg-accent/20 hover:border-accent-light transition-all duration-300 font-medium"
+              title="選手・チーム・チャンピオンの詳細統計を確認"
+            >
+              📈 詳細分析データ
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
         </header>
 
         <!-- Combined Standings -->

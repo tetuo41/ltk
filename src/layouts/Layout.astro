@@ -5,8 +5,15 @@ export interface Props extends LayoutProps {}
 
 const { 
   title, 
-  description = "League The k4sen (LTK) 2025 - 精霊の花祭り 幽明の境", 
-  keywords = ["League of Legends", "k4sen", "LTK", "tournament", "LoL", "streamer", "championship"],
+  description = "k4sen主催 League of Legends ストリーマー大会 LTK 2025「精霊の花祭り 幽明の境」公式サイト。4チーム対戦の本格esports大会、リアルタイム順位表、詳細統計データ、試合結果をお届け。", 
+  keywords = [
+    "k4sen", "か4せん", "LTK", "League The k4sen", "League of Legends", "LoL", "リーグオブレジェンド",
+    "ストリーマー大会", "tournament", "トーナメント", "esports", "eスポーツ", "championship", "チャンピオンシップ",
+    "ZETA DIVISION", "ゼータディビジョン", "Riot Games", "ライアットゲームズ", "精霊の花祭り", "幽明の境",
+    "順位表", "standings", "試合結果", "match results", "統計", "statistics", "配信", "stream", "ライブ",
+    "Precision Diadem", "Domination Crown", "Sorcery Tiara", "Resolve Regalia", "CORE", "NEXT",
+    "MVP", "KDA", "ban pick", "バンピック", "draft", "Japan", "日本", "gaming", "ゲーミング", "プロゲーマー"
+  ],
   ogImage = "/og-image.jpg",
   canonicalUrl 
 } = Astro.props;
@@ -52,6 +59,7 @@ const structuredData = {
       "@type": "SportsTeam",
       "name": "Precision Diadem",
       "identifier": "precision_diadem",
+      "description": "LTK 2025 参加チーム - Precision Diadem",
       "sport": "League of Legends",
       "memberOf": {
         "@type": "SportsOrganization",
@@ -62,6 +70,7 @@ const structuredData = {
       "@type": "SportsTeam", 
       "name": "Domination Crown",
       "identifier": "domination_crown",
+      "description": "LTK 2025 参加チーム - Domination Crown",
       "sport": "League of Legends",
       "memberOf": {
         "@type": "SportsOrganization",
@@ -72,6 +81,7 @@ const structuredData = {
       "@type": "SportsTeam",
       "name": "Sorcery Tiara",
       "identifier": "sorcery_tiara",
+      "description": "LTK 2025 参加チーム - Sorcery Tiara",
       "sport": "League of Legends",
       "memberOf": {
         "@type": "SportsOrganization",
@@ -82,6 +92,7 @@ const structuredData = {
       "@type": "SportsTeam",
       "name": "Resolve Regalia",
       "identifier": "resolve_regalia",
+      "description": "LTK 2025 参加チーム - Resolve Regalia",
       "sport": "League of Legends",
       "memberOf": {
         "@type": "SportsOrganization",
@@ -136,7 +147,38 @@ const faqStructuredData = {
         "text": "本サイトの統計ページで選手成績、チーム分析、チャンピオン使用率などの詳細データをご覧いただけます。"
       }
     }
-  ]
+  ],
+  "subEvent": [
+    {
+      "@type": "SportsEvent",
+      "name": "LTK 2025 Regular Season",
+      "startDate": "2025-06-25T19:00:00+09:00",
+      "endDate": "2025-08-20T23:00:00+09:00",
+      "eventStatus": "https://schema.org/EventScheduled"
+    },
+    {
+      "@type": "SportsEvent", 
+      "name": "LTK 2025 Playoffs",
+      "startDate": "2025-08-21T19:00:00+09:00",
+      "endDate": "2025-08-27T23:00:00+09:00",
+      "eventStatus": "https://schema.org/EventScheduled"
+    }
+  ],
+  "potentialAction": {
+    "@type": "WatchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ltk-sbb.shiai.games/statistics",
+      "actionPlatform": [
+        "http://schema.org/WebPlatform"
+      ]
+    },
+    "object": {
+      "@type": "VideoObject",
+      "name": "LTK 2025 Tournament Statistics",
+      "description": "詳細な大会統計とデータ分析"
+    }
+  }
 };
 ---
 
@@ -212,6 +254,7 @@ const faqStructuredData = {
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   
   <!-- Fonts with optimized loading -->
+  <!-- Fonts with performance optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -219,6 +262,10 @@ const faqStructuredData = {
   
   <!-- Critical resource preloading -->
   <link rel="modulepreload" href="/src/layouts/Layout.astro">
+  
+  <!-- DNS prefetch for external resources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   
   <!-- Theme Color -->
   <meta name="theme-color" content="#c89b3c">

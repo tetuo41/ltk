@@ -15,8 +15,8 @@ import detailedStatsRaw from '@/data/detailed-match-stats.json';
 const detailedStats = detailedStatsRaw as DetailedMatchStats;
 
 // SEO meta data
-const pageTitle = `統計データ - League The k4sen (LTK) 2025 | 詳細選手・チーム分析`;
-const pageDescription = `LTK 2025の詳細統計データ。選手個人成績、チーム分析、チャンピオン使用率、試合洞察など包括的なデータ分析。KDA、ダメージ、勝率などの詳細指標で大会を深く理解。`;
+const pageTitle = `LTK 2025 統計データ - k4sen League of Legends大会 | 選手成績・チーム分析・チャンピオン統計`;
+const pageDescription = `k4sen主催LTK 2025の包括的統計データベース。${detailedStats.season_overview.total_matches}試合・${detailedStats.season_overview.total_players}選手・${detailedStats.season_overview.unique_champions_played}チャンピオンの詳細分析。KDA、ダメージ、勝率、ピック率、バン率など全データを公開中。`;
 const pageKeywords = [
   'LTK',
   'League The k4sen',
@@ -44,6 +44,61 @@ const pageKeywords = [
   '大会データ',
   'tournament data'
 ];
+
+// Structured data for statistics page
+const statisticsStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "LTK 2025 Tournament Statistics - 詳細統計データ",
+  "description": `League The k4sen (LTK) 2025の包括的な統計データセット。${detailedStats.season_overview.total_matches}試合、${detailedStats.season_overview.total_players}選手、${detailedStats.season_overview.unique_champions_played}チャンピオンの詳細分析データ。`,
+  "url": "https://ltk-sbb.shiai.games/statistics",
+  "keywords": pageKeywords.join(", "),
+  "creator": {
+    "@type": "Organization",
+    "name": "LTK Development Team",
+    "url": "https://ltk-sbb.shiai.games"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "k4sen",
+    "url": "https://twitter.com/thek4sen"
+  },
+  "dateCreated": "2025-07-31",
+  "dateModified": new Date().toISOString().split('T')[0],
+  "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "about": {
+    "@type": "SportsEvent",
+    "name": "League The k4sen 2025 - 精霊の花祭り 幽明の境",
+    "sport": "League of Legends"
+  },
+  "distribution": {
+    "@type": "DataDownload",
+    "contentUrl": "https://ltk-sbb.shiai.games/statistics",
+    "encodingFormat": "text/html"
+  },
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "Player Statistics",
+      "description": "Individual player performance metrics including KDA, damage, win rates"
+    },
+    {
+      "@type": "PropertyValue", 
+      "name": "Team Performance",
+      "description": "Team-level statistics and comparative analysis"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Champion Analytics", 
+      "description": "Champion pick/ban rates, win rates, and meta analysis"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Match Insights",
+      "description": "Detailed match analysis and key moments"
+    }
+  ]
+};
 ---
 
 <Layout 
@@ -51,6 +106,8 @@ const pageKeywords = [
   description={pageDescription}
   keywords={pageKeywords}
 >
+  <!-- Statistics Dataset Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(statisticsStructuredData)}></script>
   <Header />
   
   <!-- Breadcrumb Navigation -->
