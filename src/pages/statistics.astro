@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
 import PlayerStatsTable from '@/components/PlayerStatsTable.astro';
 import TeamPerformanceChart from '@/components/TeamPerformanceChart.astro';
 import ChampionAnalytics from '@/components/ChampionAnalytics.astro';
@@ -109,7 +110,20 @@ const statisticsStructuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(statisticsStructuredData)}></script>
   <Header />
   
-  <main class="pt-20">
+  <!-- Breadcrumb Navigation -->
+  <div class="pt-20 pb-4 bg-primary">
+    <div class="max-w-6xl mx-auto px-5">
+      <Breadcrumb 
+        items={[
+          { name: 'ホーム', url: '/' }
+        ]}
+        currentPage="統計データ"
+        lang="ja"
+      />
+    </div>
+  </div>
+  
+  <main>
     <!-- Hero Section -->
     <section class="py-16 bg-gradient-to-br from-primary to-secondary">
       <div class="max-w-6xl mx-auto px-5 text-center">

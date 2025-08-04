@@ -1,0 +1,94 @@
+---
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  items: BreadcrumbItem[];
+  currentPage: string;
+  lang?: string;
+}
+
+const { items, currentPage, lang = 'ja' } = Astro.props;
+
+// Create structured data for breadcrumbs (Google SEO best practice)
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    ...items.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url
+    })),
+    {
+      "@type": "ListItem",
+      "position": items.length + 1,
+      "name": currentPage
+    }
+  ]
+};
+---
+
+<!-- Breadcrumb structured data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)}></script>
+
+<!-- Breadcrumb navigation -->
+<nav aria-label="パンくずリスト" class="breadcrumb-nav">
+  <ol class="flex items-center gap-2 text-sm text-dark-light">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-2">
+        <a 
+          href={item.url} 
+          class="text-dark-light hover:text-accent transition-colors duration-200 underline-offset-4 hover:underline"
+          aria-label={`${item.name}へ移動`}
+        >
+          {item.name}
+        </a>
+        <span class="text-dark-light/50" aria-hidden="true">
+          {lang === 'ja' ? '>' : '>'}
+        </span>
+      </li>
+    ))}
+    <li>
+      <span class="text-dark font-medium" aria-current="page">
+        {currentPage}
+      </span>
+    </li>
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb-nav {
+    @apply py-2 px-4 bg-surface/50 border border-tertiary/50 rounded-lg backdrop-blur-sm;
+  }
+  
+  .breadcrumb-nav ol {
+    @apply flex-wrap;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    .breadcrumb-nav {
+      @apply px-3 py-2;
+    }
+    
+    .breadcrumb-nav ol {
+      @apply text-xs gap-1;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .breadcrumb-nav {
+      @apply border-2 border-accent;
+    }
+  }
+  
+  /* Focus visible styles for accessibility */
+  .breadcrumb-nav a:focus-visible {
+    @apply outline-2 outline-accent outline-offset-2 rounded;
+  }
+</style>
