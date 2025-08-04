@@ -68,6 +68,8 @@ interface YouTubeVideoDetails {
 // YouTube API configuration
 const YOUTUBE_API_KEY = import.meta.env.YOUTUBE_API_KEY || process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
+const MAX_RESULTS_PER_REQUEST = 50; // YouTube API limit
+const RATE_LIMIT_DELAY = 100; // ms between requests
 
 /**
  * Convert ISO 8601 duration to human-readable format
@@ -211,7 +213,7 @@ export async function getVideoDetails(videoIds: string[]): Promise<YouTubeVideoD
 }
 
 /**
- * Search and process LTK-related videos
+ * Enhanced search and process LTK-related videos with improved error handling
  * @param maxResults Maximum number of results
  * @returns Promise<{ regular_videos: YouTubeVideo[], shorts: YouTubeVideo[] }>
  */
@@ -219,87 +221,137 @@ export async function searchLTKVideos(maxResults: number = 50): Promise<{
   regular_videos: YouTubeVideo[];
   shorts: YouTubeVideo[];
 }> {
+  if (!YOUTUBE_API_KEY) {
+    console.warn('YouTube API key not configured, returning empty results');
+    return { regular_videos: [], shorts: [] };
+  }
+
   try {
-    // Search for LTK-related content with multiple queries
+    // Enhanced search queries for better LTK content discovery
     const queries = [
       '#LTK League The k4sen',
       'LTK League of Legends k4sen',
       'League The k4sen ハイライト',
       'LTK 切り抜き',
-      'k4sen LTK クリップ'
+      'k4sen LTK クリップ',
+      'LTK ストリーマー大会',
+      'League The k4sen 面白シーン'
     ];
 
     const allVideos: YouTubeVideo[] = [];
     const seenVideoIds = new Set<string>();
+    const resultsPerQuery = Math.ceil(maxResults / queries.length);
+
+    console.log(`Searching for LTK videos with ${queries.length} queries, ${resultsPerQuery} results each`);
 
     // Search with each query to get diverse results
-    for (const query of queries) {
+    for (const [index, query] of queries.entries()) {
       try {
-        const searchResults = await searchYouTubeVideos(query, Math.ceil(maxResults / queries.length));
+        console.log(`Searching query ${index + 1}/${queries.length}: "${query}"`);
+        
+        const searchResults = await searchYouTubeVideos(query, Math.min(resultsPerQuery, MAX_RESULTS_PER_REQUEST));
         
         // Get video IDs for detailed information
         const videoIds = searchResults.items
           .map(item => item.id.videoId)
-          .filter(id => !seenVideoIds.has(id)); // Avoid duplicates
+          .filter(id => id && !seenVideoIds.has(id)); // Avoid duplicates and null IDs
+
+        console.log(`Found ${videoIds.length} new videos for query "${query}"`);
 
         if (videoIds.length === 0) continue;
 
         // Mark as seen
         videoIds.forEach(id => seenVideoIds.add(id));
 
-        // Get detailed video information
-        const videoDetails = await getVideoDetails(videoIds);
+        // Get detailed video information in batches (YouTube API allows up to 50 IDs per request)
+        const batchSize = 50;
+        for (let i = 0; i < videoIds.length; i += batchSize) {
+          const batch = videoIds.slice(i, i + batchSize);
+          
+          try {
+            const videoDetails = await getVideoDetails(batch);
+            
+            // Process each video
+            for (const video of videoDetails) {
+              const duration = formatDuration(video.contentDetails.duration);
+              const isShort = isYouTubeShort(
+                video.contentDetails.duration, 
+                video.snippet.title, 
+                video.snippet.description
+              );
 
-        // Process each video
-        for (const video of videoDetails) {
-          const duration = formatDuration(video.contentDetails.duration);
-          const isShort = isYouTubeShort(
-            video.contentDetails.duration, 
-            video.snippet.title, 
-            video.snippet.description
-          );
+              const processedVideo: YouTubeVideo = {
+                id: video.id,
+                title: video.snippet.title,
+                description: video.snippet.description,
+                thumbnail: video.snippet.thumbnails.high?.url || 
+                          video.snippet.thumbnails.medium?.url || 
+                          video.snippet.thumbnails.default.url,
+                duration,
+                publishedAt: video.snippet.publishedAt,
+                channelId: video.snippet.channelId,
+                channelName: video.snippet.channelTitle,
+                viewCount: parseInt(video.statistics.viewCount) || 0,
+                likeCount: video.statistics.likeCount ? parseInt(video.statistics.likeCount) : undefined,
+                tags: video.snippet.tags || [],
+                isShort,
+                url: isShort ? `https://www.youtube.com/shorts/${video.id}` : `https://www.youtube.com/watch?v=${video.id}`
+              };
 
-          const processedVideo: YouTubeVideo = {
-            id: video.id,
-            title: video.snippet.title,
-            description: video.snippet.description,
-            thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url,
-            duration,
-            publishedAt: video.snippet.publishedAt,
-            channelId: video.snippet.channelId,
-            channelName: video.snippet.channelTitle,
-            viewCount: parseInt(video.statistics.viewCount) || 0,
-            likeCount: video.statistics.likeCount ? parseInt(video.statistics.likeCount) : undefined,
-            tags: video.snippet.tags,
-            isShort,
-            url: isShort ? `https://www.youtube.com/shorts/${video.id}` : `https://www.youtube.com/watch?v=${video.id}`
-          };
+              allVideos.push(processedVideo);
+            }
 
-          allVideos.push(processedVideo);
+            // Add delay between batch requests
+            await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_DELAY));
+          } catch (batchError) {
+            console.warn(`Error processing video batch:`, batchError);
+            continue;
+          }
         }
 
-        // Add delay between requests to respect rate limits
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Add delay between different query requests
+        await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_DELAY));
       } catch (error) {
         console.warn(`Error searching for query "${query}":`, error);
         continue;
       }
     }
 
-    // Sort by publish date (newest first)
-    allVideos.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    console.log(`Total videos found: ${allVideos.length}`);
 
-    // Separate shorts and regular videos
-    const regular_videos = allVideos.filter(video => !video.isShort).slice(0, Math.floor(maxResults * 0.7));
-    const shorts = allVideos.filter(video => video.isShort).slice(0, Math.floor(maxResults * 0.3));
+    // Remove duplicates by ID (in case any slipped through)
+    const uniqueVideos = Array.from(
+      new Map(allVideos.map(video => [video.id, video])).values()
+    );
+
+    // Sort by publish date (newest first)
+    uniqueVideos.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+    // Separate shorts and regular videos with better ratio
+    const shorts = uniqueVideos.filter(video => video.isShort);
+    const regular_videos = uniqueVideos.filter(video => !video.isShort);
+
+    // Apply limits while maintaining some balance
+    const maxRegular = Math.floor(maxResults * 0.7);
+    const maxShorts = Math.floor(maxResults * 0.3);
+
+    const finalRegular = regular_videos.slice(0, maxRegular);
+    const finalShorts = shorts.slice(0, maxShorts);
+
+    console.log(`Returning ${finalRegular.length} regular videos and ${finalShorts.length} shorts`);
 
     return {
-      regular_videos,
-      shorts
+      regular_videos: finalRegular,
+      shorts: finalShorts
     };
   } catch (error) {
     console.error('Error searching LTK videos:', error);
-    throw error;
+    
+    // Return empty results instead of throwing to prevent API routes from failing
+    return {
+      regular_videos: [],
+      shorts: []
+    };
   }
 }
 

@@ -13,11 +13,13 @@ League The k4sen (LTK) 2025 tournament website built with **Astro** and **TypeSc
 
 ## 🚀 Tech Stack
 
-- **Framework**: [Astro](https://astro.build/) v4.15.9 - Static Site Generator
+- **Framework**: [Astro](https://astro.build/) v4.15.9 - Static Site Generator with API Routes
 - **Language**: [TypeScript](https://www.typescriptlang.org/) v5.6.2 - Type Safety
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v3.4.17 - Utility-first CSS
 - **Testing**: [Playwright](https://playwright.dev/) v1.54.1 - Visual regression testing
 - **Package Manager**: [pnpm](https://pnpm.io/) - Fast, disk space efficient
+- **Video Data**: [YouTube Data API v3](https://developers.google.com/youtube/v3) - Automated video collection
+- **Automation**: [GitHub Actions](https://github.com/features/actions) - Scheduled video updates
 - **Container**: Podman/Docker compatible
 - **Deployment**: [Netlify](https://netlify.com/) (Production), Static hosting compatible
 
@@ -35,15 +37,28 @@ ltk-astro/
 │   ├── layouts/
 │   │   └── Layout.astro     # Base page layout
 │   ├── pages/
-│   │   └── index.astro      # Main tournament page
+│   │   ├── index.astro      # Main tournament page
+│   │   ├── clips.astro      # Video clips page with YouTube integration
+│   │   ├── admin/           # Admin management panel
+│   │   │   └── index.astro  # Admin dashboard
+│   │   └── api/             # API Routes
+│   │       ├── videos.ts    # Video data API
+│   │       ├── refresh-videos.ts # YouTube API integration
+│   │       └── admin/       # Admin API endpoints
 │   ├── types/               # TypeScript type definitions
 │   │   ├── teams.ts         # Team and player types
 │   │   ├── matches.ts       # Match and tournament types
 │   │   ├── common.ts        # Shared utility types
 │   │   └── index.ts         # Type exports
-│   └── data/                # Static tournament data
+│   ├── utils/               # Utility functions
+│   │   ├── youtubeApi.ts    # YouTube Data API integration
+│   │   └── adminAuth.ts     # Admin authentication utilities
+│   └── data/                # Static tournament and video data
 │       ├── ltk-sbb-teams.json    # Team rosters and info
-│       └── ltk-sbb-matches.json  # Match results, schedule, ban/pick data
+│       ├── ltk-sbb-matches.json  # Match results, schedule, ban/pick data
+│       ├── ltk-videos.json       # YouTube video data (auto-updated)
+│       ├── ltk-videos-metadata.json # Video management settings
+│       └── ltk-custom-videos.json  # Manually added videos
 ├── tests/                   # Playwright test files
 │   └── ban-pick-layout.spec.ts # Visual regression tests
 ├── playwright.config.ts     # Playwright configuration
@@ -62,7 +77,8 @@ ltk-astro/
 
 - Node.js 18+ 
 - pnpm (recommended) or npm/yarn
-- Podman or Docker (for containerized development)
+- YouTube Data API v3 Key (for video features)
+- Podman or Docker (for containerized development, optional)
 
 ### Local Development (Node.js)
 
@@ -72,6 +88,13 @@ cd ltk-astro
 
 # Install dependencies
 pnpm install
+
+# Set up environment variables
+cp .env.example .env
+
+# Edit .env file with your API keys
+# YOUTUBE_API_KEY=your_youtube_api_key_here
+# ADMIN_PASSWORD=your_secure_admin_password
 
 # Start development server
 pnpm dev
@@ -94,6 +117,74 @@ pnpm playwright test              # Run all Playwright tests
 pnpm playwright test --grep "responsive" # Run responsive tests only
 pnpm playwright test --ui         # Interactive test mode
 pnpm exec playwright show-report  # View test results
+```
+
+## 🎬 Video Clips Feature
+
+The LTK website includes an automated video clips section that aggregates content from YouTube.
+
+### Features
+
+- **Automatic Collection**: YouTube Data API integration fetches #LTK videos every 4 hours
+- **Smart Categorization**: Automatically separates regular videos and YouTube Shorts
+- **Manual Management**: Admin panel for adding custom videos and managing visibility
+- **Search & Filter**: Real-time search with category filters (regular/shorts/all)
+- **Responsive Design**: Optimized layout for all devices with lazy loading
+
+### Setup YouTube Integration
+
+1. **Get YouTube Data API Key**:
+   ```bash
+   # Visit: https://console.developers.google.com
+   # Create a new project or select existing
+   # Enable YouTube Data API v3
+   # Create credentials (API Key)
+   ```
+
+2. **Configure Environment Variables**:
+   ```bash
+   # In .env file
+   YOUTUBE_API_KEY=your_youtube_api_key_here
+   ADMIN_PASSWORD=your_secure_admin_password
+   ```
+
+3. **Test API Integration**:
+   ```bash
+   # Start development server
+   pnpm dev
+   
+   # Visit admin panel: http://localhost:4321/admin
+   # Login with your admin password
+   # Click "動画を更新" to test YouTube API
+   ```
+
+### Admin Panel Features
+
+Access the admin panel at `/admin` with your configured password:
+
+- **Dashboard**: View video counts, API usage, and last update time
+- **Video Management**: Toggle video visibility, delete custom videos
+- **Manual Add**: Add videos that API might miss (private/unlisted)
+- **Bulk Operations**: Refresh all videos from YouTube API
+- **Real-time Stats**: Monitor API quota usage and update schedules
+
+### Automated Updates
+
+GitHub Actions automatically updates video data:
+
+```yaml
+# Runs every 4 hours via cron schedule
+# Fetches new LTK videos from YouTube
+# Commits updated data to repository  
+# Triggers Netlify rebuild
+```
+
+### API Endpoints
+
+- `GET /api/videos` - Fetch video data with filtering/sorting
+- `POST /api/refresh-videos` - Manual video refresh (admin only)
+- `POST /api/admin/login` - Admin authentication
+- `GET/POST /api/admin/videos` - Video management (admin only)
 ```
 
 ## 🐳 Container Development with Podman
