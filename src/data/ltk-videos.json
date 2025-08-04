@@ -1,0 +1,12 @@
+{
+  "last_updated": "2025-01-01T00:00:00Z",
+  "total_count": 0,
+  "regular_videos": [],
+  "shorts": [],
+  "metadata": {
+    "api_quota_used": 0,
+    "api_quota_limit": 10000,
+    "last_api_call": null,
+    "next_scheduled_update": null
+  }
+}

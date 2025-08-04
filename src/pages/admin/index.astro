@@ -1,0 +1,639 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+const pageTitle = "LTK 管理画面 | 動画管理ダッシュボード";
+const pageDescription = "League The k4sen (LTK) 切り抜き動画の管理画面。動画の追加、編集、表示設定を行います。";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <main class="min-h-screen bg-secondary">
+    <!-- Header -->
+    <header class="bg-surface border-b border-tertiary">
+      <div class="max-w-6xl mx-auto px-5 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold text-dark">LTK 管理画面</h1>
+            <p class="text-sm text-dark-light">動画管理ダッシュボード</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <button id="refresh-videos-btn" class="px-4 py-2 bg-accent text-dark rounded-lg hover:bg-accent-light transition-colors">
+              動画を更新
+            </button>
+            <button id="logout-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+              ログアウト
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Authentication Check -->
+    <div id="auth-check" class="hidden">
+      <div class="max-w-md mx-auto mt-20 px-5">
+        <div class="bg-surface border border-tertiary rounded-lg p-8 text-center">
+          <h2 class="text-xl font-semibold text-dark mb-4">管理者認証</h2>
+          <form id="login-form">
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-medium text-dark mb-2">パスワード</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                class="w-full px-3 py-2 border border-tertiary rounded-lg focus:border-accent focus:outline-none"
+                placeholder="管理者パスワードを入力"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full px-4 py-2 bg-accent text-dark rounded-lg hover:bg-accent-light transition-colors"
+            >
+              ログイン
+            </button>
+          </form>
+          <div id="login-error" class="hidden mt-4 text-red-600 text-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="hidden">
+      <div class="max-w-6xl mx-auto px-5 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="bg-surface border border-tertiary rounded-lg p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-dark-light">通常動画</p>
+                <p id="regular-count" class="text-2xl font-bold text-dark">-</p>
+              </div>
+              <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-surface border border-tertiary rounded-lg p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-dark-light">ショート動画</p>
+                <p id="shorts-count" class="text-2xl font-bold text-dark">-</p>
+              </div>
+              <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-surface border border-tertiary rounded-lg p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-dark-light">手動追加</p>
+                <p id="custom-count" class="text-2xl font-bold text-dark">-</p>
+              </div>
+              <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-surface border border-tertiary rounded-lg p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-dark-light">API使用量</p>
+                <p id="api-quota" class="text-2xl font-bold text-dark">-</p>
+              </div>
+              <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-4 mb-8">
+          <button id="add-video-btn" class="px-6 py-3 bg-accent text-dark rounded-lg hover:bg-accent-light transition-colors">
+            手動で動画を追加
+          </button>
+          <button id="view-site-btn" class="px-6 py-3 bg-primary text-dark border border-tertiary rounded-lg hover:bg-primary-light transition-colors">
+            サイトを表示
+          </button>
+        </div>
+
+        <!-- Last Update Info -->
+        <div class="bg-surface border border-tertiary rounded-lg p-4 mb-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-dark-light">最終更新</p>
+              <p id="last-updated" class="text-dark font-medium">-</p>
+            </div>
+            <div>
+              <p class="text-sm text-dark-light">次回予定</p>
+              <p id="next-update" class="text-dark font-medium">-</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Management Table -->
+        <div class="bg-surface border border-tertiary rounded-lg">
+          <div class="p-6 border-b border-tertiary">
+            <h2 class="text-lg font-semibold text-dark">動画管理</h2>
+            <p class="text-sm text-dark-light">動画の表示・非表示切り替えや削除を行えます</p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-primary">
+                <tr>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">タイトル</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">チャンネル</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">種類</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">再生数</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">状態</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-dark">操作</th>
+                </tr>
+              </thead>
+              <tbody id="videos-table-body">
+                <tr>
+                  <td colspan="6" class="px-4 py-8 text-center text-dark-light">
+                    データを読み込み中...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Video Modal -->
+    <div id="add-video-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-surface rounded-lg max-w-md w-full p-6">
+          <h3 class="text-lg font-semibold text-dark mb-4">手動で動画を追加</h3>
+          
+          <form id="add-video-form">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-dark mb-1">タイトル *</label>
+                <input type="text" name="title" required class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none" />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-dark mb-1">URL *</label>
+                <input type="url" name="url" required class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none" />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-dark mb-1">チャンネル名</label>
+                <input type="text" name="channelName" class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none" />
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-dark mb-1">再生時間</label>
+                  <input type="text" name="duration" placeholder="5:23" class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-dark mb-1">再生数</label>
+                  <input type="number" name="viewCount" class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none" />
+                </div>
+              </div>
+              
+              <div>
+                <label class="flex items-center">
+                  <input type="checkbox" name="isShort" class="mr-2" />
+                  <span class="text-sm text-dark">ショート動画</span>
+                </label>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-dark mb-1">メモ</label>
+                <textarea name="notes" rows="2" class="w-full px-3 py-2 border border-tertiary rounded focus:border-accent focus:outline-none"></textarea>
+              </div>
+            </div>
+            
+            <div class="flex gap-4 mt-6">
+              <button type="submit" class="flex-1 px-4 py-2 bg-accent text-dark rounded hover:bg-accent-light transition-colors">
+                追加
+              </button>
+              <button type="button" id="cancel-add-video" class="flex-1 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                キャンセル
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40">
+      <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-surface rounded-lg p-6 text-center">
+          <svg class="animate-spin w-8 h-8 text-accent mx-auto mb-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="text-dark">処理中...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Admin dashboard functionality
+  let authToken: string | null = null;
+
+  // Authentication check
+  function checkAuth() {
+    authToken = localStorage.getItem('ltk-admin-token');
+    
+    if (!authToken) {
+      showAuthForm();
+      return false;
+    }
+    
+    // Simple token validation
+    try {
+      const payload = JSON.parse(atob(authToken));
+      if (payload.exp && payload.exp > Date.now()) {
+        showDashboard();
+        loadDashboardData();
+        return true;
+      }
+    } catch (error) {
+      // Invalid token
+    }
+    
+    localStorage.removeItem('ltk-admin-token');
+    showAuthForm();
+    return false;
+  }
+
+  function showAuthForm() {
+    document.getElementById('auth-check')?.classList.remove('hidden');
+    document.getElementById('dashboard')?.classList.add('hidden');
+  }
+
+  function showDashboard() {
+    document.getElementById('auth-check')?.classList.add('hidden');
+    document.getElementById('dashboard')?.classList.remove('hidden');
+  }
+
+  function showLoading(show: boolean) {
+    const overlay = document.getElementById('loading-overlay');
+    if (show) {
+      overlay?.classList.remove('hidden');
+    } else {
+      overlay?.classList.add('hidden');
+    }
+  }
+
+  // Login form handling
+  document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const password = formData.get('password') as string;
+    
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        localStorage.setItem('ltk-admin-token', result.token);
+        authToken = result.token;
+        showDashboard();
+        loadDashboardData();
+      } else {
+        const errorEl = document.getElementById('login-error');
+        if (errorEl) {
+          errorEl.textContent = result.message || 'ログインに失敗しました';
+          errorEl.classList.remove('hidden');
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      const errorEl = document.getElementById('login-error');
+      if (errorEl) {
+        errorEl.textContent = 'ネットワークエラーが発生しました';
+        errorEl.classList.remove('hidden');
+      }
+    }
+  });
+
+  // Load dashboard data
+  async function loadDashboardData() {
+    if (!authToken) return;
+    
+    try {
+      const response = await fetch('/api/admin/videos?include_custom=true', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        updateDashboardStats(result.data);
+        updateVideosTable(result.data);
+      } else {
+        console.error('Failed to load dashboard data:', result.message);
+      }
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    }
+  }
+
+  function updateDashboardStats(data: any) {
+    const regularCount = document.getElementById('regular-count');
+    const shortsCount = document.getElementById('shorts-count');
+    const customCount = document.getElementById('custom-count');
+    const apiQuota = document.getElementById('api-quota');
+    const lastUpdated = document.getElementById('last-updated');
+    const nextUpdate = document.getElementById('next-update');
+
+    if (regularCount) regularCount.textContent = data.youtube_videos.regular_videos.length.toString();
+    if (shortsCount) shortsCount.textContent = data.youtube_videos.shorts.length.toString();
+    if (customCount) customCount.textContent = data.custom_videos.length.toString();
+    
+    if (apiQuota && data.youtube_videos.metadata) {
+      const used = data.youtube_videos.metadata.api_quota_used || 0;
+      const limit = data.youtube_videos.metadata.api_quota_limit || 10000;
+      apiQuota.textContent = `${used}/${limit}`;
+    }
+    
+    if (lastUpdated && data.youtube_videos.last_updated) {
+      lastUpdated.textContent = new Date(data.youtube_videos.last_updated).toLocaleString('ja-JP');
+    }
+    
+    if (nextUpdate && data.youtube_videos.metadata?.next_scheduled_update) {
+      nextUpdate.textContent = new Date(data.youtube_videos.metadata.next_scheduled_update).toLocaleString('ja-JP');
+    }
+  }
+
+  function updateVideosTable(data: any) {
+    const tbody = document.getElementById('videos-table-body');
+    if (!tbody) return;
+
+    const allVideos = [
+      ...data.youtube_videos.regular_videos.map((v: any) => ({ ...v, source: 'youtube' })),
+      ...data.youtube_videos.shorts.map((v: any) => ({ ...v, source: 'youtube' })),
+      ...data.custom_videos.map((v: any) => ({ ...v, source: 'custom' }))
+    ];
+
+    // Sort by published date (newest first)
+    allVideos.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+    tbody.innerHTML = allVideos.slice(0, 20).map(video => `
+      <tr class="border-b border-tertiary hover:bg-primary">
+        <td class="px-4 py-3">
+          <div class="max-w-xs">
+            <p class="text-sm font-medium text-dark truncate">${video.title}</p>
+            <p class="text-xs text-dark-light">${video.id}</p>
+          </div>
+        </td>
+        <td class="px-4 py-3 text-sm text-dark">${video.channelName}</td>
+        <td class="px-4 py-3">
+          <span class="inline-block px-2 py-1 text-xs rounded ${video.isShort ? 'bg-accent text-dark' : 'bg-primary text-dark'}"}>
+            ${video.isShort ? 'Short' : 'Regular'}
+          </span>
+          ${video.source === 'custom' ? '<span class="ml-1 inline-block px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">手動</span>' : ''}
+        </td>
+        <td class="px-4 py-3 text-sm text-dark">${video.viewCount?.toLocaleString() || '-'}</td>
+        <td class="px-4 py-3">
+          <span class="inline-block px-2 py-1 text-xs rounded ${video.isVisible !== false ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+            ${video.isVisible !== false ? '表示' : '非表示'}
+          </span>
+        </td>
+        <td class="px-4 py-3">
+          <div class="flex gap-2">
+            <button class="toggle-visibility-btn text-xs px-2 py-1 rounded ${video.isVisible !== false ? 'bg-red-100 text-red-800 hover:bg-red-200' : 'bg-green-100 text-green-800 hover:bg-green-200'}" data-video-id="${video.id}" data-visible="${video.isVisible !== false}">
+              ${video.isVisible !== false ? '非表示' : '表示'}
+            </button>
+            ${video.source === 'custom' ? `<button class="delete-video-btn text-xs px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600" data-video-id="${video.id}">削除</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    // Add event listeners
+    document.querySelectorAll('.toggle-visibility-btn').forEach(btn => {
+      btn.addEventListener('click', toggleVideoVisibility);
+    });
+
+    document.querySelectorAll('.delete-video-btn').forEach(btn => {
+      btn.addEventListener('click', deleteCustomVideo);
+    });
+  }
+
+  // Event handlers
+  async function toggleVideoVisibility(e: Event) {
+    const btn = e.target as HTMLButtonElement;
+    const videoId = btn.dataset.videoId;
+    const isCurrentlyVisible = btn.dataset.visible === 'true';
+    
+    if (!authToken || !videoId) return;
+    
+    try {
+      showLoading(true);
+      
+      const response = await fetch('/api/admin/videos', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'update_video_visibility',
+          videoId,
+          isVisible: !isCurrentlyVisible
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        loadDashboardData(); // Refresh data
+      } else {
+        alert('操作に失敗しました: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error toggling visibility:', error);
+      alert('ネットワークエラーが発生しました');
+    } finally {
+      showLoading(false);
+    }
+  }
+
+  async function deleteCustomVideo(e: Event) {
+    const btn = e.target as HTMLButtonElement;
+    const videoId = btn.dataset.videoId;
+    
+    if (!authToken || !videoId) return;
+    
+    if (!confirm('この動画を削除しますか？この操作は取り消せません。')) {
+      return;
+    }
+    
+    try {
+      showLoading(true);
+      
+      const response = await fetch('/api/admin/videos', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'delete_custom_video',
+          videoId
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        loadDashboardData(); // Refresh data
+      } else {
+        alert('削除に失敗しました: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error deleting video:', error);
+      alert('ネットワークエラーが発生しました');
+    } finally {
+      showLoading(false);
+    }
+  }
+
+  // Modal handlers
+  document.getElementById('add-video-btn')?.addEventListener('click', () => {
+    document.getElementById('add-video-modal')?.classList.remove('hidden');
+  });
+
+  document.getElementById('cancel-add-video')?.addEventListener('click', () => {
+    document.getElementById('add-video-modal')?.classList.add('hidden');
+  });
+
+  // Other button handlers
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    if (confirm('ログアウトしますか？')) {
+      localStorage.removeItem('ltk-admin-token');
+      location.reload();
+    }
+  });
+
+  document.getElementById('view-site-btn')?.addEventListener('click', () => {
+    window.open('/clips', '_blank');
+  });
+
+  document.getElementById('refresh-videos-btn')?.addEventListener('click', async () => {
+    if (!authToken) return;
+    
+    if (!confirm('YouTube APIから動画データを更新しますか？この処理には時間がかかります。')) {
+      return;
+    }
+    
+    try {
+      showLoading(true);
+      
+      const response = await fetch('/api/refresh-videos', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert(`動画データを更新しました。\n新規動画: ${result.data.new_regular_videos + result.data.new_shorts}件`);
+        loadDashboardData(); // Refresh dashboard
+      } else {
+        alert('更新に失敗しました: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error refreshing videos:', error);
+      alert('ネットワークエラーが発生しました');
+    } finally {
+      showLoading(false);
+    }
+  });
+
+  // Add video form handler
+  document.getElementById('add-video-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!authToken) return;
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const videoData = {
+      title: formData.get('title'),
+      url: formData.get('url'),
+      channelName: formData.get('channelName') || '手動追加',
+      duration: formData.get('duration') || '0:00',
+      viewCount: formData.get('viewCount') || 0,
+      isShort: formData.get('isShort') === 'on',
+      notes: formData.get('notes') || ''
+    };
+    
+    try {
+      showLoading(true);
+      
+      const response = await fetch('/api/admin/videos', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'add_custom_video',
+          videoData
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        document.getElementById('add-video-modal')?.classList.add('hidden');
+        (e.target as HTMLFormElement).reset();
+        loadDashboardData(); // Refresh data
+        alert('動画を追加しました');
+      } else {
+        alert('追加に失敗しました: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error adding video:', error);
+      alert('ネットワークエラーが発生しました');
+    } finally {
+      showLoading(false);
+    }
+  });
+
+  // Initialize
+  checkAuth();
+</script>
+
+<style>
+  /* Custom scrollbar for table */
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+</style>

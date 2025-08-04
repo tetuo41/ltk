@@ -20,7 +20,10 @@ This is an Astro-based static website for the LTK (League The k4sen) 2025 tourna
 ### Testing Commands
 - `pnpm playwright test` - Run all Playwright tests for visual regression and layout validation
 - `pnpm playwright test --grep "responsive"` - Run only responsive behavior tests
+- `pnpm playwright test --grep "ban-pick"` - Run specific ban/pick layout tests
 - `pnpm playwright test --ui` - Run tests in interactive UI mode
+- `pnpm playwright test --debug` - Run tests in debug mode
+- `pnpm playwright test --update-snapshots` - Update visual test snapshots
 - `pnpm exec playwright show-report` - View detailed HTML test report after test execution
 
 ### Domain Management Commands
@@ -50,6 +53,7 @@ The site uses a static data-driven approach where tournament information is stor
 - **Enhanced Match Data**: `src/data/enhanced-matches.json` contains matches with detailed player statistics  
 - **Comprehensive Statistics**: `src/data/detailed-match-stats.json` (860KB) with processed player/team/champion analytics
 - **Statistics Page**: Dedicated `/statistics` route with comprehensive tournament analysis
+- **Internationalization**: Full i18n support with Japanese (default) and English locales via Astro middleware
 - **Type Safety**: Complete TypeScript type definitions in `src/types/` and `src/types/statistics.ts` ensure data consistency
 - **Component Architecture**: Astro components handle presentation with minimal client-side JavaScript
 
@@ -80,12 +84,21 @@ src/
 │   ├── common.ts       # Shared utility types
 │   └── index.ts        # Type re-exports
 ├── utils/              # Utility functions
-│   └── matchDataTransform.ts     # Data transformation utilities for statistics
+│   ├── matchDataTransform.ts     # Data transformation utilities for statistics
+│   ├── i18n.ts                   # Internationalization utilities
+│   └── youtubeApi.ts             # YouTube API integration
 ├── layouts/
 │   └── Layout.astro    # Base page layout with SEO optimization
+├── locales/            # Internationalization files
+│   ├── ja.json         # Japanese translations
+│   └── en.json         # English translations
+├── middleware.ts       # Astro middleware for i18n routing
 └── pages/
-    ├── index.astro     # Main tournament page
-    └── statistics.astro # Comprehensive statistics page with tabbed interface
+    ├── index.astro     # Main tournament page (Japanese)
+    ├── statistics.astro # Comprehensive statistics page with tabbed interface
+    ├── clips.astro     # Video clips page
+    └── en/             # English pages
+        └── index.astro  # English version of main page
 ```
 
 ### Type System Architecture
@@ -128,8 +141,18 @@ The site includes comprehensive LoL tournament features:
 The project uses TypeScript path mapping for clean imports:
 - `@/*` → `./src/*`
 - `@/components/*` → `./src/components/*`
+- `@/layouts/*` → `./src/layouts/*`
 - `@/types/*` → `./src/types/*`
 - `@/data/*` → `./src/data/*`
+
+### Internationalization (i18n)
+The site supports Japanese (default) and English with:
+- **Astro i18n Configuration**: Japanese as default locale, English with `/en` prefix
+- **Middleware Routing**: Automatic language detection from URL, browser, and cookies
+- **Locale Files**: `src/locales/ja.json` and `src/locales/en.json` for translations
+- **Language Utilities**: `src/utils/i18n.ts` provides detection and routing helpers
+- **Language Detection**: Browser language preference with cookie persistence
+- **SEO Optimization**: Language-specific sitemaps and meta tags
 
 ### Tournament Data Updates
 To update tournament information:

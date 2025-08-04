@@ -1,0 +1,22 @@
+{
+  "video_settings": {},
+  "admin_config": {
+    "auto_approve_videos": true,
+    "default_visibility": true,
+    "max_videos_per_update": 50,
+    "update_frequency_hours": 4
+  },
+  "channel_filters": [
+    "LTK",
+    "League The k4sen",
+    "k4sen",
+    "ZETA DIVISION"
+  ],
+  "search_queries": [
+    "#LTK League The k4sen",
+    "LTK League of Legends k4sen",
+    "League The k4sen ハイライト",
+    "LTK 切り抜き",
+    "k4sen LTK クリップ"
+  ]
+}

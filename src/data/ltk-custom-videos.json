@@ -1,0 +1,27 @@
+{
+  "custom_videos": [
+    {
+      "id": "custom-example-1",
+      "title": "LTK 手動追加動画サンプル",
+      "description": "管理画面から手動で追加された動画の例",
+      "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+      "duration": "5:23",
+      "publishedAt": "2025-01-01T00:00:00Z",
+      "channelId": "custom",
+      "channelName": "手動追加",
+      "viewCount": 1000,
+      "likeCount": 50,
+      "tags": ["LTK", "手動追加", "サンプル"],
+      "isShort": false,
+      "url": "https://www.youtube.com/watch?v=example",
+      "isVisible": true,
+      "addedBy": "admin",
+      "addedAt": "2025-01-01T00:00:00Z",
+      "notes": "手動で追加された動画です"
+    }
+  ],
+  "metadata": {
+    "total_custom_videos": 1,
+    "last_added": "2025-01-01T00:00:00Z"
+  }
+}

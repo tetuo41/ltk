@@ -1,0 +1,197 @@
+name: Update LTK Videos
+
+on:
+  # Run every 4 hours
+  schedule:
+    - cron: '0 */4 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      max_videos:
+        description: 'Maximum number of videos to fetch'
+        required: false
+        default: '50'
+
+jobs:
+  update-videos:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Create script for video update
+      run: |
+        cat > update-videos.js << 'EOF'
+        import { readFileSync, writeFileSync } from 'fs';
+        import { join } from 'path';
+        import { searchLTKVideos } from './src/utils/youtubeApi.js';
+
+        const MAX_VIDEOS = process.env.MAX_VIDEOS || 50;
+        const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
+        if (!YOUTUBE_API_KEY) {
+          console.error('YouTube API key not found');
+          process.exit(1);
+        }
+
+        async function updateVideos() {
+          try {
+            console.log(`Starting video update with max ${MAX_VIDEOS} videos`);
+            
+            // Read current data
+            const videosPath = './src/data/ltk-videos.json';
+            let currentData;
+            
+            try {
+              currentData = JSON.parse(readFileSync(videosPath, 'utf-8'));
+            } catch {
+              currentData = {
+                last_updated: null,
+                total_count: 0,
+                regular_videos: [],
+                shorts: [],
+                metadata: { api_quota_used: 0, api_quota_limit: 10000 }
+              };
+            }
+
+            // Fetch new videos
+            const newVideoData = await searchLTKVideos(parseInt(MAX_VIDEOS));
+            
+            // Track existing video IDs
+            const existingIds = new Set([
+              ...currentData.regular_videos.map(v => v.id),
+              ...currentData.shorts.map(v => v.id)
+            ]);
+
+            // Filter new videos
+            const newRegularVideos = newVideoData.regular_videos.filter(v => !existingIds.has(v.id));
+            const newShorts = newVideoData.shorts.filter(v => !existingIds.has(v.id));
+
+            console.log(`Found ${newRegularVideos.length} new regular videos`);
+            console.log(`Found ${newShorts.length} new shorts`);
+
+            // Update data structure
+            const updatedData = {
+              last_updated: new Date().toISOString(),
+              total_count: currentData.regular_videos.length + currentData.shorts.length + newRegularVideos.length + newShorts.length,
+              regular_videos: [...newRegularVideos, ...currentData.regular_videos].slice(0, 200), // Keep latest 200
+              shorts: [...newShorts, ...currentData.shorts].slice(0, 200), // Keep latest 200
+              metadata: {
+                api_quota_used: (currentData.metadata?.api_quota_used || 0) + Math.ceil(parseInt(MAX_VIDEOS) / 10),
+                api_quota_limit: 10000,
+                last_api_call: new Date().toISOString(),
+                next_scheduled_update: new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString(),
+                github_action_run: process.env.GITHUB_RUN_ID || 'manual'
+              }
+            };
+
+            // Write updated data
+            writeFileSync(videosPath, JSON.stringify(updatedData, null, 2));
+            
+            console.log('Video data updated successfully');
+            console.log(`Total videos: ${updatedData.total_count}`);
+            console.log(`API quota used: ${updatedData.metadata.api_quota_used}`);
+
+            // Set output for GitHub Actions
+            console.log(`::set-output name=new_videos::${newRegularVideos.length + newShorts.length}`);
+            console.log(`::set-output name=total_videos::${updatedData.total_count}`);
+            
+            return {
+              newVideos: newRegularVideos.length + newShorts.length,
+              totalVideos: updatedData.total_count
+            };
+            
+          } catch (error) {
+            console.error('Error updating videos:', error);
+            process.exit(1);
+          }
+        }
+
+        updateVideos();
+        EOF
+
+    - name: Update video data
+      env:
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        MAX_VIDEOS: ${{ github.event.inputs.max_videos || '50' }}
+      run: node update-videos.js
+
+    - name: Check for changes
+      id: verify-changed-files
+      run: |
+        if git diff --quiet src/data/ltk-videos.json; then
+          echo "No changes detected"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push changes
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add src/data/ltk-videos.json
+        git commit -m "🤖 Auto-update LTK videos data
+
+        - Updated: $(date +'%Y-%m-%d %H:%M:%S UTC')
+        - New videos found: ${{ steps.update-videos.outputs.new_videos || 'N/A' }}
+        - Total videos: ${{ steps.update-videos.outputs.total_videos || 'N/A' }}
+
+        🚀 Generated with GitHub Actions"
+        git push
+
+    - name: Trigger Netlify rebuild
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        if [ -n "${{ secrets.NETLIFY_BUILD_HOOK }}" ]; then
+          curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}
+          echo "Netlify rebuild triggered"
+        else
+          echo "No Netlify build hook configured, skipping rebuild trigger"
+        fi
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"🚨 LTK Video Update Failed\n\nWorkflow: ${{ github.workflow }}\nRun: ${{ github.run_id }}\nTime: $(date)\n\nCheck the logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+        fi
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "## LTK Video Update Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Timestamp**: $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Max Videos Requested**: ${{ github.event.inputs.max_videos || '50' }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
+          echo "- **Changes**: ✅ Video data was updated" >> $GITHUB_STEP_SUMMARY
+          echo "- **New Videos**: ${{ steps.update-videos.outputs.new_videos || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total Videos**: ${{ steps.update-videos.outputs.total_videos || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- **Changes**: ⚪ No new videos found" >> $GITHUB_STEP_SUMMARY
+        fi

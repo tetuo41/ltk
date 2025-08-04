@@ -1,12 +1,12 @@
 ---
 import type { YouTubeVideo } from '@/utils/youtubeApi';
 
-export interface Props {
+interface Props {
   video: YouTubeVideo;
   variant?: 'regular' | 'short';
 }
 
-const { video, variant = video.isShort ? 'short' : 'regular' } = Astro.props;
+const { video, variant = video.isShort ? 'short' : 'regular' } = Astro.props as Props;
 
 // Format view count for display
 function formatViewCount(count: number): string {

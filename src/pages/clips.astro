@@ -3,6 +3,8 @@ import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import VideoGrid from '@/components/VideoGrid.astro';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 // SEO meta for clips page
 const pageTitle = `LTK 切り抜き動画 | League The k4sen ハイライト集`;
@@ -34,52 +36,50 @@ const pageKeywords = [
   'esports clips'
 ];
 
-// Mock data for development - will be replaced with YouTube API data
-const mockVideos = {
-  regular_videos: [
-    {
-      id: 'mock1',
-      title: 'LTK Day1 最高の神プレイ集',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-      duration: '10:23',
-      channelName: 'LTK Clips',
-      publishedAt: '2025-07-25',
-      viewCount: 15420,
-      description: 'League The k4sen Day1の最高の瞬間をまとめました'
-    },
-    {
-      id: 'mock2', 
-      title: 'k4sen選手の完璧なプレイ',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-      duration: '5:47',
-      channelName: 'Pro Gaming JP',
-      publishedAt: '2025-07-24',
-      viewCount: 8930,
-      description: 'k4sen選手による完璧なチームファイト'
-    }
-  ],
-  shorts: [
-    {
-      id: 'short1',
-      title: '【LTK】一瞬で試合が決まった神シーン #Shorts',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-      duration: '0:58',
-      channelName: 'LTK Highlights',
-      publishedAt: '2025-07-26',
-      viewCount: 45320,
-      description: 'LTKで起きた信じられない逆転劇'
-    },
-    {
-      id: 'short2',
-      title: '【爆笑】LTK面白シーン集 #LTK #Shorts',
-      thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg', 
-      duration: '0:45',
-      channelName: 'Gaming Moments',
-      publishedAt: '2025-07-25',
-      viewCount: 23740,
-      description: 'LTKストリーマーたちの面白い瞬間'
-    }
-  ]
+// Load video data from static files
+let videoData;
+let customVideoData;
+let lastUpdated = 'データ未取得';
+let totalCount = 0;
+
+try {
+  // Read main video data
+  const videosPath = join(process.cwd(), 'src/data/ltk-videos.json');
+  const rawVideoData = readFileSync(videosPath, 'utf-8');
+  videoData = JSON.parse(rawVideoData);
+  
+  // Read custom videos
+  const customVideosPath = join(process.cwd(), 'src/data/ltk-custom-videos.json');
+  const rawCustomData = readFileSync(customVideosPath, 'utf-8');
+  customVideoData = JSON.parse(rawCustomData);
+  
+  // Get metadata
+  lastUpdated = videoData.last_updated ? new Date(videoData.last_updated).toLocaleString('ja-JP') : 'データ未取得';
+  totalCount = (videoData.regular_videos?.length || 0) + (videoData.shorts?.length || 0) + (customVideoData.custom_videos?.filter((v: any) => v.isVisible)?.length || 0);
+} catch (error) {
+  console.error('Error loading video data:', error);
+  videoData = { regular_videos: [], shorts: [] };
+  customVideoData = { custom_videos: [] };
+}
+
+// Combine all videos for display
+const allRegularVideos = [
+  ...(videoData.regular_videos || []),
+  ...(customVideoData.custom_videos?.filter((v: any) => v.isVisible && !v.isShort) || [])
+];
+
+const allShorts = [
+  ...(videoData.shorts || []),
+  ...(customVideoData.custom_videos?.filter((v: any) => v.isVisible && v.isShort) || [])
+];
+
+// Sort by published date (newest first)
+allRegularVideos.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+allShorts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+const videoCollection = {
+  regular_videos: allRegularVideos,
+  shorts: allShorts
 };
 
 // Structured data for SEO (simplified for now)
@@ -118,17 +118,24 @@ const structuredData = {
         <!-- Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 max-w-2xl mx-auto">
           <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
-            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.regular_videos.length}</span>
+            <span class="block text-2xl font-bold text-accent mb-1">{videoCollection.regular_videos.length}</span>
             <span class="text-sm text-dark-light uppercase tracking-wide">通常動画</span>
           </div>
           <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
-            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.shorts.length}</span>
+            <span class="block text-2xl font-bold text-accent mb-1">{videoCollection.shorts.length}</span>
             <span class="text-sm text-dark-light uppercase tracking-wide">ショート動画</span>
           </div>
           <div class="bg-surface border border-tertiary rounded-lg p-4 text-center">
-            <span class="block text-2xl font-bold text-accent mb-1">{mockVideos.regular_videos.length + mockVideos.shorts.length}</span>
+            <span class="block text-2xl font-bold text-accent mb-1">{totalCount}</span>
             <span class="text-sm text-dark-light uppercase tracking-wide">総動画数</span>
           </div>
+        </div>
+        
+        <!-- Last Updated Info -->
+        <div class="mt-6 text-center">
+          <p class="text-sm text-dark-light">
+            最終更新: {lastUpdated}
+          </p>
         </div>
       </div>
     </section>
@@ -181,46 +188,69 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- Temporary simplified video display -->
-    <section class="py-16 bg-secondary">
-      <div class="max-w-6xl mx-auto px-5">
-        <h2 class="text-3xl text-dark mb-8 text-center">通常動画</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockVideos.regular_videos.map((video) => (
-            <div class="bg-surface border border-tertiary rounded-lg p-4">
-              <h3 class="text-lg font-semibold text-dark mb-2">{video.title}</h3>
-              <p class="text-sm text-dark-light mb-2">{video.channelName}</p>
-              <p class="text-xs text-dark-light">{video.viewCount} 回視聴</p>
-            </div>
-          ))}
+    <!-- Video Grid Sections -->
+    {videoCollection.regular_videos.length > 0 ? (
+      <VideoGrid 
+        videos={videoCollection.regular_videos}
+        variant="regular"
+        title="通常動画"
+        description="LTKの詳細なハイライトと解説動画"
+        showLoadMore={true}
+        maxInitialItems={9}
+      />
+    ) : (
+      <section class="py-16 bg-secondary">
+        <div class="max-w-6xl mx-auto px-5 text-center">
+          <div class="bg-surface border border-tertiary rounded-lg p-8 max-w-md mx-auto">
+            <svg class="w-16 h-16 text-dark-light mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0v16l4-4 4 4V4M7 4h10"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-dark mb-2">通常動画が見つかりません</h3>
+            <p class="text-dark-light text-sm">
+              LTKの通常動画がまだありません。<br/>
+              YouTube APIからデータを取得してください。
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
 
-    <section class="py-16 bg-primary">
-      <div class="max-w-6xl mx-auto px-5">
-        <h2 class="text-3xl text-dark mb-8 text-center">ショート動画</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {mockVideos.shorts.map((video) => (
-            <div class="bg-surface border border-tertiary rounded-lg p-3">
-              <h3 class="text-sm font-semibold text-dark mb-1">{video.title}</h3>
-              <p class="text-xs text-dark-light">{video.channelName}</p>
-            </div>
-          ))}
+    {videoCollection.shorts.length > 0 ? (
+      <VideoGrid 
+        videos={videoCollection.shorts}
+        variant="short"
+        title="ショート動画"
+        description="LTKの短時間ハイライト動画"
+        showLoadMore={true}
+        maxInitialItems={12}
+      />
+    ) : (
+      <section class="py-16 bg-primary">
+        <div class="max-w-6xl mx-auto px-5 text-center">
+          <div class="bg-surface border border-tertiary rounded-lg p-8 max-w-md mx-auto">
+            <svg class="w-16 h-16 text-dark-light mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-dark mb-2">ショート動画が見つかりません</h3>
+            <p class="text-dark-light text-sm">
+              LTKのショート動画がまだありません。<br/>
+              YouTube APIからデータを取得してください。
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
   </main>
 
   <Footer />
 </Layout>
 
 <script>
-  // Filter functionality
+  // Enhanced filter functionality for video sections
   const filterButtons = document.querySelectorAll('[data-filter]');
   const searchInput = document.querySelector('[data-search-input]') as HTMLInputElement;
 
-  // Filter button handling
+  // Filter button handling with improved UX
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       const filter = button.getAttribute('data-filter');
@@ -231,11 +261,16 @@ const structuredData = {
     });
   });
 
-  // Search functionality
+  // Enhanced search functionality
   if (searchInput) {
+    let searchTimeout: number;
+    
     searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      applySearch(query);
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const query = searchInput.value.toLowerCase().trim();
+        applySearch(query);
+      }, 300); // Debounce search
     });
   }
 
@@ -255,6 +290,12 @@ const structuredData = {
 
     if (!regularSection || !shortsSection) return;
 
+    // Smooth transitions
+    const sections = [regularSection, shortsSection];
+    sections.forEach(section => {
+      section.style.transition = 'opacity 0.3s ease-in-out';
+    });
+
     switch (filter) {
       case 'regular':
         regularSection.style.display = 'block';
@@ -270,43 +311,86 @@ const structuredData = {
         shortsSection.style.display = 'block';
         break;
     }
+
+    // Update URL hash for bookmarking
+    const hash = filter === 'all' ? '' : `#${filter}`;
+    if (window.location.hash !== hash) {
+      window.history.replaceState(null, '', window.location.pathname + hash);
+    }
   }
 
   function applySearch(query: string) {
-    const allVideoCards = document.querySelectorAll('[data-video-grid] > div');
+    const allVideoCards = document.querySelectorAll('[data-video-grid] .video-card-regular, [data-video-grid] .video-card-short');
+    let visibleCount = 0;
     
     allVideoCards.forEach(card => {
       const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
       const channel = card.querySelector('.font-medium')?.textContent?.toLowerCase() || '';
+      const description = card.getAttribute('data-description')?.toLowerCase() || '';
       
-      const matches = title.includes(query) || channel.includes(query);
+      const matches = !query || title.includes(query) || channel.includes(query) || description.includes(query);
+      
       (card as HTMLElement).style.display = matches ? 'block' : 'none';
+      if (matches) visibleCount++;
     });
+
+    // Show/hide no results message
+    updateSearchResults(visibleCount, query);
   }
 
-  // Intersection Observer for lazy loading future videos
-  const observerOptions = {
-    root: null,
-    rootMargin: '100px',
-    threshold: 0.1
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target as HTMLImageElement;
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-          img.removeAttribute('data-src');
-          observer.unobserve(img);
+  function updateSearchResults(count: number, query: string) {
+    let noResultsEl = document.getElementById('no-search-results');
+    
+    if (count === 0 && query) {
+      if (!noResultsEl) {
+        noResultsEl = document.createElement('div');
+        noResultsEl.id = 'no-search-results';
+        noResultsEl.className = 'text-center py-8';
+        noResultsEl.innerHTML = `
+          <div class="bg-surface border border-tertiary rounded-lg p-6 max-w-md mx-auto">
+            <svg class="w-12 h-12 text-dark-light mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <h3 class="text-lg font-semibold text-dark mb-2">検索結果が見つかりません</h3>
+            <p class="text-dark-light text-sm">「<span class="font-medium">${query}</span>」に一致する動画はありません。</p>
+          </div>
+        `;
+        
+        const filterSection = document.querySelector('section:has([data-search-input])');
+        if (filterSection) {
+          filterSection.insertAdjacentElement('afterend', noResultsEl);
         }
       }
-    });
-  }, observerOptions);
+      noResultsEl.style.display = 'block';
+    } else if (noResultsEl) {
+      noResultsEl.style.display = 'none';
+    }
+  }
 
-  // Observe all lazy-load images
-  document.querySelectorAll('img[data-src]').forEach(img => {
-    observer.observe(img);
+  // Apply filter from URL hash on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.substring(1);
+    if (hash && ['regular', 'shorts'].includes(hash)) {
+      const targetButton = document.querySelector(`[data-filter="${hash}"]`);
+      if (targetButton) {
+        (targetButton as HTMLElement).click();
+      }
+    }
+  });
+
+  // Keyboard shortcuts for better UX
+  document.addEventListener('keydown', (e) => {
+    // Focus search on '/' key
+    if (e.key === '/' && !e.ctrlKey && !e.metaKey && searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    
+    // Clear search on Escape
+    if (e.key === 'Escape' && searchInput && document.activeElement === searchInput) {
+      searchInput.value = '';
+      applySearch('');
+    }
   });
 </script>
 
