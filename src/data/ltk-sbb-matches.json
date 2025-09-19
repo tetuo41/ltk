@@ -336,7 +336,7 @@
     },
     {
       "date": "2025-07-15",
-      "day": "水曜日",
+      "day": "火曜日",
       "time": "19:00",
       "round": 3,
       "description": "第3節",
@@ -507,7 +507,7 @@
     },
     {
       "date": "2025-08-06",
-      "day": "木曜日",
+      "day": "水曜日",
       "time": "19:00",
       "round": 6,
       "description": "最終節",
@@ -516,33 +516,49 @@
           "id": "match_021",
           "division": "CORE",
           "team1": "precision_diadem",
-          "team2": "resolve_regalia",
-          "status": "scheduled",
-          "result": null
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "0-1",
+            "mvp": "きなこ"
+          }
         },
         {
           "id": "match_022",
           "division": "NEXT",
           "team1": "precision_diadem",
-          "team2": "resolve_regalia",
-          "status": "scheduled",
-          "result": null
+          "team2": "sorcery_tiara",
+          "status": "completed",
+          "result": {
+            "winner": "sorcery_tiara",
+            "score": "0-1",
+            "mvp": "鈴木ノリアキ"
+          }
         },
         {
           "id": "match_023",
           "division": "CORE",
           "team1": "domination_crown",
-          "team2": "sorcery_tiara",
-          "status": "scheduled",
-          "result": null
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "resolve_regalia",
+            "score": "0-1",
+            "mvp": "乾伸一郎"
+          }
         },
         {
           "id": "match_024",
           "division": "NEXT",
           "team1": "domination_crown",
-          "team2": "sorcery_tiara",
-          "status": "scheduled",
-          "result": null
+          "team2": "resolve_regalia",
+          "status": "completed",
+          "result": {
+            "winner": "domination_crown",
+            "score": "1-0",
+            "mvp": "空澄セナ"
+          }
         }
       ]
     }
@@ -600,33 +616,33 @@
       {
         "rank": 1,
         "team": "sorcery_tiara",
-        "wins": 4,
+        "wins": 5,
         "losses": 1,
-        "winRate": 0.8,
-        "points": 4
+        "winRate": 0.83,
+        "points": 5
       },
       {
         "rank": 2,
         "team": "resolve_regalia",
-        "wins": 3,
+        "wins": 4,
         "losses": 2,
-        "winRate": 0.6,
-        "points": 3
+        "winRate": 0.67,
+        "points": 4
       },
       {
         "rank": 3,
         "team": "domination_crown",
         "wins": 2,
-        "losses": 3,
-        "winRate": 0.4,
+        "losses": 4,
+        "winRate": 0.33,
         "points": 2
       },
       {
         "rank": 4,
         "team": "precision_diadem",
         "wins": 1,
-        "losses": 4,
-        "winRate": 0.2,
+        "losses": 5,
+        "winRate": 0.17,
         "points": 1
       }
     ],
@@ -634,33 +650,33 @@
       {
         "rank": 1,
         "team": "domination_crown",
-        "wins": 3,
+        "wins": 4,
         "losses": 2,
-        "winRate": 0.6,
-        "points": 3
+        "winRate": 0.67,
+        "points": 4
       },
       {
         "rank": 2,
         "team": "sorcery_tiara",
-        "wins": 3,
+        "wins": 4,
         "losses": 2,
-        "winRate": 0.6,
-        "points": 3
+        "winRate": 0.67,
+        "points": 4
       },
       {
         "rank": 3,
         "team": "precision_diadem",
         "wins": 2,
-        "losses": 3,
-        "winRate": 0.4,
+        "losses": 4,
+        "winRate": 0.33,
         "points": 2
       },
       {
         "rank": 4,
         "team": "resolve_regalia",
         "wins": 2,
-        "losses": 3,
-        "winRate": 0.4,
+        "losses": 4,
+        "winRate": 0.33,
         "points": 2
       }
     ]
